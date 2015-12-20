@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E3BE4F41-BE61-48E7-B657-ECC58BBF7111}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>minute_logging</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;NRF51;DEBUG_NRF_USER;BLE_STACK_SUPPORT_REQD;_CRT_SECURE_NO_WARNINGS;_CLING_PC_SIMULATION_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\source\Aes.h" />
+    <ClInclude Include="..\source\ancs.h" />
+    <ClInclude Include="..\source\assets.h" />
+    <ClInclude Include="..\source\base.h" />
+    <ClInclude Include="..\source\batt.h" />
+    <ClInclude Include="..\source\ble_ancs_c.h" />
+    <ClInclude Include="..\source\ble_bondmngr_cfg.h" />
+    <ClInclude Include="..\source\btle.h" />
+    <ClInclude Include="..\source\butterworth.h" />
+    <ClInclude Include="..\source\const_tab.h" />
+    <ClInclude Include="..\source\cp.h" />
+    <ClInclude Include="..\source\cy_binary.h" />
+    <ClInclude Include="..\source\cy_binary_deep_sleep.h" />
+    <ClInclude Include="..\source\cy_binary_normal.h" />
+    <ClInclude Include="..\source\dbg.h" />
+    <ClInclude Include="..\source\ek3dh.h" />
+    <ClInclude Include="..\source\fs_fat.h" />
+    <ClInclude Include="..\source\fs_file.h" />
+    <ClInclude Include="..\source\fs_flash.h" />
+    <ClInclude Include="..\source\fs_memcfg.h" />
+    <ClInclude Include="..\source\fs_mem_external_1024k.h" />
+    <ClInclude Include="..\source\fs_mem_native_64k.h" />
+    <ClInclude Include="..\source\fs_nflash_rw.h" />
+    <ClInclude Include="..\source\fs_root.h" />
+    <ClInclude Include="..\source\gpio.h" />
+    <ClInclude Include="..\source\hal.h" />
+    <ClInclude Include="..\source\hssp.h" />
+    <ClInclude Include="..\source\issp_defs.h" />
+    <ClInclude Include="..\source\issp_delays.h" />
+    <ClInclude Include="..\source\issp_directives.h" />
+    <ClInclude Include="..\source\issp_errors.h" />
+    <ClInclude Include="..\source\issp_extern.h" />
+    <ClInclude Include="..\source\issp_revision.h" />
+    <ClInclude Include="..\source\issp_vectors.h" />
+    <ClInclude Include="..\source\keypad.h" />
+    <ClInclude Include="..\source\led.h" />
+    <ClInclude Include="..\source\link.h" />
+    <ClInclude Include="..\source\lis3dh.h" />
+    <ClInclude Include="..\source\main.h" />
+    <ClInclude Include="..\source\nflash_spi.h" />
+    <ClInclude Include="..\source\notific.h" />
+    <ClInclude Include="..\source\oled.h" />
+    <ClInclude Include="..\source\ota.h" />
+    <ClInclude Include="..\source\pattern.h" />
+    <ClInclude Include="..\source\pedometer.h" />
+    <ClInclude Include="..\source\pedometer_api.h" />
+    <ClInclude Include="..\source\power.h" />
+    <ClInclude Include="..\source\ppg.h" />
+    <ClInclude Include="..\source\release_number.h" />
+    <ClInclude Include="..\source\reminder.h" />
+    <ClInclude Include="..\source\RTC.h" />
+    <ClInclude Include="..\source\sensor.h" />
+    <ClInclude Include="..\source\sim.h" />
+    <ClInclude Include="..\source\sleep.h" />
+    <ClInclude Include="..\source\spi_master.h" />
+    <ClInclude Include="..\source\spi_master_config.h" />
+    <ClInclude Include="..\source\standards.h" />
+    <ClInclude Include="..\source\standard_binary.h" />
+    <ClInclude Include="..\source\standard_enums.h" />
+    <ClInclude Include="..\source\standard_macros.h" />
+    <ClInclude Include="..\source\standard_status.h" />
+    <ClInclude Include="..\source\standard_types.h" />
+    <ClInclude Include="..\source\sys_reg.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\source\Aes.c" />
+    <ClCompile Include="..\source\base.c" />
+    <ClCompile Include="..\source\batt.c" />
+    <ClCompile Include="..\source\btle.c" />
+    <ClCompile Include="..\source\butterworth.c" />
+    <ClCompile Include="..\source\cp.c" />
+    <ClCompile Include="..\source\font.c" />
+    <ClCompile Include="..\source\fs_fat.c" />
+    <ClCompile Include="..\source\fs_file.c" />
+    <ClCompile Include="..\source\fs_flash.c" />
+    <ClCompile Include="..\source\fs_nflash_rw.c" />
+    <ClCompile Include="..\source\fs_root.c" />
+    <ClCompile Include="..\source\gpio.c" />
+    <ClCompile Include="..\source\hal.c" />
+    <ClCompile Include="..\source\homekey.c" />
+    <ClCompile Include="..\source\link.c" />
+    <ClCompile Include="..\source\lis3dh.c" />
+    <ClCompile Include="..\source\nflash_spi.c" />
+    <ClCompile Include="..\source\notific.c" />
+    <ClCompile Include="..\source\oled.c" />
+    <ClCompile Include="..\source\ota.c" />
+    <ClCompile Include="..\source\pedo.c" />
+    <ClCompile Include="..\source\ppg.c" />
+    <ClCompile Include="..\source\reminder.c" />
+    <ClCompile Include="..\source\RTC.c" />
+    <ClCompile Include="..\source\sensor.c" />
+    <ClCompile Include="..\source\sim.c" />
+    <ClCompile Include="..\source\sleep.c" />
+    <ClCompile Include="..\source\sysclk.c" />
+    <ClCompile Include="..\source\sysflash_rw.c" />
+    <ClCompile Include="..\source\system.c" />
+    <ClCompile Include="..\source\thermistor.c" />
+    <ClCompile Include="..\source\touch.c" />
+    <ClCompile Include="..\source\tracking.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\source\uart.c" />
+    <ClCompile Include="..\source\ui.c" />
+    <ClCompile Include="..\source\user.c" />
+    <ClCompile Include="..\source\uv.c" />
+    <ClCompile Include="..\source\Watchdog.c" />
+    <ClCompile Include="..\source\weather.c" />
+    <ClCompile Include="minute_logging.c" />
+    <ClCompile Include="sleep_dat.c" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
