@@ -38,6 +38,7 @@ Stack_Size      EQU     2048
                 ENDIF
 
                 AREA    STACK, NOINIT, READWRITE, ALIGN=3
+__stack_top
 Stack_Mem       SPACE   Stack_Size
 __initial_sp
 
@@ -125,11 +126,12 @@ NRF_POWER_RAMON_ADDRESS              EQU   0x40000524  ; NRF_POWER->RAMON addres
 NRF_POWER_RAMONB_ADDRESS             EQU   0x40000554  ; NRF_POWER->RAMONB address
 NRF_POWER_RAMONx_RAMxON_ONMODE_Msk   EQU   0x3         ; All RAM blocks on in onmode bit mask
 
+STACK_TOP		DCD		__stack_top
 Reset_Handler   PROC
                 EXPORT  Reset_Handler             [WEAK]
                 IMPORT  SystemInit
                 IMPORT  __main
-                
+                EXPORT  STACK_TOP
                 MOVS    R1, #NRF_POWER_RAMONx_RAMxON_ONMODE_Msk
                 
                 LDR     R0, =NRF_POWER_RAMON_ADDRESS

@@ -23,7 +23,7 @@
 
 mpbledemo2_info m_info = {CMD_NULL, {NULL, 0}};
 
-#define CATCH_LOG
+//#define CATCH_LOG
 #if defined EAM_md5AndNoEnrypt || EAM_md5AndAesEnrypt
 uint8_t md5_type_and_id[16];
 #endif

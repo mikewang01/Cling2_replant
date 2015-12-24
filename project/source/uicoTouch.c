@@ -319,15 +319,13 @@ void UICO_dbg_write_read(I8U *obuf, I8U len, I8U *ibuf)
 
 *****************************************************************************/
 
-void GPIO_interrupt_handle();
+void GPIO_interrupt_handle(void);
 bool uico_touch_is_floating_calibration_sucessfully(void);
 #define MAX_CYCLES_WAITING_FOR_CALIBRATION_RESPONSE  2000
 bool uico_touch_ic_floating_calibration_start()
 {
 
     uint32_t i = 0;
-start_uico:
-    i = 0;
     uint8_t command_buffer[UICO_CALIBRATION_LENTH] = {UICO_ACCESS_REG_COMMAND, UICO_USER_COMMAND, UICO_USER_SPECIFIC_COMMAND_CALIBRATION_WHEN_FLOATIING};
     if(_i2c_main_write(command_buffer, UICO_CALIBRATION_LENTH) == NRF_SUCCESS) {
 #ifdef UICO_DEBUG
@@ -404,7 +402,9 @@ static bool uico_touch_ic_floating_calibration_response_process(uint8_t *buffer,
         }
 
     }
+		 return TRUE;
 }
+
 bool uico_touch_is_floating_calibration_sucessfully()
 {
     return is_calibration_sucess;
@@ -579,11 +579,12 @@ static I32S _try_firmware_update()
 #define TOUCH_IC_BRICKED_THREHOLD  10
     I8U  data[128];
     volatile I16S i = 0;
-    volatile bool is_touchic_bricked = false;
+		volatile bool is_touchic_bricked = false;
+#if ((defined UICO_FORCE_BURN_FIRMWARE) || (defined UICO_INCLUDE_FIRMWARE_BINARY))
+
     uint16_t uico_binary_lenth = 0;
     unsigned char *s  = NULL;
-    /*obtian firmware lenth*/
-#if ((defined UICO_FORCE_BURN_FIRMWARE) || (defined UICO_INCLUDE_FIRMWARE_BINARY))
+	   /*obtian firmware lenth*/
     uico_binary_lenth = UICO_GET_BINARY_LENTH();
     s = UICO_GET_BINARY_BUFFER();
 #endif
@@ -684,7 +685,7 @@ static I32S _try_firmware_update()
 #endif
     }
 
-
+	return 0;
 } 
 
 

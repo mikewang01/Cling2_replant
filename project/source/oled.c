@@ -13,7 +13,7 @@
  ******************************************************************************/
  
 #include "main.h"
-#include "photo.h"
+//#include "photo.h"
 
 extern I8U g_spi_tx_buf[];
 extern I8U g_spi_rx_buf[];

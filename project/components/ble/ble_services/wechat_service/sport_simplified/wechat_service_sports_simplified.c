@@ -115,7 +115,7 @@ union sports_data {
 static void on_connect(ble_wechat_sports_t * p_bas, ble_evt_t * p_ble_evt)
 {
     p_bas->conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
-    union sports_data i;
+//    union sports_data i;
 
     for(int i = 0; i < WECHAT_SPORTS_SOPPURTED_CHAR_COUNT; i++) {
         /*on each connection, reset the value of target */
@@ -322,9 +322,9 @@ static uint32_t wechat_sport_char_add(ble_wechat_sports_t * p_bas, const ble_uic
     ble_gatts_attr_t    attr_char_value;
     ble_uuid_t          ble_uuid;
     ble_gatts_attr_md_t attr_md;
-    uint8_t             initial_battery_level[20];
-    uint8_t             encoded_report_ref[BLE_SRV_ENCODED_REPORT_REF_LEN];
-    uint8_t             init_len;
+//    uint8_t             initial_battery_level[20];
+//    uint8_t             encoded_report_ref[BLE_SRV_ENCODED_REPORT_REF_LEN];
+//    uint8_t             init_len;
     int i = 0;
 
 #if 1
@@ -373,7 +373,7 @@ static uint32_t wechat_sport_char_add(ble_wechat_sports_t * p_bas, const ble_uic
     attr_md.wr_auth    = 0;
     attr_md.vlen       = 1; /*enbale  Variable length attribute. */
 
-    initial_battery_level[0] = p_bas_init->initial_batt_level[0];
+//    initial_battery_level[0] = p_bas_init->initial_batt_level[0];
 
     memset(&attr_char_value, 0, sizeof(attr_char_value));
     BLE_GAP_CONN_SEC_MODE_SET_OPEN(&attr_md.read_perm);
@@ -448,8 +448,8 @@ void ble_unico_transmit_complete_handler(void * p_context)
 //static app_timer_id_t ble_wechat_sports_timer_id;
 uint32_t ble_wechat_sports_init(ble_wechat_sports_t * p_bas, const ble_uico_init_t * p_bas_init, uint16_t service_handle)
 {
-    uint32_t   err_code;
-    ble_uuid_t ble_uuid;
+//    uint32_t   err_code;
+//    ble_uuid_t ble_uuid;
 
     p_bas_local = p_bas;
     // Initialize service structure

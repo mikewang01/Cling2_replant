@@ -29,7 +29,7 @@
 
 
 
-static uint8_t	 															m_addl_adv_manuf_data[BLE_GAP_ADDR_LEN];
+//static uint8_t	 															m_addl_adv_manuf_data[BLE_GAP_ADDR_LEN];
 uint16_t               								m_conn_handle = BLE_CONN_HANDLE_INVALID;    /**< Handle of the current connection. */
 ble_gap_sec_params_t   								m_sec_params;                               /**< Security requirements for this application. */
 ble_gap_adv_params_t  								m_adv_params;																/**< Parameters to be passed to the stack when starting advertising. */

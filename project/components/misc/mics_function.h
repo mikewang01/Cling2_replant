@@ -27,8 +27,8 @@ extern "C"{
 #endif
 #endif /* __cplusplus */
 
-extern uint32_t mainstack_check_max_used_bytes();
-extern uint16_t main_stack_check_init();
+extern uint32_t mainstack_check_max_used_bytes(void);
+extern uint16_t main_stack_check_init(void);
 
 #ifdef __cplusplus
 #if __cplusplus
