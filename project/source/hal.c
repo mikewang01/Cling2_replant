@@ -507,7 +507,6 @@ static void _advertising_init(uint8_t       flags)
 			{0xffe0,         									BLE_UUID_TYPE_BLE},
 	};
 
-	
 #if 1
 	/*fill up advertisement configration*/
 	uint8_t mac_address[BLE_GAP_ADDR_LEN];
@@ -541,6 +540,7 @@ static void _advertising_init(uint8_t       flags)
 #endif
 }
 #endif
+
 void _ble_adv_params_state_machine()
 {
 #ifndef _CLING_PC_SIMULATION_
