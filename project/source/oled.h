@@ -8,6 +8,7 @@
 
 #ifndef __OLED_HEADER__
 #define __OLED_HEADER__
+#include "standard_types.h"
 
 // delay from power on is 100ms.  Set to 103 because time is slightly less than 1ms.
 
@@ -22,7 +23,7 @@ typedef enum {
 	OLED_STATE_INIT_UI,
 	OLED_STATE_ON, 				      // at this point, all display registers have been initialized
 	OLED_STATE_GOING_OFF,			  // state when we have switched off but before actually off
-													// 		any attempt to turn back on when going off adds extra time.
+													    // any attempt to turn back on when going off adds extra time.
 	OLED_STATE_OFF,			        // all power off and reset low
 } OLED_STATE_TYPE;
 
@@ -32,13 +33,19 @@ typedef enum {
 	OLED_IMG_SHOW
 } OLED_DISPLAY_MODE;
 
+typedef enum {
+	OLED_COLOR_RED,
+	OLED_COLOR_GREEN,
+	OLED_COLOR_BLUE
+} OLED_COLOR_TYPE;
+
 typedef struct tagCLING_OLED_CTX {
 	I32U ts;
 	I8U state;
 } CLING_OLED_CTX;
 
-void OLED_init(I8U contrast);
-void OLED_set_contrast(I8U step);
+void OLED_init(I8U red_contrast, I8U green_contrast, I8U blue_contrast);
+void OLED_set_contrast(OLED_COLOR_TYPE tpye,I8U step);
 void OLED_set_display(I8U on_off);
 void OLED_state_machine(void);
 BOOLEAN OLED_set_panel_on(void);
@@ -47,5 +54,7 @@ void OLED_im_show(OLED_DISPLAY_MODE mode, I8U *pram, I8U offset);
 void OLED_full_scree_show(I8U *pram);
 void OLED_power_off(void);
 BOOLEAN OLED_is_panel_idle(void);
-
+void OLED_display_all_red(void);
+void OLED_display_all_green(void);
+void OLED_display_all_blue(void);
 #endif

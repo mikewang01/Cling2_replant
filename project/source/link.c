@@ -4,7 +4,7 @@
  * 
  * Description: USER related data processing functions
  *
- * Created on Jan 21, 2014
+ * Created on December 22, 2015
  *
  ******************************************************************************/
 

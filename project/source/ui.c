@@ -2795,6 +2795,43 @@ static BOOLEAN _ui_frame_blinking()
 		return TRUE;
 }
 
+static void _display_notifications(UI_ANIMATION_CTX *u, I32U t_curr, I8U type)
+{
+		if (u->state_init) {
+			u->state_init = FALSE;
+			u->touch_time_stamp = t_curr;
+			if (type == NOTIFICATION_TYPE_MESSAGE) {
+			
+#ifdef _ENABLE_ANCS_
+				if (cling.notific.cat_id == BLE_ANCS_CATEGORY_ID_INCOMING_CALL)
+					u->frame_index = UI_DISPLAY_SMART_INCOMING_CALL;
+				else
+					u->frame_index = UI_DISPLAY_SMART_INCOMING_MESSAGE;
+#endif								
+				// Go display incoming message/call
+				_display_frame_smart(u->frame_index, TRUE);
+			} else if (type == NOTIFICATION_TYPE_IDLE_ALERT) {
+				_display_idle_alert();
+			} else if (type == NOTIFICATION_TYPE_REMINDER) {
+				u->frame_index = UI_DISPLAY_SMART_REMINDER;
+				_display_frame_smart(u->frame_index, TRUE);
+			}
+			Y_SPRINTF("[UI] Notification (%d): %d", cling.notific.cat_id, (t_curr-u->touch_time_stamp));
+		} else {
+			if (t_curr > u->display_to_base + u->frame_interval) {
+				if (_ui_touch_sensing()) {
+					// Any touch event, go to touch sensing state
+					u->touch_time_stamp = t_curr;
+					u->frame_index = NOTIFICATION_TYPE_REMINDER;
+					UI_switch_state(UI_STATE_TOUCH_SENSING, 4000);
+				} else if (t_curr > u->touch_time_stamp + 5000) {
+					// Freshing for 5 seconds, then go dark
+					u->state = UI_STATE_DARK;
+				}
+			}
+		}
+}
+
 #if 0
 static I8U uistate;
 static I8U ui_frame_idx;
@@ -2911,47 +2948,9 @@ void UI_state_machine()
 				}
 			}
 			break;
-		case UI_STATE_REMINDER:
+		case UI_STATE_NOTIFICATIONS:
 		{
-			if (u->state_init) {
-				u->state_init = FALSE;
-				u->frame_index = UI_DISPLAY_SMART_REMINDER;
-				_display_frame_smart(u->frame_index, TRUE);
-			} else {
-				if (t_curr > u->display_to_base + u->frame_interval) {
-					if (LINK_is_authorized()) {
-						u->frame_index = UI_DISPLAY_PREVIOUS;
-						UI_switch_state(UI_STATE_TOUCH_SENSING, 4000);
-					} else {
-						UI_switch_state(UI_STATE_HOME, 4000);
-					}
-				}
-			}
-			break;
-		}
-		case UI_STATE_NOTIFIC:
-		{
-#ifndef _CLING_PC_SIMULATION_
-			if (u->state_init) {
-				u->state_init = FALSE;
-#ifdef _ENABLE_ANCS_
-				if (cling.notific.cat_id == BLE_ANCS_CATEGORY_ID_INCOMING_CALL)
-					u->frame_index = UI_DISPLAY_SMART_INCOMING_CALL;
-				else
-					u->frame_index = UI_DISPLAY_SMART_INCOMING_MESSAGE;
-#endif								
-				// Go display incoming message/call
-				_display_frame_smart(u->frame_index, TRUE);
-			} else {
-				if (t_curr > u->display_to_base + u->frame_interval) {
-					if (LINK_is_authorized()) {
-						UI_switch_state(UI_STATE_TOUCH_SENSING, 4000);
-					} else {
-						UI_switch_state(UI_STATE_HOME, 4000);
-					}
-				}
-			}
-#endif
+			_display_notifications(u, t_curr, u->notif_type);
 			break;
 		}
 		case UI_STATE_LOW_POWER:
@@ -2965,22 +2964,6 @@ void UI_state_machine()
 			else {
 				if (t_curr > (u->touch_time_stamp+2000)) {
 					UI_switch_state(UI_STATE_APPEAR, 1000);
-				}
-			}
-			break;
-		}
-		case UI_STATE_IDLE_ALERT:
-		{
-			if (u->state_init) {
-				Y_SPRINTF("[UI] idle alert shown");
-				u->state_init = FALSE;
-				_display_idle_alert();
-				u->touch_time_stamp = t_curr;
-			}
-			else {
-				if (t_curr > (u->touch_time_stamp+4000)) {
-					u->state = UI_STATE_DARK;
-					Y_SPRINTF("[UI] Idle alert is ended");
 				}
 			}
 			break;

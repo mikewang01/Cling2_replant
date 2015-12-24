@@ -1,18 +1,15 @@
-/* Copyright (c) 2009 Nordic Semiconductor. All Rights Reserved.
+/***************************************************************************/
+/**
+ * File: spi_master_api.c
  *
- * The information contained herein is property of Nordic Semiconductor ASA.
- * Terms and conditions of usage are described in detail in NORDIC
- * SEMICONDUCTOR STANDARD SOFTWARE LICENSE AGREEMENT.
+ * Description: Characters display function.
  *
- * Licensees are granted free, non-transferable use of the information. NO
- * WARRANTY of ANY KIND is provided. This heading must NOT be removed from
- * the file.
+ * Created on December 22, 2015
  *
- */
+ ******************************************************************************/
+ 
 #include "main.h"
 #include "nrf.h"
-#include "nrf_gpio.h"
-#include "gpio.h"
 #include "app_util.h"
 #include "app_util_platform.h"
 #include "nrf_error.h"
@@ -41,19 +38,18 @@ static void _spi_master_op_wait_done()
  */
 void spi_master_0_event_handler(nrf_drv_spi_event_t event)
 {
-	
-    switch (event)
-    {
-        case NRF_DRV_SPI_EVENT_DONE:
+	switch (event)
+	{
+		case NRF_DRV_SPI_EVENT_DONE:
 
-            nrf_drv_spi_uninit(&m_spi_master_0);
-            m_transfer_completed = TRUE;
-            break;
+				nrf_drv_spi_uninit(&m_spi_master_0);
+				m_transfer_completed = TRUE;
+				break;
 
-        default:
-            // No implementation needed.
-            break;
-    }
+		default:
+				// No implementation needed.
+				break;
+	}
 }
 
 /**@brief Function for initializing a SPI master driver.

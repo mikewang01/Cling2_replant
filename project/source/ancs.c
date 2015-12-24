@@ -14,7 +14,8 @@
  */
 
 #include "main.h"
-#include "btle.h"
+#include "ble_ancs_c.h"
+#include "ble_db_discovery.h"
 #include "pstorage.h"
 #include <string.h>
 #include <stdbool.h>
@@ -23,60 +24,28 @@
 #include "nordic_common.h"
 #include "nrf_assert.h"
 #include "device_manager.h"
-#include "ble_db_discovery.h"
 #include "app_error.h"
+
 
 #ifdef _ENABLE_ANCS_
 
+static ancs_tx_message_t      m_tx_buffer[3];       /**< Transmit buffer for messages to be transmitted to the Notification Provider. */
+static I8U                    m_tx_insert_index ;   /**< Current index in the transmit buffer where the next message should be inserted. */
+static I8U                    m_tx_index;           /**< Current index in the transmit buffer from where the next message to be transmitted resides. */
 
-/**@brief ANCS request types.
- */
-typedef enum
-{
-	READ_REQ = 1,  /**< Type identifying that this tx_message is a read request. */
-	WRITE_REQ      /**< Type identifying that this tx_message is a write request. */
-} ancs_tx_request_t;
-
-/**@brief Structure for writing a message to the central, i.e. Control Point or CCCD.
- */
-typedef struct
-{
-	uint8_t                  gattc_value[WRITE_MESSAGE_LENGTH]; /**< The message to write. */
-	ble_gattc_write_params_t gattc_params;                      /**< GATTC parameters for this message. */
-} write_params_t;
-
-
-/**@brief Structure for holding data to be transmitted to the connected master.
- */
-typedef struct
-{
-	uint16_t          conn_handle;  /**< Connection handle to be used when transmitting this message. */
-	ancs_tx_request_t type;         /**< Type of this message, i.e. read or write message. */
-	union
-	{
-			uint16_t       read_handle; /**< Read request message. */
-			write_params_t write_req;   /**< Write request message. */
-	} req;
-} tx_message_t;
-
-static tx_message_t   m_tx_buffer[3];            /**< Transmit buffer for messages to be transmitted to the Notification Provider. */
-static I8U            m_tx_insert_index ;        /**< Current index in the transmit buffer where the next message should be inserted. */
-static I8U            m_tx_index;                /**< Current index in the transmit buffer from where the next message to be transmitted resides. */
-
-static ble_ancs_c_service_t    m_service;        /**< Current service data. */
-static ble_ancs_notif_t        ancs_notif;
-static ble_ancs_notif_attr_t   ancs_notif_attr;
+static ble_ancs_c_service_t   m_service;            /**< Current service data. */
+static ble_ancs_notif_t       ancs_notif;
+static ble_ancs_notif_attr_t  ancs_notif_attr;
 	
-static I32U      ancs_timer;
-static I32U      ancs_t_curr, ancs_t_diff;		
+static I32U  ancs_timer, ancs_t_curr, ancs_t_diff;		
 	
 /**@brief 128-bit service UUID for the Apple Notification Center Service.*/
 const ble_uuid128_t ble_ancs_base_uuid128 =
 {
   {
-		// 7905F431-B5CE-4E99-A40F-4B1E122D00D0
-		0xd0, 0x00, 0x2d, 0x12, 0x1e, 0x4b, 0x0f, 0xa4,
-		0x99, 0x4e, 0xce, 0xb5, 0x31, 0xf4, 0x05, 0x79
+	// 7905F431-B5CE-4E99-A40F-4B1E122D00D0
+	0xd0, 0x00, 0x2d, 0x12, 0x1e, 0x4b, 0x0f, 0xa4,
+	0x99, 0x4e, 0xce, 0xb5, 0x31, 0xf4, 0x05, 0x79
   }
 };
 
@@ -85,94 +54,93 @@ const ble_uuid128_t ble_ancs_base_uuid128 =
  */
 const ble_uuid128_t ble_ancs_cp_base_uuid128 =
 {
-	{
-		// 69d1d8f3-45e1-49a8-9821-9BBDFDAAD9D9
-		0xd9, 0xd9, 0xaa, 0xfd, 0xbd, 0x9b, 0x21, 0x98,
-		0xa8, 0x49, 0xe1, 0x45, 0xf3, 0xd8, 0xd1, 0x69
-	}
+  {
+	// 69d1d8f3-45e1-49a8-9821-9BBDFDAAD9D9
+	0xd9, 0xd9, 0xaa, 0xfd, 0xbd, 0x9b, 0x21, 0x98,
+	0xa8, 0x49, 0xe1, 0x45, 0xf3, 0xd8, 0xd1, 0x69
+  }
 };
 
 /**@brief 128-bit notification source UUID.
 */
 const ble_uuid128_t ble_ancs_ns_base_uuid128 =
 {
-	{
-		// 9FBF120D-6301-42D9-8C58-25E699A21DBD
-		0xbd, 0x1d, 0xa2, 0x99, 0xe6, 0x25, 0x58, 0x8c,
-		0xd9, 0x42, 0x01, 0x63, 0x0d, 0x12, 0xbf, 0x9f
-
-	}
+  {
+	// 9FBF120D-6301-42D9-8C58-25E699A21DBD
+	0xbd, 0x1d, 0xa2, 0x99, 0xe6, 0x25, 0x58, 0x8c,
+	0xd9, 0x42, 0x01, 0x63, 0x0d, 0x12, 0xbf, 0x9f
+  }
 };
 
 /**@brief 128-bit data source UUID.
 */
 const ble_uuid128_t ble_ancs_ds_base_uuid128 =
 {
-	{
-		// 22EAC6E9-24D6-4BB5-BE44-B36ACE7C7BFB
-		0xfb, 0x7b, 0x7c, 0xce, 0x6a, 0xb3, 0x44, 0xbe,
-		0xb5, 0x4b, 0xd6, 0x24, 0xe9, 0xc6, 0xea, 0x22
-	}
+  {
+	// 22EAC6E9-24D6-4BB5-BE44-B36ACE7C7BFB
+	0xfb, 0x7b, 0x7c, 0xce, 0x6a, 0xb3, 0x44, 0xbe,
+	0xb5, 0x4b, 0xd6, 0x24, 0xe9, 0xc6, 0xea, 0x22
+  }
 };
 
 
 /**@brief Function for handling events from the database discovery module.*/
 static void db_discover_evt_handler(ble_db_discovery_evt_t * p_evt)
 {
-	ANCS_CONTEXT *a = &cling.ancs;
-	ble_gatt_db_char_t * p_chars;
-	p_chars = p_evt->params.discovered_db.charateristics;
+  ANCS_CONTEXT *a = &cling.ancs;
+  ble_gatt_db_char_t * p_chars;
+  p_chars = p_evt->params.discovered_db.charateristics;
 
-	N_SPRINTF("[ANCS]: Database Discovery handler called with event 0x%x\r\n", p_evt->evt_type);
+  N_SPRINTF("[ANCS]: Database Discovery handler called with event 0x%x\r\n", p_evt->evt_type);
 
-	// Check if the ANCS Service was discovered.
-	if (p_evt->evt_type == BLE_DB_DISCOVERY_COMPLETE &&
-			p_evt->params.discovered_db.srv_uuid.uuid == ANCS_UUID_SERVICE &&
-			p_evt->params.discovered_db.srv_uuid.type == BLE_UUID_TYPE_VENDOR_BEGIN)
+  // Check if the ANCS Service was discovered.
+  if (p_evt->evt_type == BLE_DB_DISCOVERY_COMPLETE &&
+	  p_evt->params.discovered_db.srv_uuid.uuid == ANCS_UUID_SERVICE &&
+	  p_evt->params.discovered_db.srv_uuid.type == BLE_UUID_TYPE_VENDOR_BEGIN)
   {
-		// Find the handles of the ANCS characteristic.
-		for (I32U i = 0; i < p_evt->params.discovered_db.char_count; i++)
-		{
-			switch (p_evt->params.discovered_db.charateristics[i].characteristic.uuid.uuid)
-			{
-				case ANCS_UUID_CHAR_CONTROL_POINT:
-						N_SPRINTF("[ANCS]: Control Point Characteristic found...");
-						m_service.control_point.properties   = p_chars[i].characteristic.char_props;
-						m_service.control_point.handle_decl  = p_chars[i].characteristic.handle_decl;
-						m_service.control_point.handle_value = p_chars[i].characteristic.handle_value;
-						m_service.control_point.handle_cccd  = p_chars[i].cccd_handle;
-						break;
-
-				case ANCS_UUID_CHAR_DATA_SOURCE:
-						N_SPRINTF("[ANCS]: Data Source Characteristic found...");
-						m_service.data_source.properties   = p_chars[i].characteristic.char_props;
-						m_service.data_source.handle_decl  = p_chars[i].characteristic.handle_decl;
-						m_service.data_source.handle_value = p_chars[i].characteristic.handle_value;
-						m_service.data_source.handle_cccd  = p_chars[i].cccd_handle;
-						break;
-
-				case ANCS_UUID_CHAR_NOTIFICATION_SOURCE:
-						N_SPRINTF("[ANCS]: Notification point Characteristic found...");
-						m_service.notif_source.properties   = p_chars[i].characteristic.char_props;
-						m_service.notif_source.handle_decl  = p_chars[i].characteristic.handle_decl;
-						m_service.notif_source.handle_value = p_chars[i].characteristic.handle_value;							
-						m_service.notif_source.handle_cccd  = p_chars[i].cccd_handle;
-						break;
-
-						default:
-						break;
-			 }
-		 }
-     // ANCS state switching to "DISCOVER COMPLETE".
-		 a->state = BLE_ANCS_STATE_DISCOVER_COMPLETE;
-	}
-	else
+	// Find the handles of the ANCS characteristic.
+	for (I32U i = 0; i < p_evt->params.discovered_db.char_count; i++)
 	{
-		// Record the current time ,disconnecting BLE after 60 seconds.
-		ancs_timer = CLK_get_system_time();	
-		// ANCS state switching to "DISCOVER FAILED".
-    a->state = BLE_ANCS_STATE_DISCOVER_FAILED;
+	  switch (p_evt->params.discovered_db.charateristics[i].characteristic.uuid.uuid)
+      {
+		case ANCS_UUID_CHAR_CONTROL_POINT:
+			 N_SPRINTF("[ANCS]: Control Point Characteristic found...");
+			 m_service.control_point.properties   = p_chars[i].characteristic.char_props;
+			 m_service.control_point.handle_decl  = p_chars[i].characteristic.handle_decl;
+			 m_service.control_point.handle_value = p_chars[i].characteristic.handle_value;
+			 m_service.control_point.handle_cccd  = p_chars[i].cccd_handle;
+			 break;
+
+		case ANCS_UUID_CHAR_DATA_SOURCE:
+			 N_SPRINTF("[ANCS]: Data Source Characteristic found...");
+			 m_service.data_source.properties   = p_chars[i].characteristic.char_props;
+			 m_service.data_source.handle_decl  = p_chars[i].characteristic.handle_decl;
+			 m_service.data_source.handle_value = p_chars[i].characteristic.handle_value;
+			 m_service.data_source.handle_cccd  = p_chars[i].cccd_handle;
+			 break;
+
+		case ANCS_UUID_CHAR_NOTIFICATION_SOURCE:
+			 N_SPRINTF("[ANCS]: Notification point Characteristic found...");
+			 m_service.notif_source.properties   = p_chars[i].characteristic.char_props;
+		     m_service.notif_source.handle_decl  = p_chars[i].characteristic.handle_decl;
+		     m_service.notif_source.handle_value = p_chars[i].characteristic.handle_value;							
+			 m_service.notif_source.handle_cccd  = p_chars[i].cccd_handle;
+			 break;
+
+			default:
+			break;			
+	  }
 	}
+    // ANCS state switching to "DISCOVER COMPLETE".
+	a->state = BLE_ANCS_STATE_DISCOVER_COMPLETE;
+  }
+  else
+  {
+	// Record the current time ,disconnecting BLE after 60 seconds.
+	ancs_timer = CLK_get_system_time();	
+	// ANCS state switching to "DISCOVER FAILED".
+    a->state = BLE_ANCS_STATE_DISCOVER_FAILED;
+  }
 }
 
 
@@ -180,31 +148,31 @@ static void db_discover_evt_handler(ble_db_discovery_evt_t * p_evt)
  */
 static void _tx_buffer_process(void)
 {
-	I32U err_code;
-	
-	if (m_tx_index != m_tx_insert_index) {
-   
-		if(m_tx_index >=2)
-		  m_tx_index=0;
+  I32U err_code;
 
-		err_code = sd_ble_gattc_write(cling.ble.conn_handle,&m_tx_buffer[m_tx_index].req.write_req.gattc_params);
-		if (err_code == NRF_SUCCESS)
-				m_tx_index++;
+  if (m_tx_index != m_tx_insert_index) {
+
+	if(m_tx_index >=2)
+	  m_tx_index=0;
+
+	err_code = sd_ble_gattc_write(cling.ble.conn_handle,&m_tx_buffer[m_tx_index].req.write_req.gattc_params);
+	if (err_code == NRF_SUCCESS)
+			m_tx_index++;
   }
 }
 
 void ANCS_nflash_store_one_message(I8U *data)
 {
-	//use message 4k space from nflash
-	I32U addr=SYSTEM_NOTIFICATION_SPACE_START;
-	
-	N_SPRINTF("[ANCS] nflash store message: %d, %d, %d", cling.ancs.pkt.title_len, cling.ancs.pkt.message_len, cling.ancs.message_total);
-	
-	addr += (cling.ancs.message_total-1)*256;
-	FLASH_Write_App(addr, data, 128);
-	addr += 128;
-	FLASH_Write_App(addr, data+128, 128);
-	N_SPRINTF("[ANCS] ADDR :%d, %02x, %02x, %02x, %02x",addr, data[0], data[1], data[2], data[3]);		
+  //use message 4k space from nflash
+  I32U addr=SYSTEM_NOTIFICATION_SPACE_START;
+
+  N_SPRINTF("[ANCS] nflash store message: %d, %d, %d", cling.ancs.pkt.title_len, cling.ancs.pkt.message_len, cling.ancs.message_total);
+
+  addr += (cling.ancs.message_total-1)*256;
+  FLASH_Write_App(addr, data, 128);
+  addr += 128;
+  FLASH_Write_App(addr, data+128, 128);
+  N_SPRINTF("[ANCS] ADDR :%d, %02x, %02x, %02x, %02x",addr, data[0], data[1], data[2], data[3]);		
 }
 
 
@@ -469,7 +437,7 @@ static I32U _ble_ancs_init(void)
 
 static I32U cccd_configure(const uint16_t conn_handle, const uint16_t handle_cccd, bool enable)
 {
-	tx_message_t * p_msg;
+	ancs_tx_message_t * p_msg;
 	I16U  cccd_val = enable ? BLE_CCCD_NOTIFY_BIT_MASK : 0;
 
 	if(m_tx_insert_index >= 2)
@@ -485,7 +453,7 @@ static I32U cccd_configure(const uint16_t conn_handle, const uint16_t handle_ccc
 	p_msg->req.write_req.gattc_value[0]        = LSB(cccd_val);
 	p_msg->req.write_req.gattc_value[1]        = MSB(cccd_val);
 	p_msg->conn_handle                         = conn_handle;
-	p_msg->type                                = WRITE_REQ;
+	p_msg->type                                = ANCS_WRITE_REQ;
 
 	_tx_buffer_process();
 	return NRF_SUCCESS;
@@ -522,7 +490,7 @@ static I32U _ble_ancs_get_notif_attrs( const I32U p_uid)
 {
 	I16U title_max_len=0;
 	I16U message_max_len=0;	
-	tx_message_t * p_msg;
+	ancs_tx_message_t * p_msg;
 	I16U    index    = 0;
 
 	if(m_tx_insert_index >= 2)
@@ -559,7 +527,7 @@ static I32U _ble_ancs_get_notif_attrs( const I32U p_uid)
  
 	p_msg->req.write_req.gattc_params.len = index;
 	p_msg->conn_handle                    = cling.ble.conn_handle;
-	p_msg->type                           = WRITE_REQ;
+	p_msg->type                           = ANCS_WRITE_REQ;
 
 	_tx_buffer_process();
 
@@ -629,7 +597,9 @@ void ANCS_service_add(void)
 static void _ancs_start_notific_filtering()
 {
 	ancs_timer =CLK_get_system_time();
-
+	ancs_t_curr = 0;
+	ancs_t_diff = 0;
+	
 	cling.ancs.filtering_flag = FALSE;
 }
 	
@@ -756,7 +726,7 @@ void ANCS_state_machine(void)
     case BLE_ANCS_STATE_NOTIF:
 		{	
       if(_ancs_query_notific_is_new()){
-				N_SPRINTF("[ANCS] Start request access to notify the specific content.");	
+				Y_SPRINTF("[ANCS] Start request access to notify the specific content.");	
         _ancs_request_attrs_pro(ancs_notif);						
 			}
       a->state = BLE_ANCS_STATE_IDLE;			
@@ -774,7 +744,7 @@ void ANCS_state_machine(void)
 		
     case BLE_ANCS_STATE_DISCOVER_FAILED:
 		{    
-		  N_SPRINTF("[ANCS] Apple Notification Service not discovered on the server...");
+			Y_SPRINTF("[ANCS] Apple Notification Service not discovered on the server...");
 		
 			ancs_t_curr =  CLK_get_system_time();		
 	    ancs_t_diff = (ancs_t_curr - ancs_timer);

@@ -29,7 +29,6 @@
 #include "nordic_common.h"
 #include "nrf.h"
 #include "app_error.h"
-#include "nrf_gpio.h"
 #include "nrf_sdm.h"
 #include "nrf51_bitfields.h"
 #include "ble.h"
@@ -37,18 +36,14 @@
 #include "ble_srv_common.h"
 #include "ble_advdata.h"
 #include "ble_conn_params.h"
-#include "app_timer.h"
 #include "ble_error_log.h"
 //#include "ble_radio_notification.h"
-#include "ble_flash.h"
 //#include "ble_debug_assert_handler.h"
 #include "ble_stack_handler_types.h"
 #include "softdevice_handler.h"
 #include "pstorage_platform.h"
 #include "pstorage.h"
-#include "ancs.h"
 #include "ble_db_discovery.h"
-#include "system.h"
 #endif
 #include "sysflash_rw.h"
 #include "wechat_port.h"
@@ -141,29 +136,29 @@ ble_gap_sec_params_t m_ancs_sec_params = {
  */
 static void _sec_req_timeout_handler(void * p_context)
 {
-    dm_security_status_t status;
-    I32U err_code;
+	dm_security_status_t status;
+	I32U err_code;
 
-    if(cling.gcp.host_type != HOST_TYPE_IOS)
-        return;
+	if(cling.gcp.host_type != HOST_TYPE_IOS)
+		return;
 
-    if(cling.ble.conn_handle != BLE_CONN_HANDLE_INVALID) {
-        // Inquire current device whether has paired.
-        err_code = dm_security_status_req(&m_peer_handle, &status);
-        APP_ERROR_CHECK(err_code);
+	if(cling.ble.conn_handle != BLE_CONN_HANDLE_INVALID) {
+		// Inquire current device whether has paired.
+		err_code = dm_security_status_req(&m_peer_handle, &status);
+		APP_ERROR_CHECK(err_code);
 
-        if (status == NOT_ENCRYPTED) {
-            // Start request pair with IOS phone.
-            err_code = sd_ble_gap_authenticate(cling.ble.conn_handle, &m_ancs_sec_params);
+		if (status == NOT_ENCRYPTED) {
+			// Start request pair with IOS phone.
+			err_code = sd_ble_gap_authenticate(cling.ble.conn_handle, &m_ancs_sec_params);
 
-            if(err_code == NRF_SUCCESS) {
-                // Pair successed.
-                Y_SPRINTF("[HAL] Successfully initiated authentication procedure.");
-                cling.ancs.bond_state = BOND_STATE_SUCCESSED;
-            }
-            APP_ERROR_CHECK(err_code);
-        }
-    }
+			if(err_code == NRF_SUCCESS) {
+				// Pair successed.
+				Y_SPRINTF("[HAL] Successfully initiated authentication procedure.");
+				cling.ancs.bond_state = BOND_STATE_SUCCESSED;
+			}
+			APP_ERROR_CHECK(err_code);
+		}
+	}
 }
 
 
@@ -171,22 +166,22 @@ static void _sec_req_timeout_handler(void * p_context)
  */
 static void _ancs_pair_req_timer_init(void)
 {
-    I32U err_code;
+	I32U err_code;
 
-    err_code = app_timer_create(&m_ancs_pair_timer_id,
-                                APP_TIMER_MODE_SINGLE_SHOT,
-                                _sec_req_timeout_handler);
-    APP_ERROR_CHECK(err_code);
+	err_code = app_timer_create(&m_ancs_pair_timer_id,
+															APP_TIMER_MODE_SINGLE_SHOT,
+															_sec_req_timeout_handler);
+	APP_ERROR_CHECK(err_code);
 }
 
 
 /**@brief Function for initializing the database discovery module.*/
 static void _ancs_service_discovery_init(void)
 {
-    I32U err_code;
+	I32U err_code;
 
-    err_code = ble_db_discovery_init();
-    APP_ERROR_CHECK(err_code);
+	err_code = ble_db_discovery_init();
+	APP_ERROR_CHECK(err_code);
 }
 
 
@@ -199,17 +194,16 @@ static uint32_t _device_manager_evt_handler(dm_handle_t const * p_handle,
 {
   I32U err_code;
 
-	//if((event_result == BLE_GAP_SEC_STATUS_UNSPECIFIED) || (event_result == DM_DEVICE_CONTEXT_FULL)){
+#ifdef _ENABLE_ANCS_
 	if(event_result == DM_DEVICE_CONTEXT_FULL){
 		// If it's not IOS phone,do nothing.
 		if(cling.gcp.host_type == HOST_TYPE_IOS){
 		  // If pair error,delete bond infomation and reset system.
 		  Y_SPRINTF("[HAL] device manger error event result :%04x",event_result);
-#ifdef _ENABLE_ANCS_
-		  cling.ancs.bond_state = BOND_STATE_ERROR;		
-#endif			
+		  cling.ancs.bond_state = BOND_STATE_ERROR;					
 		}
 	}
+#endif
 	
   switch(p_event->event_id) {
 		
@@ -217,6 +211,7 @@ static uint32_t _device_manager_evt_handler(dm_handle_t const * p_handle,
 		{
 			if(event_result != BLE_GAP_SEC_STATUS_PAIRING_NOT_SUPP)
 			  APP_ERROR_CHECK(event_result);
+			
 #ifdef _ENABLE_ANCS_
 			if(cling.gcp.host_type == HOST_TYPE_IOS){
         // Start discovery ancs service.
@@ -230,6 +225,7 @@ static uint32_t _device_manager_evt_handler(dm_handle_t const * p_handle,
 		{
 			if(event_result != BLE_GAP_SEC_STATUS_PAIRING_NOT_SUPP)
 			  APP_ERROR_CHECK(event_result);
+			
 #ifdef _ENABLE_ANCS_
 			m_peer_handle = (*p_handle);
 			if (cling.gcp.host_type == HOST_TYPE_IOS) {
@@ -251,54 +247,58 @@ static uint32_t _device_manager_evt_handler(dm_handle_t const * p_handle,
 void HAL_disconnect_for_fast_connection()
 {
 #if 1
-    BLE_CTX *r = &cling.ble;
-    I32U t_curr = CLK_get_system_time();
-    ble_gap_conn_params_t params;
-    // If connection parameters ever get updated, then, disconnect and switch to high speed mode
-#if 0
-    if (!r->b_conn_params_updated) {
-        Y_SPRINTF("[HAL] STILL IN fast connection");
-        return;
-    }
-#endif
-#if 0
-    if (t_curr < (cling.system.conn_params_update_ts + MANUAL_CONN_PARAMS_UPDATE_DELAY))
-        return;
-#endif
-    cling.system.conn_params_update_ts = t_curr;
+	BLE_CTX *r = &cling.ble;
+	I32U t_curr = CLK_get_system_time();
+	ble_gap_conn_params_t params;
+	// If connection parameters ever get updated, then, disconnect and switch to high speed mode
 
-    N_SPRINTF("[HAL] disconnect BLE for a fast connection");
-    r->adv_mode = BLE_FAST_ADV;
+#if 0
+	if (!r->b_conn_params_updated) {
+		Y_SPRINTF("[HAL] STILL IN fast connection");
+		return;
+	}
+#endif
+	
+#if 0
+	if (t_curr < (cling.system.conn_params_update_ts + MANUAL_CONN_PARAMS_UPDATE_DELAY))
+		return;
+#endif
+	cling.system.conn_params_update_ts = t_curr;
+
+	N_SPRINTF("[HAL] disconnect BLE for a fast connection");
+	r->adv_mode = BLE_FAST_ADV;
 
 #if 1
-    if(cling.gcp.host_type == HOST_TYPE_IOS) {
-        conn_params_mgr_set_device_type(CONN_PARAMS_MGR_DEVICE_IOS);
-    } else if(cling.gcp.host_type == HOST_TYPE_ANDROID) {
-        conn_params_mgr_set_device_type(CONN_PARAMS_MGR_DEVICE_ANDOIRD);
-        r->disconnect_evt |= BLE_DISCONN_EVT_FAST_CONNECT;
-    } else {
-        conn_params_mgr_set_device_type(CONN_PARAMS_MGR_DEVICE_NULL);
-        r->disconnect_evt |= BLE_DISCONN_EVT_FAST_CONNECT;
-    }
+	if(cling.gcp.host_type == HOST_TYPE_IOS) {
+		conn_params_mgr_set_device_type(CONN_PARAMS_MGR_DEVICE_IOS);
+	} else if(cling.gcp.host_type == HOST_TYPE_ANDROID) {
+		conn_params_mgr_set_device_type(CONN_PARAMS_MGR_DEVICE_ANDOIRD);
+		r->disconnect_evt |= BLE_DISCONN_EVT_FAST_CONNECT;
+	} else {
+		conn_params_mgr_set_device_type(CONN_PARAMS_MGR_DEVICE_NULL);
+		r->disconnect_evt |= BLE_DISCONN_EVT_FAST_CONNECT;
+	}
 #endif
-    //conn_params_mgr_set_device_type(CONN_PARAMS_MGR_DEVICE_IOS);
-    params.min_conn_interval = conn_param_active[0];
-    params.max_conn_interval = conn_param_active[1];
-    params.slave_latency = conn_param_active[2];
-    params.conn_sup_timeout = conn_param_active[3];
-    //current_params = params;
-    if(ble_conn_params_com_conn_params(params, true) == true) {
-        N_SPRINTF("[HAL] STILL IN fast connection");
-        return ;
-    }
-    uint32_t err_code = ble_conn_params_change_conn_params(&params);
+	
+	//conn_params_mgr_set_device_type(CONN_PARAMS_MGR_DEVICE_IOS);
+	params.min_conn_interval = conn_param_active[0];
+	params.max_conn_interval = conn_param_active[1];
+	params.slave_latency = conn_param_active[2];
+	params.conn_sup_timeout = conn_param_active[3];
+	//current_params = params;
+	if(ble_conn_params_com_conn_params(params, true) == true) {
+		N_SPRINTF("[HAL] STILL IN fast connection");
+		return ;
+	}
+	
+	uint32_t err_code = ble_conn_params_change_conn_params(&params);
 
-    if (err_code == NRF_SUCCESS) {
-        r->b_conn_params_updated = FALSE;
-        Y_SPRINTF("[HAL] connection params update -- HIGH --");
-        //err_code = app_timer_start(m_conn_params_timer_id, APP_TIMER_TICKS(1*1000, APP_TIMER_PRESCALER), &current_params);
-        sd_ble_tx_buffer_count_get(&r->tx_buf_available);
-    }
+	if (err_code == NRF_SUCCESS) {
+		r->b_conn_params_updated = FALSE;
+		Y_SPRINTF("[HAL] connection params update -- HIGH --");
+		//err_code = app_timer_start(m_conn_params_timer_id, APP_TIMER_TICKS(1*1000, APP_TIMER_PRESCALER), &current_params);
+		sd_ble_tx_buffer_count_get(&r->tx_buf_available);
+	}
 #endif
 }
 #endif
@@ -306,55 +306,56 @@ void HAL_disconnect_for_fast_connection()
 BOOLEAN HAL_set_slow_conn_params()
 {
 #ifndef _CLING_PC_SIMULATION_
-    ble_gap_conn_params_t params;
-    I32U err_code;
-    BLE_CTX *r = &cling.ble;
-    I32U t_curr = CLK_get_system_time();
+	ble_gap_conn_params_t params;
+	I32U err_code;
+	BLE_CTX *r = &cling.ble;
+	I32U t_curr = CLK_get_system_time();
 
-    if (OTA_if_enabled())
-        return FALSE;
+	if (OTA_if_enabled())
+		return FALSE;
 #if 0
-    if (r->b_conn_params_updated)
-        return TRUE;
+	if (r->b_conn_params_updated)
+		return TRUE;
 #endif
-    if (t_curr < (cling.system.conn_params_update_ts + MANUAL_CONN_PARAMS_UPDATE_DELAY))
-        return FALSE;
+	if (t_curr < (cling.system.conn_params_update_ts + MANUAL_CONN_PARAMS_UPDATE_DELAY))
+		return FALSE;
 
 
-    r->adv_mode = BLE_SLOW_ADV;
-    cling.system.conn_params_update_ts = t_curr;
+	r->adv_mode = BLE_SLOW_ADV;
+	cling.system.conn_params_update_ts = t_curr;
 
-    params.min_conn_interval = conn_param_idle[0];
-    params.max_conn_interval = conn_param_idle[1];
-    params.slave_latency = conn_param_idle[2];
-    params.conn_sup_timeout = conn_param_idle[3];
+	params.min_conn_interval = conn_param_idle[0];
+	params.max_conn_interval = conn_param_idle[1];
+	params.slave_latency = conn_param_idle[2];
+	params.conn_sup_timeout = conn_param_idle[3];
 
-    /*ckeck connection parameter*/
-    if(ble_conn_params_com_conn_params(params, false) == true) {
-        N_SPRINTF("[HAL] still in slow connection");
-        return TRUE;
-    }
+	/*ckeck connection parameter*/
+	if(ble_conn_params_com_conn_params(params, false) == true) {
+		N_SPRINTF("[HAL] still in slow connection");
+		return TRUE;
+	}
 
 #if 1
-    if(cling.gcp.host_type == HOST_TYPE_IOS) {
-        conn_params_mgr_set_device_type(CONN_PARAMS_MGR_DEVICE_IOS);
-    } else if(cling.gcp.host_type == HOST_TYPE_ANDROID) {
-        conn_params_mgr_set_device_type(CONN_PARAMS_MGR_DEVICE_ANDOIRD);
-    } else {
-        conn_params_mgr_set_device_type(CONN_PARAMS_MGR_DEVICE_NULL);
-    }
+	if(cling.gcp.host_type == HOST_TYPE_IOS) {
+		conn_params_mgr_set_device_type(CONN_PARAMS_MGR_DEVICE_IOS);
+	} else if(cling.gcp.host_type == HOST_TYPE_ANDROID) {
+		conn_params_mgr_set_device_type(CONN_PARAMS_MGR_DEVICE_ANDOIRD);
+	} else {
+		conn_params_mgr_set_device_type(CONN_PARAMS_MGR_DEVICE_NULL);
+	}
 #endif
-    err_code = ble_conn_params_change_conn_params(&params);
+	
+	err_code = ble_conn_params_change_conn_params(&params);
 
-    if (err_code == NRF_SUCCESS) {
-        // Connection parameters get updated, which means BLE is in a slow connection mode
-        r->b_conn_params_updated = TRUE;
-        Y_SPRINTF("[HAL] connection params updated -- SLOW --");
-        sd_ble_tx_buffer_count_get(&r->tx_buf_available);
-    }
+	if (err_code == NRF_SUCCESS) {
+		// Connection parameters get updated, which means BLE is in a slow connection mode
+		r->b_conn_params_updated = TRUE;
+		Y_SPRINTF("[HAL] connection params updated -- SLOW --");
+		sd_ble_tx_buffer_count_get(&r->tx_buf_available);
+	}
 #endif
-    return TRUE;
-
+	
+	return TRUE;
 }
 
 /**@brief Function for error handling, which is called when an error has occurred.
@@ -369,23 +370,23 @@ BOOLEAN HAL_set_slow_conn_params()
 void app_error_handler(uint32_t error_code, uint32_t line_num, const uint8_t * p_file_name)
 {
 #ifndef _CLING_PC_SIMULATION_
-    //nrf_gpio_pin_set(ASSERT_LED_PIN_NO);
+	//nrf_gpio_pin_set(ASSERT_LED_PIN_NO);
 
-    // This call can be used for debug purposes during development of an application.
-    // @note CAUTION: Activating this code will write the stack to flash on an error.
-    //                This function should NOT be used in a final product.
-    //                It is intended STRICTLY for development/debugging purposes.
-    //                The flash write will happen EVEN if the radio is active, thus interrupting
-    //                any communication.
-    //                Use with care. Uncomment the line below to use.
-//    ble_debug_assert_handler(error_code, line_num, p_file_name);
-    Y_SPRINTF("---- hard fault (crash) ----");
-    Y_SPRINTF((char *)p_file_name);
-    N_SPRINTF("\r\n");
-    Y_SPRINTF("err: %d, line: %d", error_code, line_num);
-    BASE_delay_msec(1000);
-    // On assert, the system can only recover with a reset.
-    sd_nvic_SystemReset();
+	// This call can be used for debug purposes during development of an application.
+	// @note CAUTION: Activating this code will write the stack to flash on an error.
+	//                This function should NOT be used in a final product.
+	//                It is intended STRICTLY for development/debugging purposes.
+	//                The flash write will happen EVEN if the radio is active, thus interrupting
+	//                any communication.
+	//                Use with care. Uncomment the line below to use.
+	//                ble_debug_assert_handler(error_code, line_num, p_file_name);
+	Y_SPRINTF("---- hard fault (crash) ----");
+	Y_SPRINTF((char *)p_file_name);
+	N_SPRINTF("\r\n");
+	Y_SPRINTF("err: %d, line: %d", error_code, line_num);
+	BASE_delay_msec(1000);
+	// On assert, the system can only recover with a reset.
+	sd_nvic_SystemReset();
 #endif
 }
 
@@ -403,7 +404,7 @@ void app_error_handler(uint32_t error_code, uint32_t line_num, const uint8_t * p
  */
 void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name)
 {
-    app_error_handler(DEAD_BEEF, line_num, p_file_name);
+  app_error_handler(DEAD_BEEF, line_num, p_file_name);
 }
 
 
@@ -415,39 +416,39 @@ void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name)
 static void _gap_params_init(void)
 {
 #ifndef _CLING_PC_SIMULATION_
-    I32U                err_code;
-    ble_gap_conn_params_t   gap_conn_params;
-    ble_gap_conn_sec_mode_t sec_mode;
-    I8U DEVICE_NAME[20];
+	I32U                err_code;
+	ble_gap_conn_params_t   gap_conn_params;
+	ble_gap_conn_sec_mode_t sec_mode;
+	I8U DEVICE_NAME[20];
 
-    BLE_GAP_CONN_SEC_MODE_SET_OPEN(&sec_mode);
+	BLE_GAP_CONN_SEC_MODE_SET_OPEN(&sec_mode);
 
-    // Get device name
-    I8U len = SYSTEM_get_ble_device_name(DEVICE_NAME);
+	// Get device name
+	I8U len = SYSTEM_get_ble_device_name(DEVICE_NAME);
 
-    N_SPRINTF("[SYSTEM] +++ ble GAP name: %s", DEVICE_NAME);
+	N_SPRINTF("[SYSTEM] +++ ble GAP name: %s", DEVICE_NAME);
 
-    err_code = sd_ble_gap_device_name_set(&sec_mode,
-                                          (const uint8_t *)DEVICE_NAME,
-                                          10);
+	err_code = sd_ble_gap_device_name_set(&sec_mode,
+																				(const uint8_t *)DEVICE_NAME,
+																				10);
 
-    APP_ERROR_CHECK(err_code);
+	APP_ERROR_CHECK(err_code);
 
-    // Set device as a generic outdoor device
-    err_code = sd_ble_gap_appearance_set(BLE_APPEARANCE_GENERIC_RUNNING_WALKING_SENSOR);
-    APP_ERROR_CHECK(err_code);
+	// Set device as a generic outdoor device
+	err_code = sd_ble_gap_appearance_set(BLE_APPEARANCE_GENERIC_RUNNING_WALKING_SENSOR);
+	APP_ERROR_CHECK(err_code);
 
-    memset(&gap_conn_params, 0, sizeof(gap_conn_params));
+	memset(&gap_conn_params, 0, sizeof(gap_conn_params));
 
-    gap_conn_params.min_conn_interval = conn_param_active[0];
-    gap_conn_params.max_conn_interval = conn_param_active[1];
-    gap_conn_params.slave_latency     = conn_param_active[2];
-    gap_conn_params.conn_sup_timeout  = conn_param_active[3];
+	gap_conn_params.min_conn_interval = conn_param_active[0];
+	gap_conn_params.max_conn_interval = conn_param_active[1];
+	gap_conn_params.slave_latency     = conn_param_active[2];
+	gap_conn_params.conn_sup_timeout  = conn_param_active[3];
 
-    cling.system.conn_params_update_ts = CLK_get_system_time();
+	cling.system.conn_params_update_ts = CLK_get_system_time();
 
-    err_code = sd_ble_gap_ppcp_set(&gap_conn_params);
-    APP_ERROR_CHECK(err_code);
+	err_code = sd_ble_gap_ppcp_set(&gap_conn_params);
+	APP_ERROR_CHECK(err_code);
 #endif
 }
 
@@ -466,112 +467,110 @@ static void _advertising_init(uint8_t       flags)
 #ifndef __WECHAT_SUPPORTED__
 {
 #ifndef _CLING_PC_SIMULATION_
-    uint32_t      err_code;
-    ble_advdata_t advdata;
-    ble_advdata_t srdata;
-    ble_uuid_t adv_uuids[] = {
-        {0xffe0,         BLE_UUID_TYPE_BLE}
-    };
+	uint32_t      err_code;
+	ble_advdata_t advdata;
+	ble_advdata_t srdata;
+	ble_uuid_t adv_uuids[] = {
+			{0xffe0,         BLE_UUID_TYPE_BLE}
+	};
 
+	// Build and set advertising data.
+	memset(&advdata, 0, sizeof(advdata));
 
-    // Build and set advertising data.
-    memset(&advdata, 0, sizeof(advdata));
-
-    // Keep minimum set of data during advertising
-    advdata.flags				            = flags;
-    advdata.uuids_complete.uuid_cnt = 1;
-    advdata.uuids_complete.p_uuids  = adv_uuids;
+	// Keep minimum set of data during advertising
+	advdata.flags				            = flags;
+	advdata.uuids_complete.uuid_cnt = 1;
+	advdata.uuids_complete.p_uuids  = adv_uuids;
 
 #ifdef _ENABLE_ANCS_
-    advdata.uuids_solicited.uuid_cnt = sizeof(m_adv_uuids) / sizeof(m_adv_uuids[0]);
-    advdata.uuids_solicited.p_uuids  = m_adv_uuids;
+	advdata.uuids_solicited.uuid_cnt = sizeof(m_adv_uuids) / sizeof(m_adv_uuids[0]);
+	advdata.uuids_solicited.p_uuids  = m_adv_uuids;
 #endif
-    // Put full name in scan response data, saving power
-    memset(&srdata, 0, sizeof(srdata));
-    srdata.name_type 								= BLE_ADVDATA_FULL_NAME;
+	
+	// Put full name in scan response data, saving power
+	memset(&srdata, 0, sizeof(srdata));
+	srdata.name_type 								= BLE_ADVDATA_FULL_NAME;
 
-    err_code = ble_advdata_set(&advdata, &srdata);
-    APP_ERROR_CHECK(err_code);
-
+	err_code = ble_advdata_set(&advdata, &srdata);
+	APP_ERROR_CHECK(err_code);
 #endif
 }
 #else
 {
 #ifndef _CLING_PC_SIMULATION_
-    uint32_t      err_code;
-    ble_advdata_t advdata;
-    ble_advdata_t rspdata;
-    uint8_t	 	m_addl_adv_manuf_data[BLE_GAP_ADDR_LEN];
-    ble_uuid_t adv_uuids[] = {
-        {BLE_UUID_WECHAT_SERVICE,         BLE_UUID_TYPE_BLE},
-        {0xffe0,         									BLE_UUID_TYPE_BLE},
-    };
+	uint32_t      err_code;
+	ble_advdata_t advdata;
+	ble_advdata_t rspdata;
+	uint8_t	 	m_addl_adv_manuf_data[BLE_GAP_ADDR_LEN];
+	ble_uuid_t adv_uuids[] = {
+			{BLE_UUID_WECHAT_SERVICE,         BLE_UUID_TYPE_BLE},
+			{0xffe0,         									BLE_UUID_TYPE_BLE},
+	};
 
-    
+	
 #if 1
-		/*fill up advertisement configration*/
-    uint8_t mac_address[BLE_GAP_ADDR_LEN];
-    get_mac_addr(mac_address);
-    memcpy(m_addl_adv_manuf_data, mac_address, BLE_GAP_ADDR_LEN);
-    // Build and set advertising data
-    memset(&advdata, 0, sizeof(advdata));
-    advdata.name_type               = BLE_ADVDATA_NO_NAME;
-    advdata.include_appearance      = false;
-    advdata.flags                   = (flags);
-    advdata.uuids_complete.uuid_cnt = sizeof(adv_uuids) / sizeof(adv_uuids[0]);
-    advdata.uuids_complete.p_uuids  = adv_uuids;
+	/*fill up advertisement configration*/
+	uint8_t mac_address[BLE_GAP_ADDR_LEN];
+	get_mac_addr(mac_address);
+	memcpy(m_addl_adv_manuf_data, mac_address, BLE_GAP_ADDR_LEN);
+	// Build and set advertising data
+	memset(&advdata, 0, sizeof(advdata));
+	advdata.name_type               = BLE_ADVDATA_NO_NAME;
+	advdata.include_appearance      = false;
+	advdata.flags                   = (flags);
+	advdata.uuids_complete.uuid_cnt = sizeof(adv_uuids) / sizeof(adv_uuids[0]);
+	advdata.uuids_complete.p_uuids  = adv_uuids;
 
 #endif
 #ifdef _ENABLE_ANCS_
-    advdata.uuids_solicited .uuid_cnt = sizeof(m_adv_uuids) / sizeof(m_adv_uuids[0]);
-    advdata.uuids_solicited.p_uuids  = m_adv_uuids;
+	advdata.uuids_solicited .uuid_cnt = sizeof(m_adv_uuids) / sizeof(m_adv_uuids[0]);
+	advdata.uuids_solicited.p_uuids  = m_adv_uuids;
 #endif
-		/*initiate mac information and company id  as the requirement of wechat*/
-		ble_advdata_manuf_data_t        manuf_data;
-    manuf_data.company_identifier = COMPANY_IDENTIFIER;
-    manuf_data.data.size          = sizeof(m_addl_adv_manuf_data);
-    manuf_data.data.p_data        = m_addl_adv_manuf_data;	
-    // Put full name in scan response data and mac information needed by wechat, saving power
-    memset(&rspdata, 0, sizeof(rspdata));
-		rspdata.name_type               = BLE_ADVDATA_FULL_NAME;
-    rspdata.p_manuf_specific_data = &manuf_data;
-    //ble_advdata_manuf_data_t
-    err_code = ble_advdata_set(&advdata, &rspdata);
-    APP_ERROR_CHECK(err_code);
-
+	/*initiate mac information and company id  as the requirement of wechat*/
+	ble_advdata_manuf_data_t        manuf_data;
+	manuf_data.company_identifier = COMPANY_IDENTIFIER;
+	manuf_data.data.size          = sizeof(m_addl_adv_manuf_data);
+	manuf_data.data.p_data        = m_addl_adv_manuf_data;	
+	// Put full name in scan response data and mac information needed by wechat, saving power
+	memset(&rspdata, 0, sizeof(rspdata));
+	rspdata.name_type               = BLE_ADVDATA_FULL_NAME;
+	rspdata.p_manuf_specific_data = &manuf_data;
+	//ble_advdata_manuf_data_t
+	err_code = ble_advdata_set(&advdata, &rspdata);
+	APP_ERROR_CHECK(err_code);
 #endif
 }
 #endif
 void _ble_adv_params_state_machine()
 {
 #ifndef _CLING_PC_SIMULATION_
-    // Initialize advertising parameters (used when starting advertising).
-    memset(&m_adv_params, 0, sizeof(m_adv_params));
+	// Initialize advertising parameters (used when starting advertising).
+	memset(&m_adv_params, 0, sizeof(m_adv_params));
 
 
-    m_adv_params.type        = BLE_GAP_ADV_TYPE_ADV_IND;
-    m_adv_params.p_peer_addr = NULL;                           // Undirected advertisement.
-    m_adv_params.fp          = BLE_GAP_ADV_FP_ANY;
+	m_adv_params.type        = BLE_GAP_ADV_TYPE_ADV_IND;
+	m_adv_params.p_peer_addr = NULL;                           // Undirected advertisement.
+	m_adv_params.fp          = BLE_GAP_ADV_FP_ANY;
 
-    Y_SPRINTF("------------ adv_mode: %d", cling.ble.adv_mode);
+	Y_SPRINTF("------------ adv_mode: %d", cling.ble.adv_mode);
 
-    switch(cling.ble.adv_mode) {
-        case BLE_FAST_ADV:
-            m_adv_params.interval    = APP_ADV_INTERVAL_FAST;
-            m_adv_params.timeout     = APP_ADV_TIMEOUT_FAST_IN_SECONDS;
-            cling.ble.adv_mode = BLE_SLOW_ADV;
-            break;
-        case BLE_SLOW_ADV:
-            m_adv_params.interval    = APP_ADV_INTERVAL_SLOW;
-            m_adv_params.timeout     = APP_ADV_TIMEOUT_SLOW_IN_SECONDS;
-            cling.ble.adv_mode = BLE_ADV_SLEEP;
-            break;
-        default:
-            // any other state, broadcasting at a slow rate
-            m_adv_params.interval    = APP_ADV_INTERVAL_SLOW;
-            m_adv_params.timeout     = APP_ADV_TIMEOUT_SLOW_IN_SECONDS;
-            break;
-    }
+	switch(cling.ble.adv_mode) {
+			case BLE_FAST_ADV:
+					m_adv_params.interval    = APP_ADV_INTERVAL_FAST;
+					m_adv_params.timeout     = APP_ADV_TIMEOUT_FAST_IN_SECONDS;
+					cling.ble.adv_mode = BLE_SLOW_ADV;
+					break;
+			case BLE_SLOW_ADV:
+					m_adv_params.interval    = APP_ADV_INTERVAL_SLOW;
+					m_adv_params.timeout     = APP_ADV_TIMEOUT_SLOW_IN_SECONDS;
+					cling.ble.adv_mode = BLE_ADV_SLEEP;
+					break;
+			default:
+					// any other state, broadcasting at a slow rate
+					m_adv_params.interval    = APP_ADV_INTERVAL_SLOW;
+					m_adv_params.timeout     = APP_ADV_TIMEOUT_SLOW_IN_SECONDS;
+					break;
+	}
 #endif
 }
 
@@ -580,32 +579,31 @@ void _ble_adv_params_state_machine()
 void HAL_advertising_start(void)
 {
 #ifndef _CLING_PC_SIMULATION_
-    uint32_t err_code;
+	uint32_t err_code;
 
 #if 0
-    ble_gap_whitelist_t  whitelist;
+	ble_gap_whitelist_t  whitelist;
 
-    err_code = ble_bondmngr_whitelist_get(&whitelist);
-    APP_ERROR_CHECK(err_code);
-    if ((whitelist.addr_count != 0) || (whitelist.irk_count != 0)) {
-        m_adv_params.fp          = BLE_GAP_ADV_FP_FILTER_CONNREQ;
-        m_adv_params.p_whitelist = &whitelist;
+	err_code = ble_bondmngr_whitelist_get(&whitelist);
+	APP_ERROR_CHECK(err_code);
+	if ((whitelist.addr_count != 0) || (whitelist.irk_count != 0)) {
+		m_adv_params.fp          = BLE_GAP_ADV_FP_FILTER_CONNREQ;
+		m_adv_params.p_whitelist = &whitelist;
 
-        _advertising_init(BLE_GAP_ADV_FLAG_BR_EDR_NOT_SUPPORTED);
+		_advertising_init(BLE_GAP_ADV_FLAG_BR_EDR_NOT_SUPPORTED);
 
-        Y_SPRINTF("[HAL] white list ...");
-    } else
+		Y_SPRINTF("[HAL] white list ...");
+	} else
 #endif
-    {
-        _advertising_init(BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE);
-    }
+	{
+		_advertising_init(BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE);
+	}
 
-    _ble_adv_params_state_machine();
+	_ble_adv_params_state_machine();
 
-    err_code = sd_ble_gap_adv_start(&m_adv_params);
-    APP_ERROR_CHECK(err_code);
+	err_code = sd_ble_gap_adv_start(&m_adv_params);
+	APP_ERROR_CHECK(err_code);
 #endif
-    //nrf_gpio_pin_set(ADVERTISING_LED_PIN_NO);
 }
 
 /**@brief Function for initializing services that will be used by the application.
@@ -616,11 +614,11 @@ void HAL_advertising_start(void)
 static void _services_init(void)
 {
 #ifndef _CLING_PC_SIMULATION_
-    I32U err_code;
+	I32U err_code;
 
-    // Cling private service add
-    err_code = BTLE_services_init();
-    APP_ERROR_CHECK(err_code);
+	// Cling private service add
+	err_code = BTLE_services_init();
+	APP_ERROR_CHECK(err_code);
 #endif
 }
 
@@ -632,7 +630,7 @@ static void _services_init(void)
 static void conn_params_error_handler(uint32_t nrf_error)
 {
 #ifndef _CLING_PC_SIMULATION_
-    APP_ERROR_HANDLER(nrf_error);
+  APP_ERROR_HANDLER(nrf_error);
 #endif
 }
 
@@ -641,22 +639,22 @@ static void conn_params_error_handler(uint32_t nrf_error)
 static void _conn_params_init(void)
 {
 #ifndef _CLING_PC_SIMULATION_
-    uint32_t               err_code;
-    ble_conn_params_init_t cp_init;
+	uint32_t               err_code;
+	ble_conn_params_init_t cp_init;
 
-    memset(&cp_init, 0, sizeof(cp_init));
+	memset(&cp_init, 0, sizeof(cp_init));
 
-    cp_init.p_conn_params                  = NULL;
-    cp_init.first_conn_params_update_delay = FIRST_CONN_PARAMS_UPDATE_DELAY;
-    cp_init.next_conn_params_update_delay  = NEXT_CONN_PARAMS_UPDATE_DELAY;
-    cp_init.max_conn_params_update_count   = MAX_CONN_PARAMS_UPDATE_COUNT;
-    cp_init.start_on_notify_cccd_handle    = BLE_GATT_HANDLE_INVALID;
-    cp_init.disconnect_on_fail             = true;
-    cp_init.evt_handler                    = NULL;
-    cp_init.error_handler                  = conn_params_error_handler;
+	cp_init.p_conn_params                  = NULL;
+	cp_init.first_conn_params_update_delay = FIRST_CONN_PARAMS_UPDATE_DELAY;
+	cp_init.next_conn_params_update_delay  = NEXT_CONN_PARAMS_UPDATE_DELAY;
+	cp_init.max_conn_params_update_count   = MAX_CONN_PARAMS_UPDATE_COUNT;
+	cp_init.start_on_notify_cccd_handle    = BLE_GATT_HANDLE_INVALID;
+	cp_init.disconnect_on_fail             = true;
+	cp_init.evt_handler                    = NULL;
+	cp_init.error_handler                  = conn_params_error_handler;
 
-    err_code = ble_conn_params_init(&cp_init);
-    APP_ERROR_CHECK(err_code);
+	err_code = ble_conn_params_init(&cp_init);
+	APP_ERROR_CHECK(err_code);
 #endif
 }
 
@@ -670,29 +668,31 @@ static void _conn_params_init(void)
 #ifndef _CLING_PC_SIMULATION_
 static void _ble_evt_dispatch(ble_evt_t * p_ble_evt)
 {
-    N_SPRINTF("[HAL] +++ ble evt dispatch: event: %d", p_ble_evt->header.evt_id);
+	N_SPRINTF("[HAL] ble evt dispatch: event: %d", p_ble_evt->header.evt_id);
 
-    dm_ble_evt_handler(p_ble_evt);
+	dm_ble_evt_handler(p_ble_evt);
+	
 #ifdef _ENABLE_ANCS_
-    if (!OTA_if_enabled()) {
-        if (cling.gcp.host_type == HOST_TYPE_IOS) {
-
-            ble_db_discovery_on_ble_evt(&m_ble_db_discovery, p_ble_evt);
-        }
-    }
+	if (!OTA_if_enabled()) {
+		if (cling.gcp.host_type == HOST_TYPE_IOS) {
+			ble_db_discovery_on_ble_evt(&m_ble_db_discovery, p_ble_evt);
+		}
+	}
 #endif
-    ble_conn_params_on_ble_evt(p_ble_evt);
+	
+	ble_conn_params_on_ble_evt(p_ble_evt);
 
 #ifdef _ENABLE_ANCS_
-    if (!OTA_if_enabled()) {
-        if (cling.gcp.host_type == HOST_TYPE_IOS) {
-
-            ANCS_on_ble_evt(p_ble_evt);
-        }
-    }
+	if (!OTA_if_enabled()) {
+		if (cling.gcp.host_type == HOST_TYPE_IOS) {
+			ANCS_on_ble_evt(p_ble_evt);
+		}
+	}
 #endif
-    BTLE_on_ble_evt(p_ble_evt);
-    wechat_ble_evt_dispatch(p_ble_evt);
+	
+	BTLE_on_ble_evt(p_ble_evt);
+	
+	wechat_ble_evt_dispatch(p_ble_evt);
 }
 #endif
 
@@ -713,18 +713,18 @@ static void storage_access_complete_handler(void)
 static void _sys_evt_dispatch(uint32_t sys_evt)
 {
 #ifndef _CLING_PC_SIMULATION_
-    uint32_t count;
-    uint32_t err_code;
+	uint32_t count;
+	uint32_t err_code;
 
-    pstorage_sys_event_handler(sys_evt);
+	pstorage_sys_event_handler(sys_evt);
 
-    SYSFLASH_drv_event_handler(sys_evt);
+	SYSFLASH_drv_event_handler(sys_evt);
 
-    // Check if storage access is in progress.
-    err_code = pstorage_access_status_get(&count);
-    if ((err_code == NRF_SUCCESS) && (count == 0)) {
-        storage_access_complete_handler();
-    }
+	// Check if storage access is in progress.
+	err_code = pstorage_access_status_get(&count);
+	if ((err_code == NRF_SUCCESS) && (count == 0)) {
+			storage_access_complete_handler();
+	}
 #endif
 }
 
@@ -736,26 +736,26 @@ static void _sys_evt_dispatch(uint32_t sys_evt)
 static void _ble_stack_init(void)
 {
 #ifndef _CLING_PC_SIMULATION_
-    uint32_t err_code;
+	uint32_t err_code;
 
-    // Initialize the SoftDevice handler module.
-    // 8000 ms to calibrate the time (also minize power consumption)
-    SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, NULL);
+	// Initialize the SoftDevice handler module.
+	// 8000 ms to calibrate the time (also minize power consumption)
+	SOFTDEVICE_HANDLER_INIT(NRF_CLOCK_LFCLKSRC_RC_250_PPM_8000MS_CALIBRATION, NULL);
 
-    ble_enable_params_t ble_enable_params;
-    memset(&ble_enable_params, 0, sizeof(ble_enable_params));
+	ble_enable_params_t ble_enable_params;
+	memset(&ble_enable_params, 0, sizeof(ble_enable_params));
 
-    ble_enable_params.gatts_enable_params.service_changed = IS_SRVC_CHANGED_CHARACT_PRESENT;
-    err_code = sd_ble_enable(&ble_enable_params);
-    APP_ERROR_CHECK(err_code);
+	ble_enable_params.gatts_enable_params.service_changed = IS_SRVC_CHANGED_CHARACT_PRESENT;
+	err_code = sd_ble_enable(&ble_enable_params);
+	APP_ERROR_CHECK(err_code);
 
-    // Register with the SoftDevice handler module for BLE events.
-    err_code = softdevice_ble_evt_handler_set(_ble_evt_dispatch);
-    APP_ERROR_CHECK(err_code);
+	// Register with the SoftDevice handler module for BLE events.
+	err_code = softdevice_ble_evt_handler_set(_ble_evt_dispatch);
+	APP_ERROR_CHECK(err_code);
 
-    // Register with the SoftDevice handler module for BLE events.
-    err_code = softdevice_sys_evt_handler_set(_sys_evt_dispatch);
-    APP_ERROR_CHECK(err_code);
+	// Register with the SoftDevice handler module for BLE events.
+	err_code = softdevice_sys_evt_handler_set(_sys_evt_dispatch);
+	APP_ERROR_CHECK(err_code);
 #endif
 }
 
@@ -764,34 +764,34 @@ static void _ble_stack_init(void)
 void HAL_device_manager_init(BOOLEAN b_delete)
 {
 #ifndef _CLING_PC_SIMULATION_
-    uint32_t            err_code;
-    dm_init_param_t        init_data;
-    dm_application_param_t register_param;
+	uint32_t            err_code;
+	dm_init_param_t        init_data;
+	dm_application_param_t register_param;
 
-    // Initialize persistent storage module.
-    err_code = pstorage_init();
-    APP_ERROR_CHECK(err_code);
+	// Initialize persistent storage module.
+	err_code = pstorage_init();
+	APP_ERROR_CHECK(err_code);
 
-    // Initialize the Bond Manager.
-    init_data.clear_persistent_data            = b_delete; // Delete all bond information from flash.
+	// Initialize the Bond Manager.
+	init_data.clear_persistent_data            = b_delete; // Delete all bond information from flash.
 
-    err_code = dm_init(&init_data);
+	err_code = dm_init(&init_data);
 
-    APP_ERROR_CHECK(err_code);
+	APP_ERROR_CHECK(err_code);
 
-    memset(&register_param.sec_param, 0, sizeof(ble_gap_sec_params_t));
+	memset(&register_param.sec_param, 0, sizeof(ble_gap_sec_params_t));
 
-    register_param.sec_param.bond         = SEC_PARAM_BOND;
-    register_param.sec_param.mitm         = SEC_PARAM_MITM;
-    register_param.sec_param.io_caps      = SEC_PARAM_IO_CAPABILITIES;
-    register_param.sec_param.oob          = SEC_PARAM_OOB;
-    register_param.sec_param.min_key_size = SEC_PARAM_MIN_KEY_SIZE;
-    register_param.sec_param.max_key_size = SEC_PARAM_MAX_KEY_SIZE;
-    register_param.evt_handler            = _device_manager_evt_handler;
-    register_param.service_type           = DM_PROTOCOL_CNTXT_GATT_SRVR_ID;
+	register_param.sec_param.bond         = SEC_PARAM_BOND;
+	register_param.sec_param.mitm         = SEC_PARAM_MITM;
+	register_param.sec_param.io_caps      = SEC_PARAM_IO_CAPABILITIES;
+	register_param.sec_param.oob          = SEC_PARAM_OOB;
+	register_param.sec_param.min_key_size = SEC_PARAM_MIN_KEY_SIZE;
+	register_param.sec_param.max_key_size = SEC_PARAM_MAX_KEY_SIZE;
+	register_param.evt_handler            = _device_manager_evt_handler;
+	register_param.service_type           = DM_PROTOCOL_CNTXT_GATT_SRVR_ID;
 
-    err_code = dm_register(&m_app_handle, &register_param);
-    APP_ERROR_CHECK(err_code);
+	err_code = dm_register(&m_app_handle, &register_param);
+	APP_ERROR_CHECK(err_code);
 #endif
 }
 
@@ -800,12 +800,12 @@ void HAL_device_manager_init(BOOLEAN b_delete)
  */
 static void radio_notification_init(void)
 {
-    uint32_t err_code;
+	uint32_t err_code;
 
-    err_code = ble_radio_notification_init(NRF_APP_PRIORITY_HIGH,
-                                           NRF_RADIO_NOTIFICATION_DISTANCE_4560US,
-                                           ble_flash_on_radio_active_evt);
-    APP_ERROR_CHECK(err_code);
+	err_code = ble_radio_notification_init(NRF_APP_PRIORITY_HIGH,
+																				 NRF_RADIO_NOTIFICATION_DISTANCE_4560US,
+																				 ble_flash_on_radio_active_evt);
+	APP_ERROR_CHECK(err_code);
 }
 #endif
 
@@ -814,27 +814,24 @@ static void _ble_init()
 #ifndef _CLING_PC_SIMULATION_
 
 	// BLE stack init, enable softdevice
-    _ble_stack_init();
-
-		// Timer init
-    RTC_Init();
-		
-#ifdef _ENABLE_ANCS_
-    _ancs_service_discovery_init();
-#endif
-
-    _gap_params_init();
+  _ble_stack_init();
 
 #ifdef _ENABLE_ANCS_
-    // ANCS service add
-    ANCS_service_add();
+  _ancs_service_discovery_init();
 #endif
-    _services_init();
+
+  _gap_params_init();
+
+#ifdef _ENABLE_ANCS_
+  // ANCS service add
+  ANCS_service_add();
+#endif
+  _services_init();
 
 #ifdef __WECHAT_SUPPORTED__
-    wechat_init();
+  wechat_init();
 #endif
-    _conn_params_init();
+  _conn_params_init();
 #endif
 }
 
@@ -842,70 +839,70 @@ static void _ble_init()
  */
 void HAL_init(void)
 {
-    GPIO_system_powerup();
+  GPIO_system_powerup();
 
 #ifdef _ENABLE_UART_
-    // UART initialization
-
-    // UART initialization/
-     UART_init();
+	 // UART initialization/
+	UART_init();
 #else
-    UART_disabled();
-#endif
- 
-    // BLE initialization
-    _ble_init();
-
-#ifdef _ENABLE_ANCS_
-    //ANCS pairing req initialization
-    _ancs_pair_req_timer_init();
+	UART_disabled();
 #endif
 
-    // GPIO initializaiton
-    GPIO_init();
+	// BLE initialization
+	_ble_init();
 	
-#ifndef _CLING_PC_SIMULATION_
-    // Enable TWI I2C 1
-    GPIO_twi_init(1);
+	// GPIO initializaiton
+	GPIO_init();
+	
+	// Timer init
+  RTC_Init();
+	
+#ifdef _ENABLE_ANCS_
+	//ANCS pairing req initialization
+	_ancs_pair_req_timer_init();
 #endif
 
-    // UV sensor initialization
+#ifndef _CLING_PC_SIMULATION_
+	// Enable TWI I2C 1
+	GPIO_twi_init(1);
+#endif
+
+	// UV sensor initialization
 #ifdef _ENABLE_UV_
-    UV_Init();
+	UV_Init();
 #endif
 
 #ifdef _ENABLE_PPG_
-    // PPG sensor initialization
-    PPG_init();
+	// PPG sensor initialization
+	PPG_init();
 #endif
 
-	// Nor Flash initialize
-	NFLASH_init();
+  // Nor Flash initialize
+  NFLASH_init();
 
-	// System flash initialization
-	SYSFLASH_drv_init();
+  // System flash initialization
+  SYSFLASH_drv_init();
 
-    // Enable GIO interrupt
-    GPIO_interrupt_enable();
+	// Enable GIO interrupt
+	GPIO_interrupt_enable();
 
-    // Sensor initialization
-    SENSOR_init();
+	// Sensor initialization
+	SENSOR_init();
 
-    // Power measurement init
-    BATT_init();
+	// Power measurement init
+	BATT_init();
 
-    // Initialize thermistor module
-    THERMISTOR_init();
+	// Initialize thermistor module
+	THERMISTOR_init();
 
-    // Keypad init
-    HOMEKEY_click_init();
+	// Keypad init
+	HOMEKEY_click_init();
 
 #ifdef _ENABLE_TOUCH_
-    BASE_delay_msec(600);
-    // Touch controller init
-    TOUCH_init();
+	BASE_delay_msec(600);
+	// Touch controller init
+	TOUCH_init();
 #endif
-
 }
 
 /**

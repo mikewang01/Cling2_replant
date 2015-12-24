@@ -905,8 +905,9 @@ void TRACKING_data_logging()
 	if (cling.time.local_noon_updated) {
 		cling.time.local_noon_updated = FALSE;
 		N_SPRINTF("slepp by noon: %d", cling.activity.sleep_by_noon);
-		cling.activity.sleep_stored_by_noon = cling.activity.sleep_by_noon;
 		cling.activity.sleep_by_noon = 0;
+		cling.activity.sleep_stored_by_noon = TRACKING_get_sleep_by_noon(TRUE);
+
 		// Remove sleep initialization as it interrupt sleep
 //		SLEEP_init();
 	}
@@ -933,7 +934,7 @@ void TRACKING_get_sleep_statistics(I8U index, I32U *value)
 	
 	if (index == 0)  {
 		// Just return whatever the value that we stored
-		*value = TRACKING_get_sleep_by_noon(TRUE);
+		*value = cling.activity.sleep_stored_by_noon;
 		return;
 	}
 	

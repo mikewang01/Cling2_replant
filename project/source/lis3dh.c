@@ -1,8 +1,11 @@
-/***************************************************************************//**
- * @file lis3dh.c
- * @brief Driver implementation for ST lis3dh accelerometer.
+/***************************************************************************/
+/** @file lis3dh.c
+ *  @brief Driver implementation for ST lis3dh accelerometer.
+ *
+ *  Created on December 22, 2015
  *
  ******************************************************************************/
+ 
 #include "main.h"
 
 extern I8U g_spi_tx_buf[];

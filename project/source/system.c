@@ -330,7 +330,7 @@ static BOOLEAN _critical_info_restored()
 	cling.gcp.host_type = p_byte_addr[60];
 	
 	// Restore sleep state
-	cling.sleep.state = p_byte_addr[61];
+	cling.sleep.state = (SLEEP_STATUSCODE)p_byte_addr[61];
 
 	// Minute file critical timing info
 	cling.system.reset_count = p_byte_addr[62];
@@ -367,6 +367,7 @@ static void _print_out_dev_name()
 
 static void _print_out_dev_version()
 {
+#ifdef _ENABLE_UART_
 	I16U major;
 	I16U minor;
 	
@@ -375,10 +376,12 @@ static void _print_out_dev_version()
 	minor <<= 8;
 	minor |= cling.system.mcu_reg[REGISTER_MCU_REVL];
 	Y_SPRINTF("#### ver: %d.%d ", major, minor);
+#endif
 }
 
 static void _startup_logging()
 {
+#ifdef _ENABLE_UART_
 	Y_SPRINTF("  ");
 	Y_SPRINTF("####  ");
 	_print_out_dev_name();
@@ -392,6 +395,7 @@ static void _startup_logging()
 	Y_SPRINTF("Touch dev: %d.%d.%d", cling.whoami.touch_ver[0], cling.whoami.touch_ver[1], cling.whoami.touch_ver[2]);
 	Y_SPRINTF("-----------------------");
 	Y_SPRINTF("[MAIN] SYSTEM init ...");
+#endif
 }
 
 void SYSTEM_init(void)

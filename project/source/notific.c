@@ -58,9 +58,9 @@ void NOTIFIC_start_notifying(I8U cat_id)
 	cling.notific.cat_id = cat_id;
 	cling.notific.state = NOTIFIC_STATE_SETUP_VIBRATION;
 	N_SPRINTF("[NOTIFIC] start notification: %d", cat_id);
-	
+	cling.ui.notif_type = NOTIFICATION_TYPE_MESSAGE;
 	// Also, turn on screen
-	UI_turn_on_display(UI_STATE_NOTIFIC, 3000);
+	UI_turn_on_display(UI_STATE_NOTIFICATIONS, 3000);
 #endif	
 #endif
 }
@@ -70,7 +70,8 @@ void NOTIFIC_start_idle_alert()
 	cling.notific.vibrate_time = 0;
 	cling.notific.second_reminder_max = NOTIFIC_MULTI_REMINDER_IDLE_ALERT;
 	cling.notific.state = NOTIFIC_STATE_SETUP_VIBRATION;
-	UI_turn_on_display(UI_STATE_IDLE_ALERT, 3000);
+	cling.ui.notif_type = NOTIFICATION_TYPE_IDLE_ALERT;
+	UI_turn_on_display(UI_STATE_NOTIFICATIONS, 3000);
 	
 	Y_SPRINTF("NOTIFIC - IDLE ALERT @ %d:%d", cling.time.local.hour, cling.time.local.minute);
 }
@@ -387,7 +388,7 @@ I8U NOTIFIC_get_callerID(char *string)
 BOOLEAN NOTIFIC_is_user_viewing_message()
 {
 	// 1. see if device is receiving a notification message
-	if (cling.ui.state == UI_STATE_NOTIFIC)
+	if (cling.ui.state == UI_STATE_NOTIFICATIONS)
 		return TRUE;
 	
 	// 1. see if device is in a active display state

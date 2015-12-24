@@ -4,7 +4,7 @@
  *
  * Description: Main Application for Cling2 Advanced Band
  *
- * Created on Mar 25, 2015
+ * Created on December 22, 2015
  *
  ******************************************************************************/
 
@@ -370,10 +370,6 @@ int main(void)
     // -- Watch dog, Power management, file system, communication protocol
     //
     SYSTEM_init();
-
-#ifdef _ENABLE_FONT_TRANSFER_
-    FONT_flash_setup();
-#endif
 
     //
     // Start up system

@@ -91,6 +91,12 @@ enum {
 };
 
 enum {
+	NOTIFICATION_TYPE_REMINDER,
+	NOTIFICATION_TYPE_MESSAGE,
+	NOTIFICATION_TYPE_IDLE_ALERT,
+};
+
+enum {
 	TRANSITION_DIR_NONE,
 	TRANSITION_DIR_LEFT,
 	TRANSITION_DIR_RIGHT,
@@ -118,7 +124,7 @@ typedef struct tagUI_ANIMATION_CTX {
 	I32U touch_time_stamp; // touch event time stamp
 	
 	// All the frame buffer related
-	I8U p_oled_up[512];
+	I8U p_oled_up[768];
 	
 	// State machine
 	I8U state;
@@ -161,6 +167,9 @@ typedef struct tagUI_ANIMATION_CTX {
 	// Clock orientation
 	I8U clock_orientation;
 	
+	// Notification type
+	I8U notif_type;
+	
 } UI_ANIMATION_CTX;
 
 typedef enum {
@@ -169,14 +178,12 @@ typedef enum {
 	UI_STATE_HOME,
 	UI_STATE_AUTHORIZATION,
 	UI_STATE_CHARGING,
-	UI_STATE_REMINDER,
-	UI_STATE_NOTIFIC,
+	UI_STATE_NOTIFICATIONS,
 	UI_STATE_TOUCH_SENSING,
 	UI_STATE_APPEAR,
 	UI_STATE_ANIMATING,
 	UI_STATE_CLOCK_GLANCE,
 	UI_STATE_LOW_POWER,
-	UI_STATE_IDLE_ALERT,
 	UI_STATE_SOS,
 	UI_STATE_DARK,
 } UI_ANIMATION_STATE;

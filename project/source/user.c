@@ -194,7 +194,10 @@ void USER_setup_device(I8U *data, I8U setting_length)
 	//
 	// New added:
 	//
-	// Idle alert: 1 B
+	// Idle alert: 3 B
+	// Screen on : 2B
+	// Sleep sensitive mode : 1B
+	// Reminder off weekends : 1B
 	
 	value = *pdata++; // day interval
 	value <<= 8; // 

@@ -1,10 +1,11 @@
 /************************************************************************/
-// 
-// CLING FILE SYSTEM - FAT system file operations
-//
-// Created on Jan 03, 2014
-//
-/************************************************************************/
+/** 
+ * CLING FILE SYSTEM - FAT system file operations
+ *
+ * Created on December 22, 2015
+ *
+ ************************************************************************/
+ 
 #include <string.h>
 #include <stdio.h>
 #include "stdlib.h"

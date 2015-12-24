@@ -4,7 +4,7 @@
  *
  * Description: Generic communication protocol.
  *
- * Created on Jan 3, 2014
+ * Created on December 22, 2015
  *
  ******************************************************************************/
 

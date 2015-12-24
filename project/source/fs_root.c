@@ -1,10 +1,11 @@
 /************************************************************************/
-// 
-// CLING FILE SYSTEM - FAT system root directory operations
-//
-// Created on Feb, 03, 2014
-//
-/************************************************************************/
+/**
+ * CLING FILE SYSTEM - FAT system root directory operations
+ *
+ * Created on December 22, 2015
+ *
+ *************************************************************************/
+ 
 #include <string.h>
 #include <ctype.h>
 

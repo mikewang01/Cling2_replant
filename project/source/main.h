@@ -70,7 +70,6 @@
 #include "nrf_drv_twi.h"
 #include "nrf_adc.h"
 #include "uv_calib.h"
-#include "ble_db_discovery.h"
 #endif
 #include "uv.h"
 #include "touch.h"
@@ -83,7 +82,6 @@
 #include "notific.h"
 #ifdef _ENABLE_ANCS_
 #include "ancs.h"
-#include "ble_ancs_c.h"
 #endif
 #include "homekey.h"
 #include "Font.h"

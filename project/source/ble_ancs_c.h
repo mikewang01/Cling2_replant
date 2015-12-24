@@ -68,7 +68,6 @@
  */
 #define BLE_ANCS_NOTIFICATION_DATA_LENGTH   8
 
-#define ANCS_UUID_SERVICE                   0xF431  /**< 16-bit service UUID for the Apple Notification Center Service. */
 #define ANCS_UUID_CHAR_CONTROL_POINT        0xD8F3  /**< 16-bit control point UUID. */
 #define ANCS_UUID_CHAR_DATA_SOURCE          0xC6E9  /**< 16-bit data source UUID. */
 #define ANCS_UUID_CHAR_NOTIFICATION_SOURCE  0x120D  /**< 16-bit notification source UUID. */
@@ -78,24 +77,6 @@
 #define BLE_ANCS_EVENT_FLAG_PREEXISTING     2       /**< 0b.....1.. Pre-existing: Third (LSB) bit is set. All flags can be active at the same time.*/
 #define BLE_ANCS_EVENT_FLAG_POSITIVE_ACTION 3       /**< 0b....1... Positive action: Fourth (LSB) bit is set. All flags can be active at the same time.*/
 #define BLE_ANCS_EVENT_FLAG_NEGATIVE_ACTION 4       /**< 0b...1.... Negative action: Fifth (LSB) bit is set. All flags can be active at the same time. */
-
-
-/**@brief Category IDs for iOS notifications. */
-typedef enum
-{
-	BLE_ANCS_CATEGORY_ID_OTHER,                /**< The iOS notification belongs to the "other" category.  */
-	BLE_ANCS_CATEGORY_ID_INCOMING_CALL,        /**< The iOS notification belongs to the "Incoming Call" category. */
-	BLE_ANCS_CATEGORY_ID_MISSED_CALL,          /**< The iOS notification belongs to the "Missed Call" category. */
-	BLE_ANCS_CATEGORY_ID_VOICE_MAIL,           /**< The iOS notification belongs to the "Voice Mail" category. */
-	BLE_ANCS_CATEGORY_ID_SOCIAL,               /**< The iOS notification belongs to the "Social" category. */
-	BLE_ANCS_CATEGORY_ID_SCHEDULE,             /**< The iOS notification belongs to the "Schedule" category. */
-	BLE_ANCS_CATEGORY_ID_EMAIL,                /**< The iOS notification belongs to the "E-mail" category. */
-	BLE_ANCS_CATEGORY_ID_NEWS,                 /**< The iOS notification belongs to the "News" category. */
-	BLE_ANCS_CATEGORY_ID_HEALTH_AND_FITNESS,   /**< The iOS notification belongs to the "Health and Fitness" category. */
-	BLE_ANCS_CATEGORY_ID_BUSINESS_AND_FINANCE, /**< The iOS notification belongs to the "Buisness and Finance" category. */
-	BLE_ANCS_CATEGORY_ID_LOCATION,             /**< The iOS notification belongs to the "Location" category. */
-	BLE_ANCS_CATEGORY_ID_ENTERTAINMENT         /**< The iOS notification belongs to the "Entertainment" category. */
-} ble_ancs_category_id_t;
 
 
 /**@brief Event IDs for iOS notifications. */
@@ -203,13 +184,35 @@ typedef struct
 } ble_ancs_c_service_t;
 
 
-
-/**@brief Function for handling the application's BLE Stack events.
- *
- * @details Handles all events from the BLE stack that are of interest to the ANCS client.
- * @param[in] p_ble_evt  Event received from the BLE stack.
+/**@brief ANCS request types.
  */
-void ANCS_on_ble_evt(const ble_evt_t * p_ble_evt);
+typedef enum
+{
+	ANCS_READ_REQ = 1,  /**< Type identifying that this tx_message is a read request. */
+	ANCS_WRITE_REQ      /**< Type identifying that this tx_message is a write request. */
+} ancs_tx_request_t;
+
+/**@brief Structure for writing a message to the central, i.e. Control Point or CCCD.
+ */
+typedef struct
+{
+	uint8_t                  gattc_value[WRITE_MESSAGE_LENGTH]; /**< The message to write. */
+	ble_gattc_write_params_t gattc_params;                      /**< GATTC parameters for this message. */
+} ancs_write_params_t;
+
+
+/**@brief Structure for holding data to be transmitted to the connected master.
+ */
+typedef struct
+{
+	uint16_t          conn_handle;  /**< Connection handle to be used when transmitting this message. */
+	ancs_tx_request_t type;         /**< Type of this message, i.e. read or write message. */
+	union
+	{
+			uint16_t       read_handle; /**< Read request message. */
+			ancs_write_params_t write_req;   /**< Write request message. */
+	} req;
+} ancs_tx_message_t;
 
 #endif
 

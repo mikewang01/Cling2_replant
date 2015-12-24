@@ -1,10 +1,11 @@
 /************************************************************************/
-// 
-// CLING FILE SYSTEM - FAT related system management
-//
-// Created on Jan 03, 2014
-//
-/************************************************************************/
+/**
+ * CLING FILE SYSTEM - FAT related system management
+ *
+ * Created on December 22, 2015
+ *
+ *************************************************************************/
+ 
 #include <string.h>
 
 #include "standard_types.h"
