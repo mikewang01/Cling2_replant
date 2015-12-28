@@ -225,8 +225,8 @@ void GPIO_twi_init(I8U twi_master_instance)
 		const nrf_drv_twi_t p_twi1_instance = NRF_DRV_TWI_INSTANCE(1);
 		
 		twi_config.frequency = NRF_TWI_FREQ_400K;
-		twi_config.scl = 24;
-		twi_config.sda = 26;
+		twi_config.scl = 15;
+		twi_config.sda = 16;
 		twi_config.interrupt_priority = APP_IRQ_PRIORITY_LOW;
 		error_code = nrf_drv_twi_init(&p_twi1_instance, &twi_config, NULL, NULL);
 		APP_ERROR_CHECK(error_code);
@@ -256,7 +256,7 @@ void GPIO_twi_enable(I8U twi_master_instance)
 			nrf_drv_twi_enable(&twi);
 			
 			cling.system.b_twi_1_ON = TRUE;
-			N_SPRINTF("[GPIO] twi 1 enabled");
+			Y_SPRINTF("[GPIO] twi 1 enabled");
 			BASE_delay_msec(1);
 		}
 	}
@@ -281,7 +281,7 @@ void GPIO_twi_disable(I8U twi_master_instance)
 			nrf_drv_twi_disable(&twi);
 			
 			cling.system.b_twi_1_ON = FALSE;
-			N_SPRINTF("[GPIO] twi 1 disabled");
+			Y_SPRINTF("[GPIO] twi 1 disabled");
 			BASE_delay_msec(1);
 		}
 	}

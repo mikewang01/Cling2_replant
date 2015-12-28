@@ -23,7 +23,7 @@
 #include "uicoTouch.h"
 
 //#define UICO_FORCE_BURN_FIRMWARE
-//#define UICO_INCLUDE_FIRMWARE_BINARY
+#define UICO_INCLUDE_FIRMWARE_BINARY
 #ifdef UICO_INCLUDE_FIRMWARE_BINARY
 #include "uicoData.h"
 #endif
@@ -122,13 +122,69 @@
 #define UICO_CALIBRATION_PROCCES_LENTH  2
 #define UICO_CALIBRATION_SUCESS_CODE  0X00
 #define UICO_CALIBRATION_FAILED_CODE  0XFE
-#define UICO_DEBUG 
+#define UICO_DEBUG
 
 /*======LOCAL VAR=======================================================================================*/
 static uint8_t is_calibration_sucess =  FALSE;/*INFICATE IF MANUAL CALIBRATION HAS BEEN EXCEXUTED SUCESSFULLY*/
 static UICOTOUCH_RESPONSE_CTX res[5];
 static I8U prev_code;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+typedef enum {
+    UICO_NOT_EXISTED = 0,
+    UICO_APP_NOT_EXISTED,
+    UICO_IN_NORMAL_STATUS,
+    UICO_IN_UNKOWN_STATUS
+} uico_chip_status_t;
+
+static uico_chip_status_t uico_chip_status_check()
+{
+
+    uico_chip_status_t chip_status = UICO_IN_UNKOWN_STATUS;
+    const nrf_drv_twi_t twi = NRF_DRV_TWI_INSTANCE(1);
+    if (!cling.system.b_twi_1_ON) {
+        GPIO_twi_enable(1);
+    }
+    /*
+    1.first step is to detect if bootloaer is there or not if failed, we take it as the chip is not gangeg to twi bus
+    2.second step: if bootloader existed, then detect if app status, if app not existed just upgrate the app
+    */
+		    // Write Stop Acknowledge (0x20, 0x01)
+    //buf[0] = 0x20;
+    //buf[1] = 0x01;
+#if 0
+    uint8_t t[] = {0xFF, 0x38,0x00 ,0x01 ,0x02, 0x03, 0x04, 0x05 ,0x06 ,0x07};
+    uint32_t err_code = nrf_drv_twi_tx(&twi, (DURATOUCH_I2C_ADDRESS_BOOTLOADER_0x58 >> 1), t, sizeof(t), false);
+    BASE_delay_msec(1);
+    if (err_code == NRF_SUCCESS) {
+			  uint8_t t[] = {0xFF, 0x3B,0x00 ,0x01 ,0x02, 0x03, 0x04, 0x05 ,0x06 ,0x07};
+				uint32_t err_code = nrf_drv_twi_tx(&twi, (DURATOUCH_I2C_ADDRESS_BOOTLOADER_0x58 >> 1), t, sizeof(t), false);
+        Y_SPRINTF("[UICO] chip detected on twi bus");
+
+    } else {
+        chip_status = UICO_NOT_EXISTED;
+        Y_SPRINTF("[UICO] chip not existed on twi bus");
+
+    }
+ #endif   
+    if(chip_status != UICO_NOT_EXISTED) {
+			   uint8_t t[] = {0x00, 0x81};
+        /*NOW THAT, WE HAVE MADE SURE THAT CHIP IS EXISTED, NETX STEP IS KUST AIM TO DETECT IF APP HAS BEEN BURNED
+        	INTO CHIP OR NOT, TO ACHIEVE THIS WE PRETEND TO SEND A FEW FAKE DATA,*/
+        uint32_t err_code = nrf_drv_twi_tx(&twi, (DURATOUCH_I2C_ADDRESS_MAIN_0x48 >> 1), t, sizeof(t), FALSE);
+        if (err_code == NRF_SUCCESS) {
+            chip_status = UICO_IN_NORMAL_STATUS;
+            Y_SPRINTF("[UICO] chip in normal status");
+
+        } else {
+            chip_status = UICO_APP_NOT_EXISTED;
+            Y_SPRINTF("[UICO] chip detected but app is not detected");
+
+        }
+    }
+    return chip_status;
+}
 
 static EN_STATUSCODE _i2c_btld_read(I8U *pi8uRegValue, I8U number_of_bytes)
 {
@@ -145,12 +201,12 @@ static EN_STATUSCODE _i2c_btld_read(I8U *pi8uRegValue, I8U number_of_bytes)
     err_code = nrf_drv_twi_rx(&twi, (DURATOUCH_I2C_ADDRESS_BOOTLOADER_0x58 >> 1), pi8uRegValue, number_of_bytes, FALSE);
 
     if (err_code == NRF_SUCCESS) {
-        N_SPRINTF("[UICO] BOOTLOADER ADDR READ PASS.");
+        Y_SPRINTF("[UICO] BOOTLOADER ADDR READ PASS.");
 
         return STATUSCODE_SUCCESS;
     } else {
         Y_SPRINTF("[UICO] BOOTLOADER ADDR READ FAIL - %d", err_code);
-				APP_ERROR_CHECK(err_code);
+        APP_ERROR_CHECK(err_code);
         return STATUSCODE_FAILURE;
     }
 }
@@ -175,12 +231,13 @@ static BOOLEAN _i2c_btld_write(I8U *pi8uRegValue, I8U number_of_bytes)
     if (!cling.system.b_twi_1_ON) {
         GPIO_twi_enable(1);
     }
+    /*check out if app existed or not */
     err_code = nrf_drv_twi_tx(&twi, (DURATOUCH_I2C_ADDRESS_BOOTLOADER_0x58 >> 1), pi8uRegValue, number_of_bytes, FALSE);
     BASE_delay_msec(1);
 
 
     if (err_code == NRF_SUCCESS) {
-        N_SPRINTF("[UICO] BOOTLOADER ADDR WRITE DATA PASS.");
+        Y_SPRINTF("[UICO] BOOTLOADER ADDR WRITE DATA PASS.");
     } else {
         Y_SPRINTF("[UICO] BOOTLOADER ADDR WRITE DATA FAIL-%d", err_code);
     }
@@ -216,11 +273,11 @@ static EN_STATUSCODE _i2c_main_read(I8U *pi8uRegValue, I8U number_of_bytes)
     err_code = nrf_drv_twi_rx(&twi, (DURATOUCH_I2C_ADDRESS_MAIN_0x48 >> 1), pi8uRegValue, number_of_bytes, FALSE);
 
     if (err_code == NRF_SUCCESS) {
-        N_SPRINTF("[UICO] MAIN ADDR READ PASS.");
+        Y_SPRINTF("[UICO] MAIN ADDR READ PASS.");
         return STATUSCODE_SUCCESS;
     } else {
         Y_SPRINTF("[UICO] MAIN ADDR READ FAIL: %d", err_code);
-				APP_ERROR_CHECK(err_code);
+        APP_ERROR_CHECK(err_code);
         return STATUSCODE_FAILURE;
     }
 }
@@ -238,10 +295,10 @@ static BOOLEAN _i2c_main_write(I8U *pi8uRegValue, I8U number_of_bytes)
     BASE_delay_msec(1);
 
     if (err_code == NRF_SUCCESS) {
-        N_SPRINTF("[UICO] MAIN ADDR WRITE DATA PASS.");
+        Y_SPRINTF("[UICO] MAIN ADDR WRITE DATA PASS.");
     } else {
         Y_SPRINTF("[UICO] MAIN ADDR WRITE DATA FAIL - %d", err_code);
-				APP_ERROR_CHECK(err_code);
+        APP_ERROR_CHECK(err_code);
     }
     return err_code;
 }
@@ -351,7 +408,7 @@ bool uico_touch_ic_floating_calibration_start()
  * Output        : None
  * Return        : static
  * Others        :
- *  
+ *
  * 1.Date        : 20151015
  *   Author      : MikeWang
  *   Modification: Created function
@@ -371,7 +428,7 @@ static bool uico_touch_ic_floating_calibration_response_process(uint8_t *buffer,
         i++;
         if(buffer[i] == UICO_ERROR_CODE) {
             /*Customer-Specific Commands is Not Supported*/
-            return FALSE; 
+            return FALSE;
         } else if(buffer[i] == UICO_CALIBRATION_PROCCES_LENTH) {
             N_SPRINTF("[UICO] calibration_response:0x%02x", buffer[i]);
             i++;
@@ -402,7 +459,7 @@ static bool uico_touch_ic_floating_calibration_response_process(uint8_t *buffer,
         }
 
     }
-		 return TRUE;
+    return TRUE;
 }
 
 bool uico_touch_is_floating_calibration_sucessfully()
@@ -579,23 +636,29 @@ static I32S _try_firmware_update()
 #define TOUCH_IC_BRICKED_THREHOLD  10
     I8U  data[128];
     volatile I16S i = 0;
-		volatile bool is_touchic_bricked = false;
+    volatile bool is_touchic_bricked = false;
 #if ((defined UICO_FORCE_BURN_FIRMWARE) || (defined UICO_INCLUDE_FIRMWARE_BINARY))
 
     uint16_t uico_binary_lenth = 0;
     unsigned char *s  = NULL;
-	   /*obtian firmware lenth*/
+    /*obtian firmware lenth*/
     uico_binary_lenth = UICO_GET_BINARY_LENTH();
     s = UICO_GET_BINARY_BUFFER();
 #endif
-
-#ifdef UICO_FORCE_BURN_FIRMWARE
-    return _execute_bootloader(uico_binary_lenth, s);
-#endif
+	//_execute_bootloader(uico_binary_lenth, s);
+    uico_chip_status_t t = uico_chip_status_check();
+    if(t == UICO_APP_NOT_EXISTED) {
+			  Y_SPRINTF("[UICO] chip app not existed, force the chip to upgrate the chip firmware");
+       // return _execute_bootloader(uico_binary_lenth, s);
+    } else if(t == UICO_NOT_EXISTED) {
+			  Y_SPRINTF("[UICO] UICO_NOT_EXISTED");
+			 //return _execute_bootloader(uico_binary_lenth, s);
+    }
 
     /*set buffer data*/
-    memset(data, 0xff, sizeof(data));
-    i = 0;
+    //memset(data, 0xff, sizeof(data));
+    //i = 0;
+    //_i2c_btld_write(data, 3);
     while ( !((data[0] == COMMAND_GET_DATA) && (data[1] == 17)) ) {
 
         data[0] = 0x00;
@@ -678,15 +741,15 @@ static I32S _try_firmware_update()
         return 0;
 #endif
     } else {
-#if ((defined UICO_FORCE_BURN_FIRMWARE) || (defined UICO_INCLUDE_FIRMWARE_BINARY)) 
+#if ((defined UICO_FORCE_BURN_FIRMWARE) || (defined UICO_INCLUDE_FIRMWARE_BINARY))
         N_SPRINTF("[UICO] uico ic has been bricked force to update it .");
         _execute_bootloader(uico_binary_lenth, s);
         SYSTEM_reboot();
 #endif
     }
 
-	return 0;
-} 
+    return 0;
+}
 
 
 
@@ -858,11 +921,11 @@ I8U UICO_main()
 #ifdef UICO_INT_MESSAGE
         N_SPRINTF("[UICO] NOT a read packet: %d, %d, ", a, b);
 #endif
-			        /*process user command individually*/
+        /*process user command individually*/
         if(buf[0] == UICO_USER_COMMAND) {
             uico_touch_ic_floating_calibration_response_process(buf, len);
         }
-				
+
         return 0xff;
     }
 
@@ -1137,6 +1200,7 @@ int read_data_from_uico_touch(uint8_t *buffer_p, uint16_t rx_lenth)
     return true;
 #endif
 }
+
 /******************************************************************************
  * FunctionName : read_unkown_lenth_from_uico_touch
  * Description	: when a isr happens  we do not  even khow the lenth we need

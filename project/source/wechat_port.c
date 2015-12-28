@@ -247,7 +247,7 @@ uint16_t wechat_sports_register_upload_stream_callback(uint16_t (*p)(uint16_t))
  *
  * @param   task_id,message_type.
  *
-* @return  TRUE sucessfully FALSE:FAILED
+ * @return  TRUE sucessfully FALSE:FAILED
  */
 static uint16_t (*app_layer_obtain_system_data_call_back)(uint16_t order) = NULL;
 uint16_t wechat_sports_register_obtain_system_data_call_back_callback_function(uint16_t (*p)(uint16_t))

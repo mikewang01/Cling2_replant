@@ -102,7 +102,7 @@ typedef struct tagDEBUG_CTX {
 
 //#define _ENABLE_BLE_DEBUG_
 
-//#define _ENABLE_UART_
+#define _ENABLE_UART_
 	
 #if defined(_ENABLE_UART_)
 

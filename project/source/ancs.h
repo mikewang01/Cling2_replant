@@ -10,7 +10,7 @@
 #include "standard_types.h"
 #include "ble.h"
 
-#define _ENABLE_ANCS_
+//#define _ENABLE_ANCS_
 
 #ifndef _CLING_PC_SIMULATION_
 

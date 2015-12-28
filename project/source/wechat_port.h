@@ -31,7 +31,7 @@ extern "C"{
 
 /*================================CONFIGRATION===============================================*/
 	
-#define WECHAT_SIMPLIFIED_PROTOCOL_SUPPORTED    1
+#define WECHAT_SIMPLIFIED_PROTOCOL_SUPPORTED    0
 #define WECHAT_COMPELEX_PROTOCOL_SUPPORTED      0
 
 #if (WECHAT_SIMPLIFIED_PROTOCOL_SUPPORTED == 1 || WECHAT_COMPELEX_PROTOCOL_SUPPORTED == 1)

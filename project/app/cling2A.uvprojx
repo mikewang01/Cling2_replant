@@ -10,12 +10,11 @@
       <TargetName>nrf51822_cling2</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060061::V5.06 update 1 (build 61)::ARMCC</pCCUsed>
       <TargetOption>
         <TargetCommonOption>
           <Device>nRF51822_xxAC</Device>
           <Vendor>Nordic Semiconductor</Vendor>
-          <PackID>NordicSemiconductor.nRF_DeviceFamilyPack.8.2.0</PackID>
+          <PackID>NordicSemiconductor.nRF_DeviceFamilyPack.8.1.0</PackID>
           <PackURL>http://developer.nordicsemi.com/nRF51_SDK/pieces/nRF_DeviceFamilyPack/</PackURL>
           <Cpu>IROM(0x00000000,0x40000) IRAM(0x20000000,0x8000) CPUTYPE("Cortex-M0") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -85,8 +84,6 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
-            <nStopA1X>0</nStopA1X>
-            <nStopA2X>0</nStopA2X>
           </AfterMake>
           <SelectedForBatchBuild>0</SelectedForBatchBuild>
           <SVCSIdString></SVCSIdString>
@@ -230,7 +227,6 @@
             <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
-            <nSecure>0</nSecure>
             <RoSelD>3</RoSelD>
             <RwSelD>3</RwSelD>
             <CodeSel>0</CodeSel>
@@ -365,15 +361,11 @@
             <uSurpInc>0</uSurpInc>
             <uC99>0</uC99>
             <useXO>0</useXO>
-            <v6Lang>0</v6Lang>
-            <v6LangP>0</v6LangP>
-            <vShortEn>0</vShortEn>
-            <vShortWch>0</vShortWch>
             <VariousControls>
               <MiscControls>--c99</MiscControls>
               <Define>BLE_STACK_SUPPORT_REQD S110  SOFTDEVICE_PRESENT NRF51 SPI_MASTER_0_ENABLE</Define>
               <Undefine></Undefine>
-              <IncludePath>..\include;.\inc;..\source;..\components\softdevice\s110\headers;..\components\libraries\util;..\components\ble\common;..\components\drivers_nrf\ble_flash;..\components\drivers_nrf\hal;..\components\drivers_nrf\pstorage;..\components\drivers_nrf\pstorage\config;..\components\libraries\timer;..\components\libraries\scheduler;..\components\ble\device_manager;..\components\ble\ble_error_log;..\components\softdevice\common\softdevice_handler;..\components\drivers_nrf\simple_uart;..\components\libraries\trace;..\components\drivers_nrf\spi_master;..\components\drivers_nrf\twi_master;..\components\drivers_nrf\config;..\components\drivers_nrf\common;..\components\device;..\components\drivers_nrf\twi_master\incubated;..\components\ble\ble_db_discovery;..\components\drivers_nrf\wdt;..\components\crc;..\components\ble\ble_services\wechat_service\common;..\components\ble\ble_services\wechat_service;..\components\ble\ble_services\wechat_service\products;..\components\ble\ble_services\wechat_service\wechat_base;..\components\ble\ble_services\wechat_service\sport_simplified</IncludePath>
+              <IncludePath>..\include;.\inc;..\source;..\components\softdevice\s110\headers;..\components\libraries\util;..\components\ble\common;..\components\drivers_nrf\ble_flash;..\components\drivers_nrf\hal;..\components\drivers_nrf\pstorage;..\components\drivers_nrf\pstorage\config;..\components\libraries\timer;..\components\libraries\scheduler;..\components\ble\device_manager;..\components\ble\ble_error_log;..\components\softdevice\common\softdevice_handler;..\components\drivers_nrf\simple_uart;..\components\libraries\trace;..\components\drivers_nrf\spi_master;..\components\drivers_nrf\twi_master;..\components\drivers_nrf\config;..\components\drivers_nrf\common;..\components\device;..\components\drivers_nrf\twi_master\incubated;..\components\ble\ble_db_discovery;..\components\drivers_nrf\wdt;..\components\crc;..\components\ble\ble_services\wechat_service\common;..\components\ble\ble_services\wechat_service;..\components\ble\ble_services\wechat_service\products;..\components\ble\ble_services\wechat_service\wechat_base;..\components\ble\ble_services\wechat_service\sport_simplified;D:\Keil_v5\ARM\ARMCC\include;..\lib\cling\api;..\lib\cling\hal;..\lib\cling\hal\targets\cmsis;..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822;..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\TARGET_CLING2;..\lib\cling\targets\cmsis\TARGET_NORDIC\TARGET_MCU_NRF51822;..\lib\cling\targets\cmsis\TARGET_NORDIC\TARGET_MCU_NRF51822\TOOLCHAIN_ARM_STD;..\driver\incs</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -513,8 +505,27 @@
             </File>
             <File>
               <FileName>main.c</FileName>
-              <FileType>1</FileType>
+              <FileType>5</FileType>
               <FilePath>..\source\main.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds/>
+              </FileOption>
             </File>
             <File>
               <FileName>nflash_spi.c</FileName>
@@ -547,6 +558,11 @@
               <FilePath>..\source\ppg.c</FilePath>
             </File>
             <File>
+              <FileName>uicoTouch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\uicoTouch.c</FilePath>
+            </File>
+            <File>
               <FileName>butterworth.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\butterworth.c</FilePath>
@@ -577,6 +593,11 @@
               <FilePath>..\source\sleep.c</FilePath>
             </File>
             <File>
+              <FileName>system.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\system.c</FilePath>
+            </File>
+            <File>
               <FileName>spi_master_api.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\spi_master_api.c</FilePath>
@@ -590,11 +611,6 @@
               <FileName>sysflash_rw.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\sysflash_rw.c</FilePath>
-            </File>
-            <File>
-              <FileName>system.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\system.c</FilePath>
             </File>
             <File>
               <FileName>thermistor.c</FileName>
@@ -620,11 +636,6 @@
               <FileName>ui.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\ui.c</FilePath>
-            </File>
-            <File>
-              <FileName>uicoTouch.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\uicoTouch.c</FilePath>
             </File>
             <File>
               <FileName>user.c</FileName>
@@ -655,6 +666,54 @@
               <FileName>uicoData.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\uicoData.c</FilePath>
+            </File>
+            <File>
+              <FileName>main.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\tests\mbed\i2c_mma7660\main.cpp</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls>--cpp11</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
           </Files>
         </Group>
@@ -772,6 +831,54 @@
           <GroupName>nrf_driver</GroupName>
           <Files>
             <File>
+              <FileName>MMA7660.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\tests\peripherals\MMA7660\MMA7660.cpp</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls>--cpp11</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
               <FileName>nrf_drv_twi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\components\drivers_nrf\twi_master\nrf_drv_twi.c</FilePath>
@@ -795,6 +902,54 @@
               <FileName>nrf_drv_spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\components\drivers_nrf\spi_master\nrf_drv_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>DT101.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\driver\peripherals\DT101.cpp</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls>--cpp11</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
           </Files>
         </Group>
@@ -865,6 +1020,520 @@
               <FileName>mics_function.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\components\misc\mics_function.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>lib</GroupName>
+          <Files>
+            <File>
+              <FileName>assert.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\assert.c</FilePath>
+            </File>
+            <File>
+              <FileName>board.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\board.c</FilePath>
+            </File>
+            <File>
+              <FileName>error.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\error.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>lp_ticker_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\lp_ticker_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>mbed_interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\mbed_interface.c</FilePath>
+            </File>
+            <File>
+              <FileName>pinmap_common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\pinmap_common.c</FilePath>
+            </File>
+            <File>
+              <FileName>rtc_time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\rtc_time.c</FilePath>
+            </File>
+            <File>
+              <FileName>semihost_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\semihost_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>ticker_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\ticker_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>us_ticker_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\us_ticker_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>wait_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\wait_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>analogin_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\analogin_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\gpio_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio_irq_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\gpio_irq_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>i2c_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\i2c_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>pinmap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\pinmap.c</FilePath>
+            </File>
+            <File>
+              <FileName>port_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\port_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>pwmout_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\pwmout_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>serial_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\serial_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>sleep.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\sleep.c</FilePath>
+            </File>
+            <File>
+              <FileName>spi_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\spi_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>twi_master.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\twi_master.c</FilePath>
+            </File>
+            <File>
+              <FileName>us_ticker.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\us_ticker.c</FilePath>
+            </File>
+            <File>
+              <FileName>I2C.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\I2C.cpp</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls>--cpp11</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>SPI.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\SPI.cpp</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls>--cpp11</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>test_env.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\tests\mbed\env\test_env.cpp</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls>--cpp11</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>retarget.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\retarget.cpp</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls>--cpp11</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>FileBase.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\FileBase.cpp</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls>--cpp11</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>FileLike.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\FileLike.cpp</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls>--cpp11</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>FilePath.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\FilePath.cpp</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls>--cpp11</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>FileSystemLike.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\FileSystemLike.cpp</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls>--cpp11</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>rtc_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\TARGET_CLING2\rtc_api.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -952,8 +1621,6 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
-            <nStopA1X>0</nStopA1X>
-            <nStopA2X>0</nStopA2X>
           </AfterMake>
           <SelectedForBatchBuild>0</SelectedForBatchBuild>
           <SVCSIdString></SVCSIdString>
@@ -1097,7 +1764,6 @@
             <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
-            <nSecure>0</nSecure>
             <RoSelD>3</RoSelD>
             <RwSelD>5</RwSelD>
             <CodeSel>0</CodeSel>
@@ -1232,10 +1898,6 @@
             <uSurpInc>0</uSurpInc>
             <uC99>0</uC99>
             <useXO>0</useXO>
-            <v6Lang>0</v6Lang>
-            <v6LangP>0</v6LangP>
-            <vShortEn>0</vShortEn>
-            <vShortWch>0</vShortWch>
             <VariousControls>
               <MiscControls>--c99</MiscControls>
               <Define> BLE_STACK_SUPPORT_REQD</Define>
@@ -1380,7 +2042,7 @@
             </File>
             <File>
               <FileName>main.c</FileName>
-              <FileType>1</FileType>
+              <FileType>5</FileType>
               <FilePath>..\source\main.c</FilePath>
             </File>
             <File>
@@ -1414,6 +2076,11 @@
               <FilePath>..\source\ppg.c</FilePath>
             </File>
             <File>
+              <FileName>uicoTouch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\uicoTouch.c</FilePath>
+            </File>
+            <File>
               <FileName>butterworth.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\butterworth.c</FilePath>
@@ -1444,6 +2111,11 @@
               <FilePath>..\source\sleep.c</FilePath>
             </File>
             <File>
+              <FileName>system.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\system.c</FilePath>
+            </File>
+            <File>
               <FileName>spi_master_api.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\spi_master_api.c</FilePath>
@@ -1457,11 +2129,6 @@
               <FileName>sysflash_rw.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\sysflash_rw.c</FilePath>
-            </File>
-            <File>
-              <FileName>system.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\system.c</FilePath>
             </File>
             <File>
               <FileName>thermistor.c</FileName>
@@ -1487,11 +2154,6 @@
               <FileName>ui.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\ui.c</FilePath>
-            </File>
-            <File>
-              <FileName>uicoTouch.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\source\uicoTouch.c</FilePath>
             </File>
             <File>
               <FileName>user.c</FileName>
@@ -1522,6 +2184,11 @@
               <FileName>uicoData.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\source\uicoData.c</FilePath>
+            </File>
+            <File>
+              <FileName>main.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\tests\mbed\i2c_mma7660\main.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -1639,6 +2306,11 @@
           <GroupName>nrf_driver</GroupName>
           <Files>
             <File>
+              <FileName>MMA7660.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\tests\peripherals\MMA7660\MMA7660.cpp</FilePath>
+            </File>
+            <File>
               <FileName>nrf_drv_twi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\components\drivers_nrf\twi_master\nrf_drv_twi.c</FilePath>
@@ -1662,6 +2334,11 @@
               <FileName>nrf_drv_spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\components\drivers_nrf\spi_master\nrf_drv_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>DT101.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\driver\peripherals\DT101.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -1736,6 +2413,176 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>lib</GroupName>
+          <Files>
+            <File>
+              <FileName>assert.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\assert.c</FilePath>
+            </File>
+            <File>
+              <FileName>board.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\board.c</FilePath>
+            </File>
+            <File>
+              <FileName>error.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\error.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>lp_ticker_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\lp_ticker_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>mbed_interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\mbed_interface.c</FilePath>
+            </File>
+            <File>
+              <FileName>pinmap_common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\pinmap_common.c</FilePath>
+            </File>
+            <File>
+              <FileName>rtc_time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\rtc_time.c</FilePath>
+            </File>
+            <File>
+              <FileName>semihost_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\semihost_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>ticker_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\ticker_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>us_ticker_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\us_ticker_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>wait_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\common\wait_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>analogin_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\analogin_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\gpio_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio_irq_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\gpio_irq_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>i2c_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\i2c_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>pinmap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\pinmap.c</FilePath>
+            </File>
+            <File>
+              <FileName>port_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\port_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>pwmout_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\pwmout_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>serial_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\serial_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>sleep.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\sleep.c</FilePath>
+            </File>
+            <File>
+              <FileName>spi_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\spi_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>twi_master.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\twi_master.c</FilePath>
+            </File>
+            <File>
+              <FileName>us_ticker.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\us_ticker.c</FilePath>
+            </File>
+            <File>
+              <FileName>I2C.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\I2C.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SPI.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\SPI.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>test_env.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\tests\mbed\env\test_env.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>retarget.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\retarget.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>FileBase.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\FileBase.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>FileLike.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\FileLike.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>FilePath.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\FilePath.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>FileSystemLike.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\FileSystemLike.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>rtc_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\TARGET_CLING2\rtc_api.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
           <GroupOption>
             <CommonProperty>
@@ -1771,10 +2618,6 @@
                 <uSurpInc>2</uSurpInc>
                 <uC99>2</uC99>
                 <useXO>2</useXO>
-                <v6Lang>0</v6Lang>
-                <v6LangP>0</v6LangP>
-                <vShortEn>0</vShortEn>
-                <vShortWch>0</vShortWch>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -1838,10 +2681,6 @@
                 <uSurpInc>2</uSurpInc>
                 <uC99>2</uC99>
                 <useXO>2</useXO>
-                <v6Lang>0</v6Lang>
-                <v6LangP>0</v6LangP>
-                <vShortEn>0</vShortEn>
-                <vShortWch>0</vShortWch>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -1894,16 +2733,16 @@
     <files>
       <file attr="config" category="source" condition="ARM Compiler" name="Device\Source\arm\arm_startup_nrf51.s" version="8.2.0">
         <instance index="0">RTE\Device\nRF51422_xxAC\arm_startup_nrf51.s</instance>
-        <component Cclass="Device" Cgroup="Startup" Cvendor="NordicSemiconductor" Cversion="8.2.0" condition="nRF51 Series CMSIS Device"/>
-        <package name="nRF_DeviceFamilyPack" schemaVersion="1.3" url="http://developer.nordicsemi.com/nRF51_SDK/pieces/nRF_DeviceFamilyPack/" vendor="NordicSemiconductor" version="8.2.0"/>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="NordicSemiconductor" Cversion="7.2.1" condition="nRF51 Series CMSIS Device"/>
+        <package license="License\license.txt" name="nRF_DeviceFamilyPack" schemaVersion="1.0" url="http://developer.nordicsemi.com/nRF51_SDK/pieces/nRF_DeviceFamilyPack/" vendor="NordicSemiconductor" version="7.2.1"/>
         <targetInfos>
           <targetInfo excluded="1" name="flash_softdevice"/>
         </targetInfos>
       </file>
       <file attr="config" category="source" name="Device\Source\system_nrf51.c" version="8.2.0">
         <instance index="0">RTE\Device\nRF51422_xxAC\system_nrf51.c</instance>
-        <component Cclass="Device" Cgroup="Startup" Cvendor="NordicSemiconductor" Cversion="8.2.0" condition="nRF51 Series CMSIS Device"/>
-        <package name="nRF_DeviceFamilyPack" schemaVersion="1.3" url="http://developer.nordicsemi.com/nRF51_SDK/pieces/nRF_DeviceFamilyPack/" vendor="NordicSemiconductor" version="8.2.0"/>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="NordicSemiconductor" Cversion="7.2.1" condition="nRF51 Series CMSIS Device"/>
+        <package license="License\license.txt" name="nRF_DeviceFamilyPack" schemaVersion="1.0" url="http://developer.nordicsemi.com/nRF51_SDK/pieces/nRF_DeviceFamilyPack/" vendor="NordicSemiconductor" version="7.2.1"/>
         <targetInfos>
           <targetInfo excluded="1" name="flash_softdevice"/>
         </targetInfos>
@@ -1932,18 +2771,18 @@
         <package name="nRF_DeviceFamilyPack" schemaVersion="1.3" url="http://developer.nordicsemi.com/nRF51_SDK/pieces/nRF_DeviceFamilyPack/" vendor="NordicSemiconductor" version="8.2.0"/>
         <targetInfos/>
       </file>
-      <file attr="config" category="source" condition="ARM Compiler" name="Device\Source\arm\arm_startup_nrf51.s">
+      <file attr="config" category="source" condition="ARM Compiler" name="Device\Source\arm\arm_startup_nrf51.s" version="8.2.0">
         <instance index="0">RTE\Device\nRF51822_xxAC\arm_startup_nrf51.s</instance>
-        <component Cclass="Device" Cgroup="Startup" Cvendor="NordicSemiconductor" Cversion="8.2.0" condition="nRF51 Series CMSIS Device"/>
-        <package name="nRF_DeviceFamilyPack" schemaVersion="1.3" url="http://developer.nordicsemi.com/nRF51_SDK/pieces/nRF_DeviceFamilyPack/" vendor="NordicSemiconductor" version="8.2.0"/>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="NordicSemiconductor" Cversion="7.2.1" condition="nRF51 Series CMSIS Device"/>
+        <package license="License\license.txt" name="nRF_DeviceFamilyPack" schemaVersion="1.0" url="http://developer.nordicsemi.com/nRF51_SDK/pieces/nRF_DeviceFamilyPack/" vendor="NordicSemiconductor" version="7.2.1"/>
         <targetInfos>
           <targetInfo name="nrf51822_cling2"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" name="Device\Source\system_nrf51.c">
+      <file attr="config" category="source" name="Device\Source\system_nrf51.c" version="8.2.0">
         <instance index="0">RTE\Device\nRF51822_xxAC\system_nrf51.c</instance>
-        <component Cclass="Device" Cgroup="Startup" Cvendor="NordicSemiconductor" Cversion="8.2.0" condition="nRF51 Series CMSIS Device"/>
-        <package name="nRF_DeviceFamilyPack" schemaVersion="1.3" url="http://developer.nordicsemi.com/nRF51_SDK/pieces/nRF_DeviceFamilyPack/" vendor="NordicSemiconductor" version="8.2.0"/>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="NordicSemiconductor" Cversion="7.2.1" condition="nRF51 Series CMSIS Device"/>
+        <package license="License\license.txt" name="nRF_DeviceFamilyPack" schemaVersion="1.0" url="http://developer.nordicsemi.com/nRF51_SDK/pieces/nRF_DeviceFamilyPack/" vendor="NordicSemiconductor" version="7.2.1"/>
         <targetInfos>
           <targetInfo name="nrf51822_cling2"/>
         </targetInfos>

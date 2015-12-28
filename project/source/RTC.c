@@ -10,8 +10,8 @@
 #include "main.h"
 
 
-#define APP_TIMER_MAX_TIMERS                 4                                          /**< Maximum number of simultaneously created timers. */
-#define APP_TIMER_OP_QUEUE_SIZE              4                                          /**< Size of timer operation queues. */
+#define APP_TIMER_MAX_TIMERS                 6                                          /**< Maximum number of simultaneously created timers. */
+#define APP_TIMER_OP_QUEUE_SIZE              6                                         /**< Size of timer operation queues. */
 
 #ifndef _CLING_PC_SIMULATION_
 APP_TIMER_DEF(m_rtc_timer_id); /**< 1 sec based timer. >**/

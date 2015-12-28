@@ -831,7 +831,7 @@ static void _ble_init()
 #ifdef __WECHAT_SUPPORTED__
   wechat_init();
 #endif
-  _conn_params_init();
+  //_conn_params_init();
 #endif
 }
 
@@ -847,15 +847,16 @@ void HAL_init(void)
 #else
 	UART_disabled();
 #endif
-
+	// Timer init
+  RTC_Init();
+	
 	// BLE initialization
 	_ble_init();
 	
 	// GPIO initializaiton
 	GPIO_init();
 	
-	// Timer init
-  RTC_Init();
+
 	
 #ifdef _ENABLE_ANCS_
 	//ANCS pairing req initialization
@@ -866,15 +867,15 @@ void HAL_init(void)
 	// Enable TWI I2C 1
 	GPIO_twi_init(1);
 #endif
-
+	TOUCH_init();
 	// UV sensor initialization
 #ifdef _ENABLE_UV_
-	UV_Init();
+	//UV_Init();
 #endif
 
 #ifdef _ENABLE_PPG_
 	// PPG sensor initialization
-	PPG_init();
+	//PPG_init();
 #endif
 
   // Nor Flash initialize

@@ -142,6 +142,7 @@ uint32_t ble_conn_params_init(const ble_conn_params_init_t * p_init)
     m_conn_handle  = BLE_CONN_HANDLE_INVALID;
     m_update_count = 0;
 
+		memset((void*)&m_conn_params_timer_id, 0, sizeof(&m_conn_params_timer_id));
     return app_timer_create(&m_conn_params_timer_id,
                             APP_TIMER_MODE_SINGLE_SHOT,
                             update_timeout_handler);
