@@ -11,13 +11,14 @@ MMA7660 MMA(I2C_SDA, I2C_SCL);
 #else
 DT101 MMA(p16, p15);
 #endif
-
+#include "C12832.h"
+C12832 LCD;
 int main() {
+
     MBED_HOSTTEST_TIMEOUT(15);
     MBED_HOSTTEST_SELECT(default_auto);
     MBED_HOSTTEST_DESCRIPTION(I2C MMA7660 accelerometer);
     MBED_HOSTTEST_START("MBED_A13");
-
     if (!MMA.test_connection())
         MBED_HOSTTEST_RESULT(false);
 

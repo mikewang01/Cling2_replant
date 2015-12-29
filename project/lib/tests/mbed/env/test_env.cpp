@@ -22,12 +22,12 @@ static void led_blink(PinName led, float delay)
 
 void notify_start()
 {
-    printf("{{%s}}" NL, TEST_ENV_START);
+    printf("{{%s}}" RCNL, TEST_ENV_START);
 }
 
 void notify_performance_coefficient(const char* measurement_name, const int value)
 {
-    printf("{{%s;%s;%d}}" RCNL, TEST_ENV_MEASURE, measurement_name, value);
+    printf("{{%s;%s;%d}}" RCNL,TEST_ENV_MEASURE, measurement_name, value);
 }
 
 void notify_performance_coefficient(const char* measurement_name, const unsigned int value)
@@ -42,7 +42,7 @@ void notify_performance_coefficient(const char* measurement_name, const double v
 
 void notify_completion(bool success)
 {
-    printf("{{%s}}" NL "{{%s}}" NL, success ? TEST_ENV_SUCCESS : TEST_ENV_FAILURE, TEST_ENV_END);
+    printf("{{%s}}" NL "{{%s}}" RCNL, success ? TEST_ENV_SUCCESS : TEST_ENV_FAILURE, TEST_ENV_END);
     led_blink(LED1, success ? 1.0 : 0.1);
 }
 
@@ -50,7 +50,7 @@ bool notify_completion_str(bool success, char* buffer)
 {
     bool result = false;
     if (buffer) {
-        sprintf(buffer, "{{%s}}" NL "{{%s}}" NL, success ? TEST_ENV_SUCCESS : TEST_ENV_FAILURE, TEST_ENV_END);
+        sprintf(buffer, "{{%s}}" NL "{{%s}}" RCNL, success ? TEST_ENV_SUCCESS : TEST_ENV_FAILURE, TEST_ENV_END);
         result = true;
     }
     return result;
@@ -59,23 +59,23 @@ bool notify_completion_str(bool success, char* buffer)
 // Host test auto-detection API
 void notify_host_test_name(const char *host_test) {
     if (host_test) {
-        printf("{{host_test_name;%s}}" NL, host_test);
+        printf("{{host_test_name;%s}}" RCNL, host_test);
     }
 }
 
 void notify_timeout(int timeout) {
-    printf("{{timeout;%d}}" NL, timeout);
+    printf("{{timeout;%d}}" RCNL, timeout);
 }
 
 void notify_test_id(const char *test_id) {
     if (test_id) {
-        printf("{{test_id;%s}}" NL, test_id);
+        printf("{{test_id;%s}}" RCNL, test_id);
     }
 }
 
 void notify_test_description(const char *description) {
     if (description) {
-        printf("{{description;%s}}" NL, description);
+        printf("{{description;%s}}" RCNL, description);
     }
 }
 

@@ -191,32 +191,6 @@ void DT101::read_data(float *data)
         data[i] = intdata[i] / DT101_SENSITIVITY;
 }
 
-
-
-
-void DT101::set_samplerate(int samplerate)
-{
-    set_active(false);                               //Not allowed to be active to change anything
-
-    set_active(active);                              //Restore previous active state
-}
-
-
-DT101::Orientation DT101::get_side( void )
-{
-
-
-
-    return DT101::Unknown;
-}
-
-DT101::Orientation DT101::get_orientation( void )
-{
-
-}
-
-
-
 //////////////////////////////////////////////
 ///////////////PRIVATE////////////////////////
 //////////////////////////////////////////////

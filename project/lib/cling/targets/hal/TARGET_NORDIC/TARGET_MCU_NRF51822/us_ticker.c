@@ -91,8 +91,14 @@ static inline void invokeCallback(void)
  * @brief Function for starting the RTC1 timer. The RTC timer is expected to
  * keep running--some interrupts may be disabled temporarily.
  */
+#include"stdio.h"
 static void rtc1_start()
 {
+	
+	    NVIC_ClearPendingIRQ(SWI0_IRQn);
+    NVIC_SetPriority(SWI0_IRQn, 3);
+    NVIC_EnableIRQ(SWI0_IRQn);
+	
     NRF_RTC1->PRESCALER = 0; /* for no pre-scaling. */
 
     rtc1_enableOverflowInterrupt();
@@ -102,7 +108,10 @@ static void rtc1_start()
     NVIC_EnableIRQ(RTC1_IRQn);
 
     NRF_RTC1->TASKS_START = 1;
+		
     nrf_delay_us(MAX_RTC_TASKS_DELAY);
+	printf("NRF_RTC1->TASKS_START = %0x\r\n",NRF_RTC1->TASKS_START);
+	printf("NRF_RTC1->COUNTER = %0x\r\n",NRF_RTC1->COUNTER);
 }
 
 /**
@@ -152,7 +161,7 @@ static inline uint32_t rtc1_getCounter(void)
  *
  * @details Checks for timeouts, and executes timeout handlers for expired timers.
  */
-void RTC2_IRQHandler(void)
+void RTC1_IRQHandler(void)
 {
     if (NRF_RTC1->EVENTS_OVRFLW) {
         overflowCount++;

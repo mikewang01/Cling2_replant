@@ -727,10 +727,10 @@ typedef struct {                                    /*!< TIMER Structure        
   */
 
 typedef struct {                                    /*!< RTC Structure                                                         */
-  __O  uint32_t  TASKS_START;                       /*!< Start RTC Counter.                                                    */
-  __O  uint32_t  TASKS_STOP;                        /*!< Stop RTC Counter.                                                     */
-  __O  uint32_t  TASKS_CLEAR;                       /*!< Clear RTC Counter.                                                    */
-  __O  uint32_t  TASKS_TRIGOVRFLW;                  /*!< Set COUNTER to 0xFFFFFFF0.                                            */
+  __IO  uint32_t  TASKS_START;                       /*!< Start RTC Counter.                                                    */
+  __IO  uint32_t  TASKS_STOP;                        /*!< Stop RTC Counter.                                                     */
+  __IO  uint32_t  TASKS_CLEAR;                       /*!< Clear RTC Counter.                                                    */
+  __IO  uint32_t  TASKS_TRIGOVRFLW;                  /*!< Set COUNTER to 0xFFFFFFF0.                                            */
   __I  uint32_t  RESERVED0[60];
   __IO uint32_t  EVENTS_TICK;                       /*!< Event on COUNTER increment.                                           */
   __IO uint32_t  EVENTS_OVRFLW;                     /*!< Event on COUNTER overflow.                                            */

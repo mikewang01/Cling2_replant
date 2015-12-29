@@ -898,7 +898,7 @@ static uint32_t timer_stop_all_op_schedule(timer_user_id_t user_id)
  *
  * @details Checks for timeouts, and executes timeout handlers for expired timers.
  */
-void RTC1_IRQHandler(void)
+void RTC2_IRQHandler(void)
 {
     // Clear all events (also unexpected ones)
     NRF_RTC1->EVENTS_COMPARE[0] = 0;
