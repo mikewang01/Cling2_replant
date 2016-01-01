@@ -129,7 +129,7 @@ extern "C" {
         OLED_SPI_PSELSCK = p13,
         OLED_COMMAND  =  p12,
         OLED_RST      =  p11,
-
+				OLED_BOOST_POWER = p18,
 
 
         SPI_PSELMOSI1 = p12,

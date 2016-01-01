@@ -70,7 +70,7 @@ static inline void rtc1_disableCompareInterrupt(void)
 
 static inline void rtc1_enableOverflowInterrupt(void)
 {
-    NRF_RTC1->EVTENCLR = RTC_EVTEN_OVRFLW_Msk;
+    NRF_RTC1->EVTENSET = RTC_EVTEN_OVRFLW_Msk;
     NRF_RTC1->INTENSET = RTC_INTENSET_OVRFLW_Msk;
 }
 
@@ -92,13 +92,10 @@ static inline void invokeCallback(void)
  * keep running--some interrupts may be disabled temporarily.
  */
 #include"stdio.h"
+void rtc1_stop(void);
 static void rtc1_start()
 {
-	
-	    NVIC_ClearPendingIRQ(SWI0_IRQn);
-    NVIC_SetPriority(SWI0_IRQn, 3);
-    NVIC_EnableIRQ(SWI0_IRQn);
-	
+		
     NRF_RTC1->PRESCALER = 0; /* for no pre-scaling. */
 
     rtc1_enableOverflowInterrupt();
@@ -178,7 +175,7 @@ void RTC1_IRQHandler(void)
 
 void us_ticker_init(void)
 {
-    if (us_ticker_inited) {
+    if (us_ticker_inited == true) {
         return;
     }
 
@@ -188,7 +185,7 @@ void us_ticker_init(void)
 
 uint32_t us_ticker_read()
 {
-    if (!us_ticker_inited) {
+    if (us_ticker_inited == false) {
         us_ticker_init();
     }
 

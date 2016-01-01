@@ -28,13 +28,13 @@
 #define BPP    1       // Bits per pixel
 
 
-C12832::C12832(PinName mosi, PinName sck, PinName reset, PinName a0, PinName ncs, const char* name)
-    : GraphicsDisplay(name), _spi(mosi, NC, sck), _reset(reset), _A0(a0), _CS(ncs)
+C12832::C12832(PinName mosi, PinName sck, PinName reset, PinName a0, PinName ncs, PinName pwr, const char* name)
+    : GraphicsDisplay(name), _spi(mosi, NC, sck), _reset(reset), _A0(a0), _CS(ncs), _POWER(pwr)
 {
     orientation = 1;
     draw_mode = NORMAL;
     char_x = 0;
-	  us_ticker_init();
+	  //us_ticker_init();
     lcd_reset();
 }
 
@@ -105,13 +105,14 @@ void C12832::lcd_reset()
 
     _spi.format(8, 3);                // 8 bit spi mode 3
     _spi.frequency(20000000);          // 19,2 Mhz SPI clock
+	_POWER = 1;
     _A0 = 0;
     _CS = 1;
-   // _reset = 0;                        // display reset
-  //  wait_us(50);
+    _reset = 0;                        // display reset
+    wait_us(50);
     _reset = 1;                       // end reset
- //   wait_ms(5);
-
+    wait_ms(5);
+#if 0
     /* Start Initial Sequence ----------------------------------------------------*/
     wr_cmd(0xAE);   //  display off
     wr_cmd(0xA2);   //  bias voltage
@@ -130,7 +131,7 @@ void C12832::lcd_reset()
 
     wr_cmd(0xA6);     // display normal
 
-
+#endif
     uint16_t pwm, delta;
     wr_cmd(0xfd); // Command lock
     wr_cmd(0x12);
@@ -272,7 +273,7 @@ void C12832::lcd_reset()
 
     wr_cmd(0xad);  // Select external VCC supply at Display ON
     wr_cmd(0x8e);  // Select External VP voltage supply
-
+     wr_cmd(0xAF);
     // clear and update LCD
     memset(buffer, 0x00, 512); // clear display buffer
     copy_to_lcd();
@@ -330,18 +331,20 @@ void C12832::copy_to_lcd(void)
 		wr_cmd(0x00); // Row address start 00
 	*/
     _A0 = 1;
+	_CS = 0;
 	 uint8_t num_1,num_2;	
   for(num_1 = 0; num_1 < 64; num_1++)
   {
 	  for(num_2 = 0; num_2 < 96; num_2++)
 	  {
-			 _CS = 0;
+			 
     _spi.write(0x55);			
 			_spi.write(0x55);
- _CS = 1;			
-	  } 
-  }	
 	
+	  } 
+		 		
+  }	
+	_CS = 1;
 #if 0
     for(i = 0; i < 128; i++) {
         wr_dat(buffer[i]);

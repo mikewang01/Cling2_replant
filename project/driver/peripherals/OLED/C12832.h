@@ -69,7 +69,7 @@ public:
     /**
      * Create a C12832 object connected to SPI1
      */
-    C12832(PinName mosi = OLED_SPI_PSELMOSI , PinName sck = OLED_SPI_PSELSCK, PinName reset = OLED_RST, PinName a0 = OLED_COMMAND, PinName ncs = OLED_SPI_PSELSS, const char* name = "LCD");
+    C12832(PinName mosi = OLED_SPI_PSELMOSI , PinName sck = OLED_SPI_PSELSCK, PinName reset = OLED_RST, PinName a0 = OLED_COMMAND, PinName ncs = OLED_SPI_PSELSS, PinName pwr = OLED_BOOST_POWER, const char* name = "LCD");
 
     /**
      * Get the width of the screen in pixel
@@ -235,6 +235,7 @@ public:
     DigitalOut _reset;
     DigitalOut _A0;
     DigitalOut _CS;
+		DigitalOut _POWER;
     unsigned char* font;
     unsigned int draw_mode;
 

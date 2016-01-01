@@ -267,6 +267,7 @@
       </DebugFlag>
       <LintExecutable></LintExecutable>
       <LintConfigFile></LintConfigFile>
+      <bLintAuto>0</bLintAuto>
       <SystemViewers>
         <Entry>
           <Name>System Viewer\GPIO</Name>
@@ -713,6 +714,7 @@
       </DebugFlag>
       <LintExecutable></LintExecutable>
       <LintConfigFile></LintConfigFile>
+      <bLintAuto>0</bLintAuto>
     </TargetOption>
   </Target>
 
@@ -727,7 +729,6 @@
       <FileNumber>1</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\Aes.c</PathWithFileName>
@@ -740,7 +741,6 @@
       <FileNumber>2</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\ancs.c</PathWithFileName>
@@ -753,7 +753,6 @@
       <FileNumber>3</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\base.c</PathWithFileName>
@@ -766,7 +765,6 @@
       <FileNumber>4</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\batt.c</PathWithFileName>
@@ -779,7 +777,6 @@
       <FileNumber>5</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\btle.c</PathWithFileName>
@@ -792,7 +789,6 @@
       <FileNumber>6</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\cp.c</PathWithFileName>
@@ -805,7 +801,6 @@
       <FileNumber>7</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\dbg.c</PathWithFileName>
@@ -818,7 +813,6 @@
       <FileNumber>8</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\font.c</PathWithFileName>
@@ -831,7 +825,6 @@
       <FileNumber>9</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\fs_fat.c</PathWithFileName>
@@ -844,7 +837,6 @@
       <FileNumber>10</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\fs_file.c</PathWithFileName>
@@ -857,7 +849,6 @@
       <FileNumber>11</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\fs_flash.c</PathWithFileName>
@@ -870,7 +861,6 @@
       <FileNumber>12</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\fs_nflash_rw.c</PathWithFileName>
@@ -883,7 +873,6 @@
       <FileNumber>13</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\fs_root.c</PathWithFileName>
@@ -896,7 +885,6 @@
       <FileNumber>14</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\gpio.c</PathWithFileName>
@@ -909,7 +897,6 @@
       <FileNumber>15</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\hal.c</PathWithFileName>
@@ -922,7 +909,6 @@
       <FileNumber>16</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\homekey.c</PathWithFileName>
@@ -935,7 +921,6 @@
       <FileNumber>17</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\interrupt.c</PathWithFileName>
@@ -948,7 +933,6 @@
       <FileNumber>18</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\link.c</PathWithFileName>
@@ -961,7 +945,6 @@
       <FileNumber>19</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\lis3dh.c</PathWithFileName>
@@ -974,7 +957,6 @@
       <FileNumber>20</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\main.c</PathWithFileName>
@@ -987,7 +969,6 @@
       <FileNumber>21</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\nflash_spi.c</PathWithFileName>
@@ -1000,7 +981,6 @@
       <FileNumber>22</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\notific.c</PathWithFileName>
@@ -1013,7 +993,6 @@
       <FileNumber>23</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\oled.c</PathWithFileName>
@@ -1026,7 +1005,6 @@
       <FileNumber>24</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\ota.c</PathWithFileName>
@@ -1039,7 +1017,6 @@
       <FileNumber>25</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\pedo.c</PathWithFileName>
@@ -1052,7 +1029,6 @@
       <FileNumber>26</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\ppg.c</PathWithFileName>
@@ -1065,7 +1041,6 @@
       <FileNumber>27</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\uicoTouch.c</PathWithFileName>
@@ -1078,7 +1053,6 @@
       <FileNumber>28</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\butterworth.c</PathWithFileName>
@@ -1091,7 +1065,6 @@
       <FileNumber>29</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\reminder.c</PathWithFileName>
@@ -1104,7 +1077,6 @@
       <FileNumber>30</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\RTC.c</PathWithFileName>
@@ -1117,7 +1089,6 @@
       <FileNumber>31</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\sensor.c</PathWithFileName>
@@ -1130,7 +1101,6 @@
       <FileNumber>32</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\sim.c</PathWithFileName>
@@ -1143,7 +1113,6 @@
       <FileNumber>33</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\sleep.c</PathWithFileName>
@@ -1156,7 +1125,6 @@
       <FileNumber>34</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\system.c</PathWithFileName>
@@ -1169,7 +1137,6 @@
       <FileNumber>35</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\spi_master_api.c</PathWithFileName>
@@ -1182,7 +1149,6 @@
       <FileNumber>36</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\sysclk.c</PathWithFileName>
@@ -1195,7 +1161,6 @@
       <FileNumber>37</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\sysflash_rw.c</PathWithFileName>
@@ -1208,7 +1173,6 @@
       <FileNumber>38</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\thermistor.c</PathWithFileName>
@@ -1221,7 +1185,6 @@
       <FileNumber>39</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\touch.c</PathWithFileName>
@@ -1234,7 +1197,6 @@
       <FileNumber>40</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\tracking.c</PathWithFileName>
@@ -1247,7 +1209,6 @@
       <FileNumber>41</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\uart.c</PathWithFileName>
@@ -1260,7 +1221,6 @@
       <FileNumber>42</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\ui.c</PathWithFileName>
@@ -1273,7 +1233,6 @@
       <FileNumber>43</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\user.c</PathWithFileName>
@@ -1286,7 +1245,6 @@
       <FileNumber>44</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\uv.c</PathWithFileName>
@@ -1299,7 +1257,6 @@
       <FileNumber>45</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\uv_calib.c</PathWithFileName>
@@ -1312,7 +1269,6 @@
       <FileNumber>46</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\Watchdog.c</PathWithFileName>
@@ -1325,7 +1281,6 @@
       <FileNumber>47</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\weather.c</PathWithFileName>
@@ -1338,7 +1293,6 @@
       <FileNumber>48</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\uicoData.c</PathWithFileName>
@@ -1351,7 +1305,6 @@
       <FileNumber>49</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\tests\mbed\i2c_mma7660\main.cpp</PathWithFileName>
@@ -1372,7 +1325,6 @@
       <FileNumber>50</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\ble\ble_db_discovery\ble_db_discovery.c</PathWithFileName>
@@ -1393,7 +1345,6 @@
       <FileNumber>51</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\ble\ble_error_log\ble_error_log.c</PathWithFileName>
@@ -1406,7 +1357,6 @@
       <FileNumber>52</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\ble\common\ble_advdata.c</PathWithFileName>
@@ -1419,7 +1369,6 @@
       <FileNumber>53</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\ble\common\ble_conn_params.c</PathWithFileName>
@@ -1432,7 +1381,6 @@
       <FileNumber>54</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\drivers_nrf\ble_flash\ble_flash.c</PathWithFileName>
@@ -1445,7 +1393,6 @@
       <FileNumber>55</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\ble\ble_radio_notification\ble_radio_notification.c</PathWithFileName>
@@ -1458,7 +1405,6 @@
       <FileNumber>56</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\ble\ble_debug_assert_handler\ble_debug_assert_handler.c</PathWithFileName>
@@ -1471,7 +1417,6 @@
       <FileNumber>57</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\ble\device_manager\device_manager_peripheral.c</PathWithFileName>
@@ -1484,7 +1429,6 @@
       <FileNumber>58</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\libraries\trace\app_trace.c</PathWithFileName>
@@ -1505,7 +1449,6 @@
       <FileNumber>59</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\libraries\timer\app_timer.c</PathWithFileName>
@@ -1518,7 +1461,6 @@
       <FileNumber>60</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\drivers_nrf\pstorage\pstorage.c</PathWithFileName>
@@ -1531,7 +1473,6 @@
       <FileNumber>61</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\libraries\crc16\crc16.c</PathWithFileName>
@@ -1552,7 +1493,6 @@
       <FileNumber>62</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\crc\crc_16.c</PathWithFileName>
@@ -1565,7 +1505,6 @@
       <FileNumber>63</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\crc\crc_abs.c</PathWithFileName>
@@ -1586,7 +1525,6 @@
       <FileNumber>64</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\drivers_nrf\hal\nrf_delay.c</PathWithFileName>
@@ -1607,7 +1545,6 @@
       <FileNumber>65</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\softdevice\common\softdevice_handler\softdevice_handler.c</PathWithFileName>
@@ -1628,7 +1565,6 @@
       <FileNumber>66</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\tests\peripherals\MMA7660\MMA7660.cpp</PathWithFileName>
@@ -1641,7 +1577,6 @@
       <FileNumber>67</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\drivers_nrf\twi_master\nrf_drv_twi.c</PathWithFileName>
@@ -1654,7 +1589,6 @@
       <FileNumber>68</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\drivers_nrf\common\nrf_drv_common.c</PathWithFileName>
@@ -1667,7 +1601,6 @@
       <FileNumber>69</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\drivers_nrf\hal\nrf_adc.c</PathWithFileName>
@@ -1680,7 +1613,6 @@
       <FileNumber>70</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\drivers_nrf\wdt\nrf_drv_wdt.c</PathWithFileName>
@@ -1693,7 +1625,6 @@
       <FileNumber>71</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\drivers_nrf\spi_master\nrf_drv_spi.c</PathWithFileName>
@@ -1706,7 +1637,6 @@
       <FileNumber>72</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\driver\peripherals\DT101.cpp</PathWithFileName>
@@ -1719,7 +1649,6 @@
       <FileNumber>73</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\driver\peripherals\OLED\C12832.cpp</PathWithFileName>
@@ -1732,7 +1661,6 @@
       <FileNumber>74</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\driver\peripherals\OLED\GraphicsDisplay.cpp</PathWithFileName>
@@ -1745,7 +1673,6 @@
       <FileNumber>75</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\driver\peripherals\OLED\TextDisplay.cpp</PathWithFileName>
@@ -1766,7 +1693,6 @@
       <FileNumber>76</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\ble\ble_services\wechat_service\ble_wechat_service.c</PathWithFileName>
@@ -1779,7 +1705,6 @@
       <FileNumber>77</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\ble\ble_services\wechat_service\wechat_base\AES2.c</PathWithFileName>
@@ -1792,7 +1717,6 @@
       <FileNumber>78</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\ble\ble_services\wechat_service\wechat_base\comsource.c</PathWithFileName>
@@ -1805,7 +1729,6 @@
       <FileNumber>79</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\ble\ble_services\wechat_service\wechat_base\crc32.c</PathWithFileName>
@@ -1818,7 +1741,6 @@
       <FileNumber>80</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\ble\ble_services\wechat_service\wechat_base\md5.c</PathWithFileName>
@@ -1831,7 +1753,6 @@
       <FileNumber>81</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\ble\ble_services\wechat_service\sport_simplified\wechat_service_sports_simplified.c</PathWithFileName>
@@ -1844,7 +1765,6 @@
       <FileNumber>82</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\ble\ble_services\wechat_service\products\mpbledemo2.c</PathWithFileName>
@@ -1857,7 +1777,6 @@
       <FileNumber>83</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\ble\ble_services\wechat_service\common\ble_wechat_util.c</PathWithFileName>
@@ -1870,7 +1789,6 @@
       <FileNumber>84</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\ble\ble_services\wechat_service\common\epb.c</PathWithFileName>
@@ -1883,7 +1801,6 @@
       <FileNumber>85</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\ble\ble_services\wechat_service\common\epb_MmBp.c</PathWithFileName>
@@ -1896,7 +1813,6 @@
       <FileNumber>86</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\source\wechat_port.c</PathWithFileName>
@@ -1917,7 +1833,6 @@
       <FileNumber>87</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\components\misc\mics_function.c</PathWithFileName>
@@ -1938,7 +1853,6 @@
       <FileNumber>88</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\assert.c</PathWithFileName>
@@ -1951,7 +1865,6 @@
       <FileNumber>89</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\board.c</PathWithFileName>
@@ -1964,7 +1877,6 @@
       <FileNumber>90</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\error.c</PathWithFileName>
@@ -1977,7 +1889,6 @@
       <FileNumber>91</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\gpio.c</PathWithFileName>
@@ -1990,7 +1901,6 @@
       <FileNumber>92</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\lp_ticker_api.c</PathWithFileName>
@@ -2003,7 +1913,6 @@
       <FileNumber>93</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\mbed_interface.c</PathWithFileName>
@@ -2016,7 +1925,6 @@
       <FileNumber>94</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\pinmap_common.c</PathWithFileName>
@@ -2029,7 +1937,6 @@
       <FileNumber>95</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\rtc_time.c</PathWithFileName>
@@ -2042,7 +1949,6 @@
       <FileNumber>96</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\semihost_api.c</PathWithFileName>
@@ -2055,7 +1961,6 @@
       <FileNumber>97</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\ticker_api.c</PathWithFileName>
@@ -2068,7 +1973,6 @@
       <FileNumber>98</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\us_ticker_api.c</PathWithFileName>
@@ -2081,7 +1985,6 @@
       <FileNumber>99</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\wait_api.c</PathWithFileName>
@@ -2094,7 +1997,6 @@
       <FileNumber>100</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\analogin_api.c</PathWithFileName>
@@ -2107,7 +2009,6 @@
       <FileNumber>101</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\gpio_api.c</PathWithFileName>
@@ -2120,7 +2021,6 @@
       <FileNumber>102</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\gpio_irq_api.c</PathWithFileName>
@@ -2133,7 +2033,6 @@
       <FileNumber>103</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\i2c_api.c</PathWithFileName>
@@ -2146,7 +2045,6 @@
       <FileNumber>104</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\pinmap.c</PathWithFileName>
@@ -2159,7 +2057,6 @@
       <FileNumber>105</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\port_api.c</PathWithFileName>
@@ -2172,7 +2069,6 @@
       <FileNumber>106</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\pwmout_api.c</PathWithFileName>
@@ -2185,7 +2081,6 @@
       <FileNumber>107</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\serial_api.c</PathWithFileName>
@@ -2198,7 +2093,6 @@
       <FileNumber>108</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\sleep.c</PathWithFileName>
@@ -2211,7 +2105,6 @@
       <FileNumber>109</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\spi_api.c</PathWithFileName>
@@ -2224,7 +2117,6 @@
       <FileNumber>110</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\twi_master.c</PathWithFileName>
@@ -2237,7 +2129,6 @@
       <FileNumber>111</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\us_ticker.c</PathWithFileName>
@@ -2250,7 +2141,6 @@
       <FileNumber>112</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\I2C.cpp</PathWithFileName>
@@ -2263,7 +2153,6 @@
       <FileNumber>113</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\SPI.cpp</PathWithFileName>
@@ -2276,7 +2165,6 @@
       <FileNumber>114</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\tests\mbed\env\test_env.cpp</PathWithFileName>
@@ -2289,7 +2177,6 @@
       <FileNumber>115</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\retarget.cpp</PathWithFileName>
@@ -2302,7 +2189,6 @@
       <FileNumber>116</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\FileBase.cpp</PathWithFileName>
@@ -2315,7 +2201,6 @@
       <FileNumber>117</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\FileLike.cpp</PathWithFileName>
@@ -2328,7 +2213,6 @@
       <FileNumber>118</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\FilePath.cpp</PathWithFileName>
@@ -2341,7 +2225,6 @@
       <FileNumber>119</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\FileSystemLike.cpp</PathWithFileName>
@@ -2354,7 +2237,6 @@
       <FileNumber>120</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\TARGET_CLING2\rtc_api.c</PathWithFileName>
@@ -2367,7 +2249,6 @@
       <FileNumber>121</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\InterruptIn.cpp</PathWithFileName>
@@ -2380,7 +2261,6 @@
       <FileNumber>122</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\CallChain.cpp</PathWithFileName>
@@ -2393,7 +2273,6 @@
       <FileNumber>123</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\InterruptManager.cpp</PathWithFileName>
@@ -2406,7 +2285,6 @@
       <FileNumber>124</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\targets\cmsis\TARGET_NORDIC\TARGET_MCU_NRF51822\cmsis_nvic.c</PathWithFileName>
@@ -2419,7 +2297,6 @@
       <FileNumber>125</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
-      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lib\cling\common\Stream.cpp</PathWithFileName>
