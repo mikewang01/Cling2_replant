@@ -59,7 +59,7 @@ void C12832::invert(unsigned int o)
 }
 
 
-void C12832::set_contrast(unsigned int o) 
+void C12832::set_contrast(unsigned int o)
 {
     contrast = o;
     wr_cmd(0x81);      //  set volume
@@ -78,6 +78,7 @@ void C12832::wr_cmd(unsigned char cmd)
 {
     _A0 = 0;
     _CS = 0;
+		 wait_us(50);
     _spi.write(cmd);
     _CS = 1;
 }
@@ -88,11 +89,22 @@ void C12832::wr_dat(unsigned char dat)
 {
     _A0 = 1;
     _CS = 0;
+	 wait_us(50);
     _spi.write(dat);
     _CS = 1;
 }
 
+// write data to lcd controller
 
+void C12832::wr_dat(unsigned char *dat, uint16_t size)
+{
+    _A0 = 1;
+    _CS = 0;
+		for(; size>0; size--,dat++){
+			_spi.write(*dat);
+		}
+    _CS = 1;
+}
 
 void C12832::lcd_set_contrast(oled_color_t type, uint8_t step)
 {
@@ -103,13 +115,13 @@ void C12832::lcd_set_contrast(oled_color_t type, uint8_t step)
 void C12832::lcd_reset()
 {
 
-    _spi.format(8, 3);                // 8 bit spi mode 3
+    _spi.format(8, 0);                // 8 bit spi mode 3
     _spi.frequency(20000000);          // 19,2 Mhz SPI clock
     _POWER = 1;
     _A0 = 0;
     _CS = 1;
     _reset = 0;                        // display reset
-    wait_us(50);
+    wait_ms(5);
     _reset = 1;                       // end reset
     wait_ms(5);
     /* Start Initial Sequence ----------------------------------------------------*/
@@ -224,14 +236,12 @@ void C12832::copy_to_lcd(void)
     for(num_1 = 0; num_1 < 64; num_1++) {
         for(num_2 = 0; num_2 < 96; num_2++) {
 
-    _CS = 0;
-    _spi.write(0X07);
-					 _spi.write(0XE0);
-    _CS = 1;
+						uint8_t i[] = {0x07, 0xe0};
+            wr_dat(i,2);
         }
 
     }
-		    wr_cmd(0xAF);  //display on 
+    wr_cmd(0xAF);  //display on
 #if 0
     for(i = 0; i < 128; i++) {
         wr_dat(buffer[i]);

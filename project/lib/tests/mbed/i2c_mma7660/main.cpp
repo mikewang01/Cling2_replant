@@ -19,8 +19,9 @@ int main() {
     MBED_HOSTTEST_SELECT(default_auto);
     MBED_HOSTTEST_DESCRIPTION(I2C MMA7660 accelerometer);
     MBED_HOSTTEST_START("MBED_A13");
-    if (!MMA.test_connection())
-        MBED_HOSTTEST_RESULT(false);
+	while(1);
+    //if (!MMA.test_connection())
+   //     MBED_HOSTTEST_RESULT(false);
 
     for(int i = 0; i < 5; i++) {
        // printf("x: %f, y: %f, z: %f\r\n", MMA.x(), MMA.y(), MMA.z());
@@ -28,4 +29,5 @@ int main() {
     }
 
     MBED_HOSTTEST_RESULT(true);
+		
 }

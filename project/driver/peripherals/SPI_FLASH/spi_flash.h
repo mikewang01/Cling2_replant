@@ -12,8 +12,8 @@
  * THE SOFTWARE.
  */
 
-#ifndef C12832_H
-#define C12832_H
+#ifndef SPI_FLASH_H
+#define SPI_FLASH_H
 
 #include "mbed.h"
 #include "GraphicsDisplay.h"
@@ -56,7 +56,7 @@ struct Bitmap {
 /**
  * The C12832 class
  */
-class C12832 : public GraphicsDisplay
+class SPI_FLASH: public GraphicsDisplay
 {
 public:
     // reset and init the lcd controller
@@ -69,7 +69,7 @@ public:
     /**
      * Create a C12832 object connected to SPI1
      */
-    C12832(PinName mosi = OLED_SPI_PSELMOSI , PinName miso = OLED_SPI_PSELMISO, PinName sck = OLED_SPI_PSELSCK, PinName reset = OLED_RST, PinName a0 = OLED_COMMAND, PinName ncs = OLED_SPI_PSELSS, PinName pwr = OLED_BOOST_POWER, const char* name = "LCD");
+    SPI_FLASH(PinName mosi = OLED_SPI_PSELMOSI , PinName sck = OLED_SPI_PSELSCK, PinName reset = OLED_RST, PinName a0 = OLED_COMMAND, PinName ncs = OLED_SPI_PSELSS, PinName pwr = OLED_BOOST_POWER, const char* name = "LCD");
 
     /**
      * Get the width of the screen in pixel

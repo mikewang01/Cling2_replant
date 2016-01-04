@@ -357,7 +357,11 @@ int main(void)
     //
     // Including: UART, Keypad, Display, NOR flash, Physical IO, SPI, I2C, Sesnors
     //
-    HAL_init();
+	HAL_init();
+		  OLED_init(0xc0, 0x65, 0x95);
+	  OLED_display_all_blue();
+	while(1);
+    
 
 #ifdef _NOR_FLASH_SPI_TEST_
     // Nor Flash testing ...

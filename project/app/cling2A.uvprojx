@@ -10,12 +10,11 @@
       <TargetName>nrf51822_cling2</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060061::V5.06 update 1 (build 61)::ARMCC</pCCUsed>
       <TargetOption>
         <TargetCommonOption>
           <Device>nRF51822_xxAC</Device>
           <Vendor>Nordic Semiconductor</Vendor>
-          <PackID>NordicSemiconductor.nRF_DeviceFamilyPack.8.3.2</PackID>
+          <PackID>NordicSemiconductor.nRF_DeviceFamilyPack.8.1.0</PackID>
           <PackURL>http://developer.nordicsemi.com/nRF51_SDK/pieces/nRF_DeviceFamilyPack/</PackURL>
           <Cpu>IROM(0x00000000,0x40000) IRAM(0x20000000,0x8000) CPUTYPE("Cortex-M0") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -85,8 +84,6 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
-            <nStopA1X>0</nStopA1X>
-            <nStopA2X>0</nStopA2X>
           </AfterMake>
           <SelectedForBatchBuild>0</SelectedForBatchBuild>
           <SVCSIdString></SVCSIdString>
@@ -230,7 +227,6 @@
             <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
-            <nSecure>0</nSecure>
             <RoSelD>3</RoSelD>
             <RwSelD>3</RwSelD>
             <CodeSel>0</CodeSel>
@@ -365,10 +361,6 @@
             <uSurpInc>0</uSurpInc>
             <uC99>0</uC99>
             <useXO>0</useXO>
-            <v6Lang>0</v6Lang>
-            <v6LangP>0</v6LangP>
-            <vShortEn>0</vShortEn>
-            <vShortWch>0</vShortWch>
             <VariousControls>
               <MiscControls>--c99</MiscControls>
               <Define>BLE_STACK_SUPPORT_REQD S110  SOFTDEVICE_PRESENT NRF51 SPI_MASTER_0_ENABLE</Define>
@@ -515,25 +507,6 @@
               <FileName>main.c</FileName>
               <FileType>5</FileType>
               <FilePath>..\source\main.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>2</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds/>
-              </FileOption>
             </File>
             <File>
               <FileName>nflash_spi.c</FileName>
@@ -713,10 +686,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -880,10 +849,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -957,10 +922,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -1009,10 +970,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -1061,10 +1018,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -1113,10 +1066,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -1360,10 +1309,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -1412,10 +1357,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -1464,10 +1405,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -1516,10 +1453,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -1568,10 +1501,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -1620,10 +1549,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -1672,10 +1597,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -1724,10 +1645,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -1781,10 +1698,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -1833,10 +1746,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -1885,10 +1794,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -1942,10 +1847,6 @@
                     <uSurpInc>2</uSurpInc>
                     <uC99>2</uC99>
                     <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>0</vShortEn>
-                    <vShortWch>0</vShortWch>
                     <VariousControls>
                       <MiscControls>--cpp11</MiscControls>
                       <Define></Define>
@@ -1956,7 +1857,58 @@
                 </FileArmAds>
               </FileOption>
             </File>
+            <File>
+              <FileName>nflash_spi_2.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\driver\peripherals\SPI_FLASH\nflash_spi_2.cpp</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls>-cpp11</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>test</GroupName>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>
@@ -2042,8 +1994,6 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
-            <nStopA1X>0</nStopA1X>
-            <nStopA2X>0</nStopA2X>
           </AfterMake>
           <SelectedForBatchBuild>0</SelectedForBatchBuild>
           <SVCSIdString></SVCSIdString>
@@ -2187,7 +2137,6 @@
             <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
-            <nSecure>0</nSecure>
             <RoSelD>3</RoSelD>
             <RwSelD>5</RwSelD>
             <CodeSel>0</CodeSel>
@@ -2322,10 +2271,6 @@
             <uSurpInc>0</uSurpInc>
             <uC99>0</uC99>
             <useXO>0</useXO>
-            <v6Lang>0</v6Lang>
-            <v6LangP>0</v6LangP>
-            <vShortEn>0</vShortEn>
-            <vShortWch>0</vShortWch>
             <VariousControls>
               <MiscControls>--c99</MiscControls>
               <Define> BLE_STACK_SUPPORT_REQD</Define>
@@ -3048,7 +2993,15 @@
               <FileType>8</FileType>
               <FilePath>..\lib\cling\common\Stream.cpp</FilePath>
             </File>
+            <File>
+              <FileName>nflash_spi_2.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\driver\peripherals\SPI_FLASH\nflash_spi_2.cpp</FilePath>
+            </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>test</GroupName>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>
@@ -3086,10 +3039,6 @@
                 <uSurpInc>2</uSurpInc>
                 <uC99>2</uC99>
                 <useXO>2</useXO>
-                <v6Lang>0</v6Lang>
-                <v6LangP>0</v6LangP>
-                <vShortEn>0</vShortEn>
-                <vShortWch>0</vShortWch>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -3153,10 +3102,6 @@
                 <uSurpInc>2</uSurpInc>
                 <uC99>2</uC99>
                 <useXO>2</useXO>
-                <v6Lang>0</v6Lang>
-                <v6LangP>0</v6LangP>
-                <vShortEn>0</vShortEn>
-                <vShortWch>0</vShortWch>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>

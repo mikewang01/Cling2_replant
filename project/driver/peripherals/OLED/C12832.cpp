@@ -25,16 +25,16 @@
 #include "stdio.h"
 #include "Small_7.h"
 
-#define BPP    1       // Bits per pixel
+#define BPP    			16       // Bits per pixel
+#define OLED_WIDTH  128
+#define OLED_HEIGHT 64
 
-
-C12832::C12832(PinName mosi, PinName sck, PinName reset, PinName a0, PinName ncs, PinName pwr, const char* name)
-    : GraphicsDisplay(name), _spi(mosi, NC, sck), _reset(reset), _A0(a0), _CS(ncs), _POWER(pwr)
+C12832::C12832(PinName mosi, PinName miso, PinName sck, PinName reset, PinName a0, PinName ncs, PinName pwr, const char* name)
+    : GraphicsDisplay(name), _spi(mosi, miso, sck), _reset(reset), _A0(a0), _CS(ncs), _POWER(pwr)
 {
     orientation = 1;
     draw_mode = NORMAL;
     char_x = 0;
-	  //us_ticker_init();
     lcd_reset();
 }
 
@@ -42,13 +42,13 @@ C12832::C12832(PinName mosi, PinName sck, PinName reset, PinName a0, PinName ncs
 int C12832::width()
 {
     if (orientation == 0 || orientation == 2) return 32;
-    else return 128;
+    else return OLED_WIDTH;
 }
 
 int C12832::height()
 {
     if (orientation == 0 || orientation == 2) return 128;
-    else return 32;
+    else return OLED_HEIGHT;
 }
 
 
@@ -78,6 +78,7 @@ void C12832::wr_cmd(unsigned char cmd)
 {
     _A0 = 0;
     _CS = 0;
+		 wait_us(50);
     _spi.write(cmd);
     _CS = 1;
 }
@@ -88,11 +89,22 @@ void C12832::wr_dat(unsigned char dat)
 {
     _A0 = 1;
     _CS = 0;
+	 wait_us(50);
     _spi.write(dat);
     _CS = 1;
 }
 
+// write data to lcd controller
 
+void C12832::wr_dat(unsigned char *dat, uint16_t size)
+{
+    _A0 = 1;
+    _CS = 0;
+		for(; size>0; size--,dat++){
+			_spi.write(*dat);
+		}
+    _CS = 1;
+}
 
 void C12832::lcd_set_contrast(oled_color_t type, uint8_t step)
 {
@@ -103,36 +115,16 @@ void C12832::lcd_set_contrast(oled_color_t type, uint8_t step)
 void C12832::lcd_reset()
 {
 
-    _spi.format(8, 3);                // 8 bit spi mode 3
+    _spi.format(8, 0);                // 8 bit spi mode 3
     _spi.frequency(20000000);          // 19,2 Mhz SPI clock
-	_POWER = 1;
+    _POWER = 1;
     _A0 = 0;
     _CS = 1;
     _reset = 0;                        // display reset
-    wait_us(50);
+    wait_ms(5);
     _reset = 1;                       // end reset
     wait_ms(5);
-#if 0
     /* Start Initial Sequence ----------------------------------------------------*/
-    wr_cmd(0xAE);   //  display off
-    wr_cmd(0xA2);   //  bias voltage
-
-    wr_cmd(0xA0);
-    wr_cmd(0xC8);   //  colum normal
-
-    wr_cmd(0x22);   //  voltage resistor ratio
-    wr_cmd(0x2F);   //  power on
-    //wr_cmd(0xA4);   //  LCD display ram
-    wr_cmd(0x40);   // start line = 0
-    wr_cmd(0xAF);     // display ON
-
-    wr_cmd(0x81);   //  set contrast
-    wr_cmd(0x17);   //  set contrast
-
-    wr_cmd(0xA6);     // display normal
-
-#endif
-    uint16_t pwm, delta;
     wr_cmd(0xfd); // Command lock
     wr_cmd(0x12);
     wr_cmd(0xae); // Display off
@@ -150,13 +142,10 @@ void C12832::lcd_reset()
     wr_cmd(0x09); // 9/16(160uA)
     // Set Contrast for Color Red
     lcd_set_contrast(OLED_COLOR_RED, 0xc0);
-
     // Set Contrast for Color Green
     lcd_set_contrast(OLED_COLOR_GREEN, 0x65);
-
     // Set Contrast for Color Blue
     lcd_set_contrast(OLED_COLOR_BLUE, 0x95);
-
     wr_cmd(0x8a);
     wr_cmd(0x61);
     wr_cmd(0x8b);
@@ -188,92 +177,12 @@ void C12832::lcd_reset()
     wr_cmd(0xB8); // Set Gray Scale Table
 
 
-
-    pwm = 1;
-    //The gray scale table setting below is for reference only
-    delta = 1;
-    pwm = pwm;
-    wr_cmd(pwm);//pw1
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw3
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw5
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw7
-
-    delta = 2;
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw9
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw11
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw13
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw15
-
-    delta = 2;
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw17
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw19
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw21
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw23
-
-    delta = 3;
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw25
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw27
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw29
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw31
-
-    delta = 4;
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw33
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw35
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw37
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw39
-
-    delta = 5;
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw41
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw43
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw45
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw47
-
-    delta = 6;
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw49
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw51
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw53
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw55
-
-    delta = 7;
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw57
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw59
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw61
-    pwm = pwm + delta;
-    wr_cmd(pwm);//pw63
+    for(int pwm = 1; pwm <= 63; pwm += 2) {
+        wr_cmd(pwm);//pw1
+    }
 
     wr_cmd(0xad);  // Select external VCC supply at Display ON
     wr_cmd(0x8e);  // Select External VP voltage supply
-     wr_cmd(0xAF);
     // clear and update LCD
     memset(buffer, 0x00, 512); // clear display buffer
     copy_to_lcd();
@@ -307,15 +216,13 @@ void C12832::pixel(int x, int y, int color)
 void lcd_paint_screen(uint16_t color)
 {
 
-  uint8_t num_1,num_2;	
-  for(num_1 = 0; num_1 < 64; num_1++)
-  {
-	  for(num_2 = 0; num_2 < 96; num_2++)
-	  {
-      C12832::wr_dat(color);
-			C12832::wr_dat(color>>8);			
-	  } 
-  }	
+    uint8_t num_1, num_2;
+    for(num_1 = 0; num_1 < 64; num_1++) {
+        for(num_2 = 0; num_2 < 96; num_2++) {
+            C12832::wr_dat(color);
+            C12832::wr_dat(color >> 8);
+        }
+    }
 
 }
 #endif
@@ -323,34 +230,22 @@ void lcd_paint_screen(uint16_t color)
 
 void C12832::copy_to_lcd(void)
 {
-/*
-		wr_cmd(0x15); // Set column address
-		wr_cmd(0x00); // Column address start 00
 
-		wr_cmd(0x75); // Set row address
-		wr_cmd(0x00); // Row address start 00
-	*/
     _A0 = 1;
-	_CS = 0;
-	 uint8_t num_1,num_2;	
-  for(num_1 = 0; num_1 < 64; num_1++)
-  {
-	  for(num_2 = 0; num_2 < 96; num_2++)
-	  {
-			 
-    _spi.write(0x55);			
-			_spi.write(0x55);
-	
-	  } 
-		 		
-  }	
-	_CS = 1;
+    uint8_t num_1, num_2;
+    for(num_1 = 0; num_1 < 64; num_1++) {
+        for(num_2 = 0; num_2 < 96; num_2++) {
+
+						uint8_t i[] = {0x07, 0xe0};
+            wr_dat(i,2);
+        }
+
+    }
+    wr_cmd(0xAF);  //display on
 #if 0
     for(i = 0; i < 128; i++) {
         wr_dat(buffer[i]);
     }
-
-
     // page 1
     wr_cmd(0x00);      // set column low nibble 0
     wr_cmd(0x10);      // set column hi  nibble 0
@@ -380,7 +275,7 @@ void C12832::copy_to_lcd(void)
     for(i = 384; i < 512; i++) {
         wr_dat(buffer[i]);
     }
-	#endif
+#endif
 }
 
 void C12832::cls(void)
