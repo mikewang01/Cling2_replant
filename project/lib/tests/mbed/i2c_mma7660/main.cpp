@@ -15,11 +15,10 @@ DT101 MMA(p16, p15);
 C12832 LCD;
 int main() {
 
-    MBED_HOSTTEST_TIMEOUT(15);
-    MBED_HOSTTEST_SELECT(default_auto);
-    MBED_HOSTTEST_DESCRIPTION(I2C MMA7660 accelerometer);
-    MBED_HOSTTEST_START("MBED_A13");
-	while(1);
+   // MBED_HOSTTEST_TIMEOUT(15);
+  //  MBED_HOSTTEST_SELECT(default_auto);
+  //  MBED_HOSTTEST_DESCRIPTION(I2C MMA7660 accelerometer);
+  //  MBED_HOSTTEST_START("MBED_A13");
     //if (!MMA.test_connection())
    //     MBED_HOSTTEST_RESULT(false);
 
@@ -27,7 +26,7 @@ int main() {
        // printf("x: %f, y: %f, z: %f\r\n", MMA.x(), MMA.y(), MMA.z());
         wait(0.2);
     }
-
-    MBED_HOSTTEST_RESULT(true);
+   while(1);
+   // MBED_HOSTTEST_RESULT(true);
 		
 }

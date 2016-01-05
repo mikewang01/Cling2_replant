@@ -73,14 +73,14 @@ void SPI_FLASH::spi_flash_init(void)
 #endif
 }
 
-int SPI_FLASH::read_write(char *s, size_t tx_size, char *d, size_t rx_size)
+int SPI_FLASH::read_write(char *d, size_t rx_size, char *s, size_t tx_size)
 {
 		size_t size;
     _CS = 0;
 			for(size = (rx_size > tx_size)?tx_size:rx_size; size>0; size--,d++, s++){
 				*d = _spi.write(*s);
 			}
-			for(size = (rx_size > tx_size)?(rx_size-tx_size):(tx_size-rx_size); size > 0; size--,d++, s++){
+			for(size = (rx_size > tx_size)?(rx_size-tx_size):(tx_size-rx_size); size>0; size--,d++, s++){
 				(rx_size > tx_size)?(*d = _spi.write(NULL)):(_spi.write(*s));
 			}
     _CS = 1;
@@ -119,18 +119,17 @@ void SPI_FLASH::spi_flash_write_enable(void)
     uint8_t i = 0;
     spi_tx_buf[i++] = SPI_FLASH_INS_WREN;
     //N_SPRINTF("[spi] 1624");
-     read_write((char*)spi_tx_buf,1 ,(char*)spi_rx_buf,0);
+     read_write(spi_tx_buf, spi_rx_buf,0, GPIO_SPI_0_CS_NFLASH);
     //_wait_for_operation_completed();
 }
 
 void SPI_FLASH::spi_flash_write_disable(void)
 {
 		uint8_t spi_tx_buf[SPI_BUFFER_SIZE];
-		uint8_t spi_rx_buf[SPI_BUFFER_SIZE];
+		//uint8_t spi_rx_buf[SPI_BUFFER_SIZE];
     spi_tx_buf[0] = SPI_FLASH_INS_WRDI;
 #ifndef _CLING_PC_SIMULATION_
     //	N_SPRINTF("[spi] 123");
-		read_write((char*)spi_tx_buf,1 ,(char*)spi_rx_buf,0);
     // SPI_master_tx_rx(SPI_MASTER_0, spi_tx_buf, 1, spi_rx_buf,0, GPIO_SPI_0_CS_NFLASH);
 #endif
 }

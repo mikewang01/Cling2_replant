@@ -867,7 +867,7 @@ void HAL_init(void)
 	// Enable TWI I2C 1
 	GPIO_twi_init(1);
 #endif
-	//TOUCH_init();
+	TOUCH_init();
 	// UV sensor initialization
 #ifdef _ENABLE_UV_
 	//UV_Init();

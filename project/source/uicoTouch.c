@@ -169,7 +169,7 @@ static uico_chip_status_t uico_chip_status_check()
     }
  #endif   
     if(chip_status != UICO_NOT_EXISTED) {
-			   uint8_t t[] = {0x00, 0x81};
+			   uint8_t t[] = {0x07};
         /*NOW THAT, WE HAVE MADE SURE THAT CHIP IS EXISTED, NETX STEP IS KUST AIM TO DETECT IF APP HAS BEEN BURNED
         	INTO CHIP OR NOT, TO ACHIEVE THIS WE PRETEND TO SEND A FEW FAKE DATA,*/
         uint32_t err_code = nrf_drv_twi_tx(&twi, (DURATOUCH_I2C_ADDRESS_MAIN_0x48 >> 1), t, sizeof(t), FALSE);
@@ -645,16 +645,18 @@ static I32S _try_firmware_update()
     uico_binary_lenth = UICO_GET_BINARY_LENTH();
     s = UICO_GET_BINARY_BUFFER();
 #endif
+#if 1
 	//_execute_bootloader(uico_binary_lenth, s);
     uico_chip_status_t t = uico_chip_status_check();
     if(t == UICO_APP_NOT_EXISTED) {
 			  Y_SPRINTF("[UICO] chip app not existed, force the chip to upgrate the chip firmware");
-       // return _execute_bootloader(uico_binary_lenth, s);
+         _execute_bootloader(uico_binary_lenth, s);
     } else if(t == UICO_NOT_EXISTED) {
 			  Y_SPRINTF("[UICO] UICO_NOT_EXISTED");
 			 //return _execute_bootloader(uico_binary_lenth, s);
     }
-
+     uico_chip_status_check();
+#endif
     /*set buffer data*/
     //memset(data, 0xff, sizeof(data));
     //i = 0;
@@ -696,7 +698,7 @@ static I32S _try_firmware_update()
         _write_stop_acknowledge();
 
         /*revision format major version:minor version: revison version*/
-        N_SPRINTF("[UICO] Firmware version found: %d.%d.%d", data[10],   data[11],   data[18]);
+        Y_SPRINTF("[UICO] Firmware version found: %d.%d.%d", data[10],   data[11],   data[18]);
         N_SPRINTF("[UICO] Firmware version got: %d.%d.%d", s[4], s[5], s[9]);
         cling.whoami.touch_ver[0] = data[10];
         cling.whoami.touch_ver[1] = data[11];

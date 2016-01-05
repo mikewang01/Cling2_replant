@@ -93,7 +93,7 @@ protected:
     DigitalOut _CS;
 
 private:
-	
+	int read_write(char *s, size_t tx_size, char *d, size_t rx_size);
 	void _wait_for_operation_completed(void);
 	void _page_program_core(uint32_t addr, uint16_t len, uint8_t *data);
 

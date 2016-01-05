@@ -75,12 +75,15 @@ public:
     * Back & Front = Z-axis
     *
     */
-    enum Orientation {Up, Down,
-                      Right, Left,
-                      Back, Front,
-                      Unknown
-                     };
-
+		
+    /**
+    * chip status 
+    *
+		* UICO_NOT_EXISTED :chip not existed in the bus
+    * UICO_APP_NOT_EXISTED£ºchip existed in i2c bus but without any applicatiion in chip
+    * UICO_IN_NORMAL_STATUS£ºuico chip works normally
+    * UICO_IN_UNKOWN_STATUS£ºdefault chip status
+    */
     enum uico_chip_status {
         UICO_NOT_EXISTED = 0,
         UICO_APP_NOT_EXISTED,
@@ -98,6 +101,12 @@ public:
         uint8_t x;
         uint32_t ts;
     } ;
+		
+		struct version{
+					uint8_t major;
+					uint8_t minor;
+					uint8_t revison;
+		};
     /**
     * Creates a new dt101 object
     *
@@ -171,25 +180,16 @@ public:
     */
     void set_samplerate(int samplerate);
 
-    /**
-    * Returns if it is on its front, back, or unknown side
-    *
-    * This is read from MMA7760s registers, page 12 of datasheet
-    *
-    * @param return - Front, Back or Unknown orientation
-    */
-    Orientation get_side( void );
 
     /**
-    * Returns if it is on it left, right, down or up side
+    * firmware_update order
     *
-    * This is read from MMA7760s registers, page 12 of datasheet
+    * The entered samplerate will be rounded to nearest supported samplerate.
+    * Supported samplerates are: 120 - 64 - 32 - 16 - 8 - 4 - 2 - 1 samples/second.
     *
-    * @param return - Left, Right, Down, Up or Unknown orientation
+    * @param samplerate - the samplerate that will be set
     */
-    Orientation get_orientation ( void );
-
-
+		int firmware_update();
 private:
 
     /** Write to an UICO chip slave
@@ -219,23 +219,32 @@ private:
      * Read multiple regigsters from the dt101 bootloader, more efficient than using multiple normal reads.
      * @param length - number of bytes to read
      * @param data - pointer where the data needs to be written to
-		 *   0 on success (ack),
-     *   non-0 on failure (nack)
+		 *   true on success (ack),
+     *   false on failure (nack)
      */
     int bootloader_read(char *data, int length);
-		
+		    /**
+     * Read unkhown lenth data  from the dt101 , more efficient than using multiple normal reads.
+     * @param rx_lenth - number of bytes to read
+     * @param buffer_p - pointer where the data needs to be written to
+		 *   true  on success (ack),
+     *   fasle on failure (nack)
+     */
 		int read_unkown_lenth_from_chip(char *buffer_p, uint16_t *rx_lenth);
 
 		int stop_acknowledge(void);
 		bool chip_init(void);
+		int read_version_from_app(struct version *p);
     /**
     * Reads single axis
     */
     float get_single(int number);
-
+		uint32_t _execute_bootloader(uint32_t payload_length, unsigned char *s);
     I2C _i2c;
     bool active;
     float samplerate;
+		uico_chip_status chip_status;
+		struct version chip_version;
 };
 
 
