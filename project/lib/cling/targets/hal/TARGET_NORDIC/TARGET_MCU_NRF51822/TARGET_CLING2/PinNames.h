@@ -145,9 +145,14 @@ extern "C" {
         I2C_SDA0 = p5,
         I2C_SCL0 = p6,
 
+				
         I2C_SDA1 = p13,
         I2C_SCL1 = p15,
 
+				DT101_I2C_SDA = p16,
+				DT101_I2C_SCL = p15,
+				DT101_I2C_RST = p19,
+				
         D0  = p7,
         D1  = p8,
         D2  = p9,

@@ -114,7 +114,8 @@ public:
     * @param scl - I2C clock pin
     * @param active - true (default) to enable the device, false to keep it standby
     */
-    DT101(PinName sda, PinName scl, bool active = true);
+
+    DT101(PinName sda = DT101_I2C_SDA, PinName scl = DT101_I2C_SCL, PinName rst = DT101_I2C_RST, bool active = true);
 
     /**
     * Tests if communication is possible with the DT101
@@ -190,6 +191,9 @@ public:
     * @param samplerate - the samplerate that will be set
     */
 		int firmware_update();
+		
+		int _isr_process(uint8_t *opcode_p);
+			
 private:
 
     /** Write to an UICO chip slave
@@ -231,7 +235,7 @@ private:
      *   fasle on failure (nack)
      */
 		int read_unkown_lenth_from_chip(char *buffer_p, uint16_t *rx_lenth);
-
+		int start_acknowledge(void);
 		int stop_acknowledge(void);
 		bool chip_init(void);
 		int read_version_from_app(struct version *p);
@@ -241,6 +245,7 @@ private:
     float get_single(int number);
 		uint32_t _execute_bootloader(uint32_t payload_length, unsigned char *s);
     I2C _i2c;
+		DigitalOut _reset;
     bool active;
     float samplerate;
 		uico_chip_status chip_status;

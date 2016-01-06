@@ -733,7 +733,7 @@ static void _sys_evt_dispatch(uint32_t sys_evt)
  *
  * @details Initializes the SoftDevice and the BLE event interrupt.
  */
-static void _ble_stack_init(void)
+void _ble_stack_init(void)
 {
 #ifndef _CLING_PC_SIMULATION_
 	uint32_t err_code;

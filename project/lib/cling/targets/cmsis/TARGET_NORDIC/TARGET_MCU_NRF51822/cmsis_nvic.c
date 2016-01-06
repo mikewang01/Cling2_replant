@@ -52,8 +52,8 @@
  */
 
 
-#define NVIC_RAM_VECTOR_ADDRESS   (0x10000000)  // Location of vectors in RAM
-#define NVIC_FLASH_VECTOR_ADDRESS (0x0)       // Initial vector position in flash
+#define NVIC_RAM_VECTOR_ADDRESS   (0x20004000)  // Location of vectors in RAM
+#define NVIC_FLASH_VECTOR_ADDRESS (0x18000)       // Initial vector position in flash
 /*
 void NVIC_SetVector(IRQn_Type IRQn, uint32_t vector) {
     uint32_t *vectors = (uint32_t*)SCB->VTOR;
@@ -75,20 +75,21 @@ uint32_t NVIC_GetVector(IRQn_Type IRQn) {
     uint32_t *vectors = (uint32_t*)SCB->VTOR;
     return vectors[IRQn + 16];
 }*/
-
+#include "nrf_sdm.h"
 void NVIC_SetVector(IRQn_Type IRQn, uint32_t vector) {
-   // int i;
+     int i;
     // Space for dynamic vectors, initialised to allocate in R/W
+	  
     static volatile uint32_t* vectors = (uint32_t*)NVIC_RAM_VECTOR_ADDRESS;
-    /*
-    // Copy and switch to dynamic vectors if first time called
-    if((LPC_SYSCON->SYSMEMREMAP & 0x3) != 0x1) {     
-      uint32_t *old_vectors = (uint32_t *)0;         // FLASH vectors are at 0x0
+    
+    // Copy and switch to dynamic vectors if first time called   
+      uint32_t *old_vectors = (uint32_t *)0x18000;         // FLASH vectors are at 0x0
       for(i = 0; i < NVIC_NUM_VECTORS; i++) {    
             vectors[i] = old_vectors[i];
-        }
-        LPC_SYSCON->SYSMEMREMAP = 0x1; // Remaps 0x0-0x1FF FLASH block to RAM block
-    }*/
+       }   
+		if(sd_softdevice_vector_table_base_set(NVIC_RAM_VECTOR_ADDRESS) == NRF_SUCCESS){
+				printf("vector table remap sucessfully\r\n");
+		}	
 
     // Set the vector 
     vectors[IRQn + 16] = vector; 

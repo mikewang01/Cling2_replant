@@ -107,29 +107,44 @@ static struct DT101::uico_response_event res[5];
 /*============================================================================================================*/
 /*============================================================================================================*/
 /*============================================================================================================*/
-DT101::DT101(PinName sda, PinName scl, bool active) : _i2c(sda, scl), samplerate(64)
+DT101::DT101(PinName sda, PinName scl, PinName rst, bool active) : _reset(rst), _i2c(sda, scl), samplerate(64)
 {
-    set_active(active);
-    //samplerate = 64;
-    //DT101::chip_init();
-    DT101::chip_status = DT101::test_connection();
+#define  DT101_CONNECTION_TEST_THREHOLD 50
+    _reset = 0;
+    wait_ms(100);
+    _reset = 1;
+    wait_ms(500);
+    int i = 1;
+    while(1) {
+        DT101::chip_status = DT101::test_connection();
+        if(chip_status == UICO_IN_NORMAL_STATUS || i > DT101_CONNECTION_TEST_THREHOLD) {
+            break;
+        }
+        wait_ms(i * 100);
+        i++;
+    }
+    printf("[DT101]wait for %d ms\r\n", i * 100);
     /*if this is a chip without app existance, force to uburn*/
     if(DT101::chip_status == UICO_APP_NOT_EXISTED) {
-				 if(DT101::firmware_update() == true){
-						printf("[DT101] firmware updated sucessfully\r\n");
-						DT101::chip_status = DT101::test_connection();
-					  read_version_from_app(&(DT101::chip_version));
-				 }
+        if(DT101::firmware_update() == true) {
+            printf("[DT101] firmware updated sucessfully\r\n");
+            DT101::chip_status = DT101::test_connection();
+        }
     } else if(DT101::chip_status == UICO_NOT_EXISTED) {
 
     }
+
+    set_active(active);
+    //samplerate = 64;
+    DT101::chip_init();
+    read_version_from_app(&(DT101::chip_version));
 }
 
 //Since the MMA lacks a WHO_AM_I register, we can only check if there is a device that answers to the I2C address
 DT101::uico_chip_status DT101::test_connection( void )
 {
 
-    DT101::uico_chip_status chip_status = UICO_IN_UNKOWN_STATUS;
+    DT101::uico_chip_status status_test = UICO_IN_UNKOWN_STATUS;
     /*
     1.first step is to detect if bootloaer is there or not if failed, we take it as the chip is not gangeg to twi bus
     2.second step: if bootloader existed, then detect if app status, if app not existed just upgrate the app
@@ -137,40 +152,40 @@ DT101::uico_chip_status DT101::test_connection( void )
     // Write Stop Acknowledge (0x20, 0x01)
     //buf[0] = 0x20;
     //buf[1] = 0x01;
-	
-	    if(chip_status != UICO_NOT_EXISTED) {
-        char t[] = {0x00, 0x81};
+
+    if(status_test != UICO_NOT_EXISTED) {
+        char t[] = {0x00};
         /*NOW THAT, WE HAVE MADE SURE THAT CHIP IS EXISTED, NETX STEP IS KUST AIM TO DETECT IF APP HAS BEEN BURNED
         	INTO CHIP OR NOT, TO ACHIEVE THIS WE PRETEND TO SEND A FEW FAKE DATA,*/
         int err_code = DT101::app_write(t, sizeof(t));
         if (err_code == 0) {
-            chip_status = UICO_IN_NORMAL_STATUS;
+            status_test = UICO_IN_NORMAL_STATUS;
             printf("[UICO] chip in normal status\r\n");
 
         } else {
-            chip_status = UICO_APP_NOT_EXISTED;
+            status_test = UICO_APP_NOT_EXISTED;
             printf("[UICO] chip detected but app is not detected\r\n");
 
         }
     }
-			
-#if 0
-		if(chip_status == UICO_APP_NOT_EXISTED){
-    char t[] = {0xFF, 0x38, 0x00 , 0x01 , 0x02, 0x03, 0x04, 0x05 , 0x06 , 0x07};
-    int err_code = DT101::bootloader_write(t, sizeof(t));
-    if (err_code == 0) {
-        /*exit bootloader mode t omake sure th echip gonna be responsive to contrller*/
-        char t[] = {0xFF, 0x3B, 0x00 , 0x01 , 0x02, 0x03, 0x04, 0x05 , 0x06 , 0x07};
-        int err_code = DT101::bootloader_write(t, sizeof(t));
-        printf("[UICO] chip detected on twi bus\r\n");
 
-    } else {
-        chip_status = UICO_NOT_EXISTED;
-        printf("[UICO] chip not existed on twi bus\r\n");
+#if 1
+    if(status_test == UICO_APP_NOT_EXISTED) {
+        char t[] = {0xFF, 0x38, 0x00 , 0x01 , 0x02, 0x03, 0x04, 0x05 , 0x06 , 0x07};
+        int err_code = DT101::bootloader_write(t, sizeof(t));
+        if (err_code == 0) {
+            /*exit bootloader mode t omake sure th echip gonna be responsive to contrller*/
+            char t[] = {0xFF, 0x3B, 0x00 , 0x01 , 0x02, 0x03, 0x04, 0x05 , 0x06 , 0x07};
+            int err_code = DT101::bootloader_write(t, sizeof(t));
+            printf("[UICO] chip detected on twi bus\r\n");
+
+        } else {
+            status_test = UICO_NOT_EXISTED;
+            printf("[UICO] chip not existed on twi bus\r\n");
+        }
     }
-	}
 #endif
-    return chip_status;
+    return status_test;
 
 }
 
@@ -258,6 +273,19 @@ int start_acknowledge()
 
 }
 #endif
+
+int DT101::start_acknowledge()
+{
+    /*--------------------------- Acknowledge Any Response ---------------------------*/
+    // Write Start Acknowledge (0x20)
+#define START_ACKLKOWLEGE_LENTH  1
+    uint8_t buf[START_ACKLKOWLEGE_LENTH];
+    uint16_t i = 0;
+    buf[i++] = WRITE_START_ACK_CMD;
+    return DT101::app_write((char*)buf, i);
+
+}
+
 int DT101::stop_acknowledge()
 {
 #define STOP_ACKLKOWLEGE_LENTH  2
@@ -301,20 +329,30 @@ int DT101::read_unkown_lenth_from_chip(char *buffer_p, uint16_t *rx_lenth)
     /*--------------------------- Acknowledge Any Response ---------------------------*/
     // Write Start Acknowledge (0x20)
     buffer[0] = WRITE_START_ACK_CMD;
-    DT101::app_write(buffer, 1);
+    if(DT101::app_write(buffer, 1) != 0){
+				goto failed;
+		}
 
     /*--------------------------- Read Response  ---------------------------*/
     // Read First 2 bytes
-    DT101::app_read (buffer, 2);
+    if(DT101::app_read (buffer, 2) != 0){
+				goto failed;
+		}
     // N_SPRINTF("[UICO]: 0x%02x 0x%02x", buffer[0], buffer[1]);
     *rx_lenth =  buffer[1];
     *rx_lenth += 2;
-    DT101::app_read(buffer,  *rx_lenth);
+    if(DT101::app_read(buffer,  *rx_lenth) !=0){
+				goto failed;
+		}
     // N_SPRINTF("[UICO]: 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x", buffer[0], buffer[1], buffer[2], buffer[3], buffer[4]);
     // Write Stop Acknowledge
-    DT101::stop_acknowledge();
+    if(DT101::stop_acknowledge() != 0){
+			goto failed;
+		}
 
     return true;
+failed:
+		return false;
 #endif
 }
 
@@ -375,7 +413,7 @@ bool DT101::chip_init()
     touch_num_supported = buf[7];
     screen_size_code    = buf[6];
 
-    // N_SPRINTF("[UICO]: %d %d %d %d", resolution_x, resolution_y, touch_num_supported, screen_size_code);
+    printf("[UICO]: %d %d %d %d\r\n", resolution_x, resolution_y, touch_num_supported, screen_size_code);
 
     if( refresh_rate == 0 ) {
         switch(screen_size_code) {
@@ -407,10 +445,10 @@ bool DT101::chip_init()
     }
     total_sensor_cnt = buf[4];
     column_sensor_cnt = buf[5];
-    // N_SPRINTF("[UICO]: Total Sensor Count: %d Column Sensor Count: %d", total_sensor_cnt, column_sensor_cnt);
-    // N_SPRINTF("[UICO]: Product Screen Size Code: %x", screen_size_code);
-    // N_SPRINTF("[UICO]: Number of Touches Supported: %d", touch_num_supported);
-    // N_SPRINTF("[UICO]: X Resolution: %d Y Resolution: %d", resolution_x, resolution_y);
+    printf("[UICO]: Total Sensor Count: %d Column Sensor Count: %d\r\n", total_sensor_cnt, column_sensor_cnt);
+    printf("[UICO]: Product Screen Size Code: %x\r\n", screen_size_code);
+    printf("[UICO]: Number of Touches Supported: %d\r\n", touch_num_supported);
+    printf("[UICO]: X Resolution: %d Y Resolution: %d\r\n", resolution_x, resolution_y);
     return true;
 }
 
@@ -419,15 +457,13 @@ bool DT101::chip_init()
 int DT101::read_version_from_app(struct version *p)
 {
 #define TOUCH_IC_BRICKED_THREHOLD  10
-    uint8_t data[10] = {0};
-		bool is_touchic_bricked = true;
-		volatile uint16_t i = 0;
-		/*first thing to do is to checkout uico chip status*/
+    uint8_t data[20] = {0};
+    bool is_touchic_bricked = false;
+    volatile uint16_t i = 0;
+    /*first thing to do is to checkout uico chip status*/
     if(IS_CHIP_IN_NORMAL_STATUS(chip_status) == true) {
         /*set buffer data*/
-        //memset(data, 0xff, sizeof(data));
-        //i = 0;
-        //_i2c_btld_write(data, 3);
+        memset(data, 0xff, sizeof(data));
         while ( !((data[0] == COMMAND_GET_DATA) && (data[1] == 17)) ) {
 
             data[0] = 0x00;
@@ -473,18 +509,19 @@ int DT101::read_version_from_app(struct version *p)
             if(DT101::stop_acknowledge() != 0) {
                 goto failed;
             }
-
-            /*revision format major version:minor version: revison version*/
-						
-            printf("[UICO] Firmware version found: %d.%d.%d\r\n", data[10],   data[11],   data[18]);
             struct version chip_version;
-            memcpy(&chip_version, &data[10], sizeof(struct version));
+            chip_version.major = data[10];
+            chip_version.minor = data[11];
+            chip_version.revison = data[18];
+            *p = chip_version;
+            /*revision format major version:minor version: revison version*/
+            printf("[UICO] Firmware version found: %d.%d.%d\r\n", chip_version.major, chip_version.minor, chip_version.revison);
         }
 
     }
     return true;
 failed:
-		printf("[UICO] Firmware version read failed\r\n");
+    printf("[UICO] Firmware version read failed\r\n");
     return false;
 }
 
@@ -492,24 +529,23 @@ failed:
 #if 1
 int DT101::firmware_update()
 {
-		/*only update firmware when chip is under either normal status or no app status */
-	  if(IS_CHIP_IN_NORMAL_STATUS(chip_status) == true || IS_CHIP_IN_NO_APP_STATUS(chip_status) == true) {
-    /*read touch ic failure uo threhold*/
-    uint8_t  data[128];
-    volatile uint16_t i = 0;
-    uint16_t uico_binary_lenth = 0;
-    unsigned char *s  = NULL;
-    /*obtian firmware lenth*/
-    uico_binary_lenth = UICO_GET_BINARY_LENTH();
-    s = UICO_GET_BINARY_BUFFER();
-		printf("[UICO] Firmware version got: %d.%d.%d\r\n\r\n", s[4], s[5], s[9]);
-	  struct version t;
-    memcpy(&t, &s[4], sizeof(struct version));
-		if(chip_version.major != t.major || chip_version.minor != t.minor || chip_version.revison != t.revison){
-				printf("new firmware found \r\n");
-		}
-    return _execute_bootloader(uico_binary_lenth, s);
-	}
+    /*only update firmware when chip is under either normal status or no app status */
+    if(IS_CHIP_IN_NORMAL_STATUS(chip_status) == true || IS_CHIP_IN_NO_APP_STATUS(chip_status) == true) {
+        /*read touch ic failure uo threhold*/
+        volatile uint16_t i = 0;
+        uint16_t uico_binary_lenth = 0;
+        unsigned char *s  = NULL;
+        /*obtian firmware lenth*/
+        uico_binary_lenth = UICO_GET_BINARY_LENTH();
+        s = UICO_GET_BINARY_BUFFER();
+        printf("[UICO] Firmware version got: %d.%d.%d\r\n\r\n", s[4], s[5], s[9]);
+        struct version t;
+        memcpy(&t, &s[4], sizeof(struct version));
+        if(chip_version.major != t.major || chip_version.minor != t.minor || chip_version.revison != t.revison) {
+            printf("new firmware found \r\n");
+        }
+        return _execute_bootloader(uico_binary_lenth, s);
+    }
     return false;
 }
 
@@ -582,28 +618,25 @@ uint32_t DT101::_execute_bootloader(uint32_t payload_length, unsigned char *s)
         if ( !(length == 0) ) {
             while (retry_count > 0 && (length != 0)) {
                 retry_count--;
-
                 printf("[UICO] Sent Data: %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x length: %d ...\r\n", \
                        buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5], \
                        buffer[6], buffer[7], buffer[8] , buffer[9], buffer[10], buffer[11], length);
 
-                if(DT101::bootloader_write((char*)buffer, length) == 0){
-										  printf("[UICO] write Success!\r\n");
-								}
+                if(DT101::bootloader_write((char*)buffer, length) == 0) {
+                    printf("[UICO] write Success!\r\n");
+                }
                 wait_ms(100);					// 100 msec wait after burn
-
                 if (s[index + 1] == COMMAND_BOOTLOAD_DONE) {                       	// No response expected becauase chip will reboot
                     break;
                 }
 
                 DT101::bootloader_read((char*)&response[0], 1);
-//		  N_SPRINTF("[UICO] Received Data: %02x %02x", buffer[0], response[0]);
+//N_SPRINTF("[UICO] Received Data: %02x %02x", buffer[0], response[0]);
 
                 if (response[0] == BOOTLOAD_MODE)	{           // Success!
                     printf("[UICO] Success!\r\n");
                     break;
                 }
-
                 if ((response[0] & (COMM_CHECKSUM_ERROR | FLASH_CHECKSUM_ERROR)) == 0) {              // Only retry on checksum errors
                     printf("[UICO] Success!\r\n");
                     break;
@@ -611,7 +644,7 @@ uint32_t DT101::_execute_bootloader(uint32_t payload_length, unsigned char *s)
             }
         }
 
-//	N_SPRINTF("[UICO] Returned Data: %02x %02x %02x %02x %02x %02x %02x %02x", response[0], response[1], response[2], response[3], response[4], response[5], response[6], response[7]);
+//N_SPRINTF("[UICO] Returned Data: %02x %02x %02x %02x %02x %02x %02x %02x", response[0], response[1], response[2], response[3], response[4], response[5], response[6], response[7]);
 
         if ((response[0] != BOOTLOAD_MODE) && (s[index + 1] != COMMAND_BOOTLOAD_DONE) && (length != 0)) {
             printf("[UICO] FAIL on block 0x%02x write (response 0x%02x 0x%02x)  0x%02x  %d\r\n", uicoDat[index + 11], response[0], response[1], uicoDat[index + 1], length);
@@ -637,3 +670,250 @@ uint32_t DT101::_execute_bootloader(uint32_t payload_length, unsigned char *s)
     wait_ms(526);
     return true;                     // Success!
 }
+
+
+
+int _is_finger_touched(uint8_t index)
+{
+    // ------ NOTHING ----------
+    // ------ SKIN ----------
+    if ((res[index].type == 0) || (res[index].type == 2))
+        return false;
+    else
+        return true;
+}
+
+int _is_skin_touched(uint8_t index)
+{
+    // ------ NOTHING ----------
+    // ------ FINGER ----------
+    if ((res[index].type == 0) || (res[index].type == 1))
+        return false;
+    else
+        return true;
+}
+
+int _isr_process()
+{
+#ifdef UICO_INT_MESSAGE
+    int32_t  a, b, c, d, e, f, g, h, i, j, coor;
+#endif
+    uint8_t  buf[32]  = {0};
+    uint8_t opcode, opdetail, len;
+    uint8_t left_cnt, right_cnt;
+    int32_t dist_pos;
+    int32_t dist_neg;
+    opcode = 0;
+    opdetail = 0;
+#if 0
+    /*--------------------------- Acknowledge Any Response ---------------------------*/
+    // Write Start Acknowledge (0x20)
+    // Write Stop Acknowledge
+    if(DT101::start_acknowledge() != 0) {
+        goto failed;
+    }
+    //  _write_start_acknowledge(buf);
+
+    /*--------------------------- Read Response  ---------------------------*/
+    // Read First 2 bytes
+    if(DT101::app_read((char*)buf, 2) != 0) {
+        goto failed;
+    }
+    //_i2c_main_read (buf, 2);
+    /////
+
+#ifdef UICO_INT_MESSAGE
+    a = buf[0];
+    b = buf[1];
+    N_SPRINTF("[UICO] Packet 2 bytes %d, %d, ", a, b);
+#endif
+
+    len =  buf[1];
+    if (len == 0) {
+        if(DT101::stop_acknowledge() != 0) {
+            goto failed;
+        }
+        //_write_stop_acknowledge();
+        goto failed;
+    }
+    // Read the remaining bytes
+    len += 2;
+    if(DT101::app_read((char*)buf, len) != 0) {
+        goto failed;
+    }
+
+    //_i2c_main_read(buf, len);
+    // Write Stop Acknowledge
+    //_write_stop_acknowledge();
+    if(DT101::stop_acknowledge() != 0) {
+        goto failed;
+    }
+    if (buf[0] != COMMAND_READPACKET) {
+#ifdef UICO_INT_MESSAGE
+        N_SPRINTF("[UICO] NOT a read packet: %d, %d, ", a, b);
+#endif
+#if 0
+        /*process user command individually*/
+        if(buf[0] == UICO_USER_COMMAND) {
+            uico_touch_ic_floating_calibration_response_process(buf, len);
+        }
+#endif
+        goto failed;
+    }
+#endif
+		if(DT101::read_unkown_lenth_from_chip(buf,  &len) == false){
+				goto failed;
+		}
+		
+    // Make sure the length is what we expected
+    len = buf[1];
+    if( len < 6 ) {
+
+#ifdef UICO_INT_MESSAGE
+        N_SPRINTF("[UICO] wrong len (%d) %d, %d", COMMAND_READPACKET, a, b);
+#endif
+        goto failed;
+    }
+
+#ifdef UICO_INT_MESSAGE
+    a = buf[0];
+    b = buf[1];
+    c = buf[2];
+    d = buf[3];
+    e = buf[4];
+    f = buf[5];
+    g = buf[6];
+    h = buf[7];
+    i = buf[8];
+    j = buf[9];
+    N_SPRINTF("[UICO] Packet (%d) %d, %d, %d, %d, %d, %d, %d, %d, %d, %d", a,
+              a, b, c, d, e, f, g, h, i, j);
+#endif
+
+    // Put response in a circular buffer
+    res[0].type = res[1].type;
+    res[0].x = res[1].x;
+    res[1].type = res[2].type;
+    res[1].x = res[2].x;
+    res[2].type = res[3].type;
+    res[2].x = res[3].x;
+    res[3].type = res[4].type;
+    res[3].x = res[4].x;
+    res[4].type = buf[3];
+    res[4].x = buf[5];
+
+    // type: 0 ------ NOTHING ----------
+    // type: 1 ------ FINGER ----------
+    // type: 2 ------ SKIN ----------
+    // type: 3 ------ SKIN + FINGER ----------
+    if (_is_skin_touched(4)) {
+        printf("SKIN TOUCH DETECTED\r\n");
+        opcode |= 0x04;
+    }
+
+    if (!_is_finger_touched(4)) {
+        // Reset previous code cache
+        prev_code = 0;
+    }
+
+    // Finger down
+    if (!_is_finger_touched(4)) {
+        if (_is_finger_touched(3)) {
+            if ((!_is_finger_touched(2)) ||
+                (!_is_finger_touched(1))) {
+                opcode |= 0x02;
+                if (res[3].x > 84)
+                    opdetail = 0;
+                else if (res[3].x > 42)
+                    opdetail = 1;
+                else
+                    opdetail = 2;
+#ifdef UICO_INT_MESSAGE
+                coor = res[3].x;
+                N_SPRINTF("FINGER DOWN DETECTED 1(%d), coor: %d", prev_code, coor);
+#endif
+            } else {
+#if 0 // Do not send a finger touch event if previously swipe gesture has been sent
+                opcode |= 0x02;
+                if (res[3].x > 84)
+                    opdetail = 0;
+                else if (res[3].x > 42)
+                    opdetail = 1;
+                else
+                    opdetail = 2;
+#endif
+#ifdef UICO_INT_MESSAGE
+                coor = res[3].x;
+                N_SPRINTF("FINGER DOWN DETECTED 2(%d), coor: %d", prev_code, coor);
+#endif
+            }
+        }
+    } else {
+        if (_is_finger_touched(3) && _is_finger_touched(2))
+        {
+            left_cnt = 0;
+            right_cnt = 0;
+            dist_pos = 0;
+            dist_neg = 0;
+
+            if (res[4].x > res[3].x) {
+                dist_pos += res[4].x - res[3].x;
+                left_cnt ++;
+            } else {
+                dist_neg += res[3].x - res[4].x;
+                right_cnt ++;
+            }
+            if (res[3].x > res[2].x) {
+                dist_pos += res[3].x - res[2].x;
+                left_cnt ++;
+            } else {
+                dist_neg += res[2].x - res[3].x;
+                right_cnt ++;
+            }
+
+            if (_is_finger_touched(1)) {
+                if (res[2].x > res[1].x) {
+                    dist_pos += res[2].x - res[1].x;
+                    left_cnt ++;
+                } else {
+                    dist_neg += res[1].x - res[2].x;
+                    right_cnt ++;
+                }
+            }
+#ifdef UICO_INT_MESSAGE
+
+            N_SPRINTF("SWIPE DETECTED (%d)", prev_code);
+#endif
+            opcode |= 0x01;
+#if 0
+            if (left_cnt > right_cnt)
+                opdetail = 0;
+            else
+                opdetail = 1;
+#else
+            if (dist_pos > dist_neg)
+                opdetail = 0;
+            else
+                opdetail = 1;
+#endif
+        }
+    }
+
+    N_SPRINTF("[UICO] code: %d, detail: %d", opcode, opdetail);
+    opcode <<= 3;
+    opcode |= opdetail;
+
+    if (prev_code != opcode) {
+        prev_code = opcode;
+
+        opcode |= 0x40;
+    }
+
+    return  opcode;
+		return  true;
+failed:
+		return false;
+}
+
+
+
