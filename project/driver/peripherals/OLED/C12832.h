@@ -133,7 +133,7 @@ public:
      * @param color - 1 set pixel, 0 erase pixel
      */
     void rect(int x0, int y0, int x1, int y1, int colour);
-
+ 
     /**
      * Draw a filled rect
      *

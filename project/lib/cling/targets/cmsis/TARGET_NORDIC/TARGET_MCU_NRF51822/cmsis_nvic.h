@@ -45,7 +45,7 @@ extern "C" {
 
 void NVIC_SetVector(IRQn_Type IRQn, uint32_t vector);
 uint32_t NVIC_GetVector(IRQn_Type IRQn);
-
+uint32_t NVIC_RemapVector(void);
 #ifdef __cplusplus
 }
 #endif

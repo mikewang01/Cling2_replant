@@ -108,15 +108,13 @@ public:
 					uint8_t revison;
 		};
     /**
-    * Creates a new dt101 object
+    * get instance of dt101 to make sure only one object get created based on clss dt101
     *
-    * @param sda - I2C data pin
-    * @param scl - I2C clock pin
-    * @param active - true (default) to enable the device, false to keep it standby
+    *
+    * @param return - none 
     */
-
-    DT101(PinName sda = DT101_I2C_SDA, PinName scl = DT101_I2C_SCL, PinName rst = DT101_I2C_RST, bool active = true);
-
+		
+		static DT101* get_instance( void );
     /**
     * Tests if communication is possible with the DT101
     *
@@ -138,7 +136,6 @@ public:
     * @param state - true for active, false for standby
     */
     bool set_active( bool state);
-
     /**
     * Reads acceleration data from the sensor
     *
@@ -149,39 +146,6 @@ public:
     */
     void read_data( int *data);
     void read_data( float *data);
-
-    /**
-    * Get X-data
-    *
-    * @param return - X-acceleration in g's
-    */
-    float x( void );
-
-    /**
-    * Get Y-data
-    *
-    * @param return - Y-acceleration in g's
-    */
-    float y( void );
-
-    /**
-    * Get Z-data
-    *
-    * @param return - Z-acceleration in g's
-    */
-    float z( void );
-
-    /**
-    * Sets the active samplerate
-    *
-    * The entered samplerate will be rounded to nearest supported samplerate.
-    * Supported samplerates are: 120 - 64 - 32 - 16 - 8 - 4 - 2 - 1 samples/second.
-    *
-    * @param samplerate - the samplerate that will be set
-    */
-    void set_samplerate(int samplerate);
-
-
     /**
     * firmware_update order
     *
@@ -192,9 +156,18 @@ public:
     */
 		int firmware_update();
 		
-		int _isr_process(uint8_t *opcode_p);
+		void _isr_process(void);
 			
 private:
+		    /**
+    * Creates a new dt101 object
+    *
+    * @param sda - I2C data pin
+    * @param scl - I2C clock pin
+    * @param active - true (default) to enable the device, false to keep it standby
+    */
+
+    DT101(PinName sda = DT101_I2C_SDA, PinName scl = DT101_I2C_SCL, PinName rst = DT101_I2C_RST,PinName intr = DT101_I2C_INT, bool active = true);
 
     /** Write to an UICO chip slave
      *
@@ -240,16 +213,18 @@ private:
 		bool chip_init(void);
 		int read_version_from_app(struct version *p);
     /**
-    * Reads single axis
+    * _execute_bootloader operation
     */
-    float get_single(int number);
 		uint32_t _execute_bootloader(uint32_t payload_length, unsigned char *s);
     I2C _i2c;
 		DigitalOut _reset;
     bool active;
-    float samplerate;
 		uico_chip_status chip_status;
 		struct version chip_version;
+		static DT101* p_instance;
+		/*interrrupy handler object*/
+		InterruptIn _event;
+		FunctionPointer _gesture_callback;
 };
 
 

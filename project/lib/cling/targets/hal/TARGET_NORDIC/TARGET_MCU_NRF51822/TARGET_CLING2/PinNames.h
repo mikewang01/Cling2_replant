@@ -152,6 +152,7 @@ extern "C" {
 				DT101_I2C_SDA = p16,
 				DT101_I2C_SCL = p15,
 				DT101_I2C_RST = p19,
+				DT101_I2C_INT = p17,
 				
         D0  = p7,
         D1  = p8,

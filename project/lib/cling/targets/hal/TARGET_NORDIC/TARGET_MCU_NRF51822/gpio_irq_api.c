@@ -30,7 +30,7 @@ static gpio_irq_handler irq_handler;
 #ifdef __cplusplus
 extern "C" {
 #endif
-void GPIOTE1_IRQHandler(void)
+void GPIOTE_IRQHandler(void)
 {
     volatile uint32_t newVal = NRF_GPIO->IN;
 

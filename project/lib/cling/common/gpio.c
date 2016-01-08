@@ -47,7 +47,7 @@ void gpio_init_out(gpio_t* gpio, PinName pin) {
 }
 
 void gpio_init_out_ex(gpio_t* gpio, PinName pin, int value) {
-    _gpio_init_out(gpio, pin, PullNone, value);
+    _gpio_init_out(gpio, pin, PullDefault, value);
 }
 
 void gpio_init_inout(gpio_t* gpio, PinName pin, PinDirection direction, PinMode mode, int value) {

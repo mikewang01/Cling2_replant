@@ -15,9 +15,9 @@
  */
 #ifndef MBED_FUNCTIONPOINTER_H
 #define MBED_FUNCTIONPOINTER_H
-
 #include <string.h>
 #include <stdint.h>
+
 
 namespace mbed {
 
@@ -136,6 +136,7 @@ public:
      *  @param function The void static function to attach (default is none)
      */
     void attach(R (*function)(void)) {
+				
         _p.function = function;
         _membercaller = 0;
     }
@@ -156,7 +157,7 @@ public:
      */
     R call(){
         if (_membercaller == 0 && _p.function) {
-            return _p.function();
+						return _p.function();
         } else if (_membercaller && _p.object) {
             return _membercaller(_p.object, _member);
         }

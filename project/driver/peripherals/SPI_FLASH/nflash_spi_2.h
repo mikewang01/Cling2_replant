@@ -58,9 +58,6 @@ class SPI_FLASH
 {
 public:
 
-    SPI_FLASH(PinName mosi = FLASH_SPI_PSELMOSI, PinName miso = FLASH_SPI_PSELMISO, PinName sck = FLASH_SPI_PSELSCK, PinName ncs = FLASH_SPI_PSELSS, const char* name = "SPI_FLASH");
-    ~SPI_FLASH();
-
     void spi_flash_init(void);
 
     void spi_flash_write_enable(void);
@@ -87,16 +84,22 @@ public:
 
     void spi_flash_read_id(uint8_t *id);
 
+		static SPI_FLASH *get_instance(void);
 protected:
 		    /** Vars     */
     SPI _spi;
     DigitalOut _CS;
-
+	
 private:
-	int read_write(char *s, size_t tx_size, char *d, size_t rx_size);
-	void _wait_for_operation_completed(void);
-	void _page_program_core(uint32_t addr, uint16_t len, uint8_t *data);
+		SPI_FLASH(PinName mosi = FLASH_SPI_PSELMOSI, PinName miso = FLASH_SPI_PSELMISO, PinName sck = FLASH_SPI_PSELSCK, PinName ncs = FLASH_SPI_PSELSS, const char* name = "SPI_FLASH");
+    ~SPI_FLASH();
 
+		int _write(char *s, size_t size);
+		int _read(char *s, size_t size);
+		void _wait_for_operation_completed(void);
+		void _page_program_core(uint32_t addr, uint16_t len, uint8_t *data);
+		int _write_read(char *w_p, size_t write_size, char *r_p, size_t read_size);
+		static SPI_FLASH* p_instance;
 
 };
 

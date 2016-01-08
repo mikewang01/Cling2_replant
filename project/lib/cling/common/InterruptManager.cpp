@@ -77,7 +77,10 @@ bool InterruptManager::remove_handler(pFunctionPointer_t handler, IRQn_Type irq)
 }
 
 void InterruptManager::irq_helper() {
+	 
+	  //printf("[INTMGR] int number = %d\r\n", __get_IPSR());
     _chains[__get_IPSR()]->call();
+		
 }
 
 int InterruptManager::get_irq_index(IRQn_Type irq) {

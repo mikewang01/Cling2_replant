@@ -29,7 +29,7 @@ void UART0_IRQHandler(void)
 {
 }
 
-void GPIOTE_IRQHandler(void)
+void GPIOTE2_IRQHandler(void)
 {
 	// Event ausing the interrupt must be cleared
 	if (NRF_GPIOTE->EVENTS_PORT) {

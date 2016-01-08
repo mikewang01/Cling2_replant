@@ -97,7 +97,7 @@ __Vectors       DCD     __initial_sp              ; Top of Stack
                 DCD     ECB_IRQHandler
                 DCD     CCM_AAR_IRQHandler
                 DCD     WDT_IRQHandler
-                DCD     RTC1_IRQHandler
+					DCD     RTC1_IRQHandler;34
                 DCD     QDEC_IRQHandler
                 DCD     LPCOMP_IRQHandler
                 DCD     SWI0_IRQHandler

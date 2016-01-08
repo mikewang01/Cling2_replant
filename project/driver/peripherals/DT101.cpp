@@ -103,25 +103,38 @@ static uint8_t is_calibration_sucess =  false;/*INFICATE IF MANUAL CALIBRATION H
 static struct DT101::uico_response_event res[5];
 //static uint8_t prev_code;
 
+
 /*============================================================================================================*/
 /*============================================================================================================*/
 /*============================================================================================================*/
 /*============================================================================================================*/
-DT101::DT101(PinName sda, PinName scl, PinName rst, bool active) : _reset(rst), _i2c(sda, scl), samplerate(64)
+DT101* DT101::p_instance = (DT101*)NULL;
+void trigger2()
 {
-#define  DT101_CONNECTION_TEST_THREHOLD 50
+    printf("triggered2!\n");
+}
+DT101::DT101(PinName sda, PinName scl, PinName rst, PinName intr, bool active) :
+    _reset(rst),
+    _i2c(sda, scl),
+    _event(intr),
+    _gesture_callback(NULL)
+{
+#define  DT101_CONNECTION_TEST_THREHOLD 5
+    /*add isr first process function*/
+    _event.fall(this, &DT101::_isr_process);
+    _event.disable_irq();
+    int i = 1;
     _reset = 0;
     wait_ms(100);
     _reset = 1;
-    wait_ms(500);
-    int i = 1;
+   // wait_ms(500);
     while(1) {
+				wait_ms(i*500);
+        i++;
         DT101::chip_status = DT101::test_connection();
         if(chip_status == UICO_IN_NORMAL_STATUS || i > DT101_CONNECTION_TEST_THREHOLD) {
             break;
         }
-        wait_ms(i * 100);
-        i++;
     }
     printf("[DT101]wait for %d ms\r\n", i * 100);
     /*if this is a chip without app existance, force to uburn*/
@@ -133,13 +146,28 @@ DT101::DT101(PinName sda, PinName scl, PinName rst, bool active) : _reset(rst), 
     } else if(DT101::chip_status == UICO_NOT_EXISTED) {
 
     }
-
+    if(this == NULL) {
+        printf("[DT101]p_instance NULL pointer \r\n ");
+    }
+    //_event.fall(&trigger2);
     set_active(active);
     //samplerate = 64;
     DT101::chip_init();
     read_version_from_app(&(DT101::chip_version));
+    _event.enable_irq();
 }
 
+DT101* DT101::get_instance()
+{
+
+    if(DT101::p_instance == (DT101*)NULL) {
+        DT101::p_instance = new DT101;
+        if(DT101::p_instance == NULL) {
+            printf("[DT101]new failed NULL pointer \r\n ");
+        }
+    }
+    return DT101::p_instance;
+}
 //Since the MMA lacks a WHO_AM_I register, we can only check if there is a device that answers to the I2C address
 DT101::uico_chip_status DT101::test_connection( void )
 {
@@ -324,7 +352,7 @@ int DT101::read_unkown_lenth_from_chip(char *buffer_p, uint16_t *rx_lenth)
 #else
     char *buffer = buffer_p; //[100];
     if(buffer == NULL) {
-         goto failed;
+        goto failed;
     }
     /*--------------------------- Acknowledge Any Response ---------------------------*/
     // Write Start Acknowledge (0x20)
@@ -479,7 +507,7 @@ int DT101::read_version_from_app(struct version *p)
             if(DT101::app_read((char*)data, 2) != 0) {
                 goto failed;
             }
-            printf("[UICO]: 0x%02x 0x%02x\r\n", data[0], data[1]);
+            printf("[UICO]: read revison 0x%02x 0x%02x\r\n", data[0], data[1]);
 
 #if 1
             if ( !((data[0] == COMMAND_GET_DATA) && (data[1] == 17)) ) {
@@ -693,15 +721,17 @@ int _is_skin_touched(uint8_t index)
         return true;
 }
 
-int DT101::_isr_process(uint8_t *opcode_p)
+void DT101::_isr_process()
 {
+
+    printf("[DT101]_isr_process\r\n");
 #ifdef UICO_INT_MESSAGE
     int32_t  a, b, c, d, e, f, g, h, i, j, coor;
 #endif
     uint8_t  buf[32]  = {0};
     uint8_t opcode, opdetail, prev_code;
     uint8_t left_cnt, right_cnt;
-		uint16_t len = 0;
+    uint16_t len = 0;
     int32_t dist_pos;
     int32_t dist_neg;
     opcode = 0;
@@ -904,11 +934,11 @@ int DT101::_isr_process(uint8_t *opcode_p)
         prev_code = opcode;
         opcode |= 0x40;
     }
-		/*pass detaled operation code to user app layer*/
-    *opcode_p = opcode;
-    return  true;
+    /*pass detaled operation code to user app layer*/
+    //*opcode_p = opcode;
+    return  ;
 failed:
-    return false;
+    return ;
 }
 
 

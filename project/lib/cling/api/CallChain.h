@@ -15,7 +15,6 @@
  */
 #ifndef MBED_CALLCHAIN_H
 #define MBED_CALLCHAIN_H
-
 #include "FunctionPointer.h"
 #include <string.h>
 

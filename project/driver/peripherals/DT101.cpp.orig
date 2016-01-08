@@ -103,25 +103,39 @@ static uint8_t is_calibration_sucess =  false;/*INFICATE IF MANUAL CALIBRATION H
 static struct DT101::uico_response_event res[5];
 //static uint8_t prev_code;
 
+
 /*============================================================================================================*/
 /*============================================================================================================*/
 /*============================================================================================================*/
 /*============================================================================================================*/
-DT101::DT101(PinName sda, PinName scl, PinName rst, bool active) : _reset(rst), _i2c(sda, scl), samplerate(64)
+DT101* DT101::p_instance = (DT101*)NULL;
+void trigger2()
 {
-#define  DT101_CONNECTION_TEST_THREHOLD 50
-    _reset = 0;
-    wait_ms(100);
-    _reset = 1;
-    wait_ms(500);
+    printf("triggered2!\n");
+}
+DT101::DT101(PinName sda, PinName scl, PinName rst, PinName intr, bool active) :
+    _reset(rst),
+    _i2c(sda, scl),
+    _event(intr),
+    _gesture_callback(NULL)
+{
+#define  DT101_CONNECTION_TEST_THREHOLD 5
+    /*add isr first process function*/
+    _event.fall(this, &DT101::_isr_process);
+    _event.disable_irq();
     int i = 1;
+	        _reset = 0;
+        wait_ms(100);
+        _reset = 1;
+        wait_ms(i * 700);
+	
     while(1) {
+
+        i++;
         DT101::chip_status = DT101::test_connection();
         if(chip_status == UICO_IN_NORMAL_STATUS || i > DT101_CONNECTION_TEST_THREHOLD) {
             break;
         }
-        wait_ms(i * 100);
-        i++;
     }
     printf("[DT101]wait for %d ms\r\n", i * 100);
     /*if this is a chip without app existance, force to uburn*/
@@ -133,13 +147,28 @@ DT101::DT101(PinName sda, PinName scl, PinName rst, bool active) : _reset(rst), 
     } else if(DT101::chip_status == UICO_NOT_EXISTED) {
 
     }
-
+    if(this == NULL) {
+        printf("[DT101]p_instance NULL pointer \r\n ");
+    }
+    //_event.fall(&trigger2);
     set_active(active);
     //samplerate = 64;
     DT101::chip_init();
     read_version_from_app(&(DT101::chip_version));
+    _event.enable_irq();
 }
 
+DT101* DT101::get_instance()
+{
+
+    if(DT101::p_instance == (DT101*)NULL) {
+        DT101::p_instance = new DT101;
+        if(DT101::p_instance == NULL) {
+            printf("[DT101]new failed NULL pointer \r\n ");
+        }
+    }
+    return DT101::p_instance;
+}
 //Since the MMA lacks a WHO_AM_I register, we can only check if there is a device that answers to the I2C address
 DT101::uico_chip_status DT101::test_connection( void )
 {
@@ -324,35 +353,35 @@ int DT101::read_unkown_lenth_from_chip(char *buffer_p, uint16_t *rx_lenth)
 #else
     char *buffer = buffer_p; //[100];
     if(buffer == NULL) {
-        return  false;
+        goto failed;
     }
     /*--------------------------- Acknowledge Any Response ---------------------------*/
     // Write Start Acknowledge (0x20)
     buffer[0] = WRITE_START_ACK_CMD;
-    if(DT101::app_write(buffer, 1) != 0){
-				goto failed;
-		}
+    if(DT101::app_write(buffer, 1) != 0) {
+        goto failed;
+    }
 
     /*--------------------------- Read Response  ---------------------------*/
     // Read First 2 bytes
-    if(DT101::app_read (buffer, 2) != 0){
-				goto failed;
-		}
+    if(DT101::app_read (buffer, 2) != 0) {
+        goto failed;
+    }
     // N_SPRINTF("[UICO]: 0x%02x 0x%02x", buffer[0], buffer[1]);
     *rx_lenth =  buffer[1];
     *rx_lenth += 2;
-    if(DT101::app_read(buffer,  *rx_lenth) !=0){
-				goto failed;
-		}
+    if(DT101::app_read(buffer,  *rx_lenth) != 0) {
+        goto failed;
+    }
     // N_SPRINTF("[UICO]: 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x", buffer[0], buffer[1], buffer[2], buffer[3], buffer[4]);
     // Write Stop Acknowledge
-    if(DT101::stop_acknowledge() != 0){
-			goto failed;
-		}
+    if(DT101::stop_acknowledge() != 0) {
+        goto failed;
+    }
 
     return true;
 failed:
-		return false;
+    return false;
 #endif
 }
 
@@ -479,7 +508,7 @@ int DT101::read_version_from_app(struct version *p)
             if(DT101::app_read((char*)data, 2) != 0) {
                 goto failed;
             }
-            printf("[UICO]: 0x%02x 0x%02x\r\n", data[0], data[1]);
+            printf("[UICO]: read revison 0x%02x 0x%02x\r\n", data[0], data[1]);
 
 #if 1
             if ( !((data[0] == COMMAND_GET_DATA) && (data[1] == 17)) ) {
@@ -693,14 +722,17 @@ int _is_skin_touched(uint8_t index)
         return true;
 }
 
-int _isr_process()
+void DT101::_isr_process()
 {
+
+    printf("[DT101]_isr_process\r\n");
 #ifdef UICO_INT_MESSAGE
     int32_t  a, b, c, d, e, f, g, h, i, j, coor;
 #endif
     uint8_t  buf[32]  = {0};
-    uint8_t opcode, opdetail, len;
+    uint8_t opcode, opdetail, prev_code;
     uint8_t left_cnt, right_cnt;
+    uint16_t len = 0;
     int32_t dist_pos;
     int32_t dist_neg;
     opcode = 0;
@@ -761,10 +793,9 @@ int _isr_process()
         goto failed;
     }
 #endif
-		if(DT101::read_unkown_lenth_from_chip(buf,  &len) == false){
-				goto failed;
-		}
-		
+    if(DT101::read_unkown_lenth_from_chip((char*)buf,  &len) == false) {
+        goto failed;
+    }
     // Make sure the length is what we expected
     len = buf[1];
     if( len < 6 ) {
@@ -801,7 +832,6 @@ int _isr_process()
     res[3].x = res[4].x;
     res[4].type = buf[3];
     res[4].x = buf[5];
-
     // type: 0 ------ NOTHING ----------
     // type: 1 ------ FINGER ----------
     // type: 2 ------ SKIN ----------
@@ -810,7 +840,6 @@ int _isr_process()
         printf("SKIN TOUCH DETECTED\r\n");
         opcode |= 0x04;
     }
-
     if (!_is_finger_touched(4)) {
         // Reset previous code cache
         prev_code = 0;
@@ -849,8 +878,7 @@ int _isr_process()
             }
         }
     } else {
-        if (_is_finger_touched(3) && _is_finger_touched(2))
-        {
+        if (_is_finger_touched(3) && _is_finger_touched(2)) {
             left_cnt = 0;
             right_cnt = 0;
             dist_pos = 0;
@@ -899,20 +927,19 @@ int _isr_process()
         }
     }
 
-    N_SPRINTF("[UICO] code: %d, detail: %d", opcode, opdetail);
+    printf("[UICO] code: %d, detail: %d\r\n", opcode, opdetail);
     opcode <<= 3;
     opcode |= opdetail;
 
     if (prev_code != opcode) {
         prev_code = opcode;
-
         opcode |= 0x40;
     }
-
-    return  opcode;
-		return  true;
+    /*pass detaled operation code to user app layer*/
+    //*opcode_p = opcode;
+    return  ;
 failed:
-		return false;
+    return ;
 }
 
 

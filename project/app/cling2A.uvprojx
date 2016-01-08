@@ -334,8 +334,8 @@
               </OCR_RVCT8>
               <OCR_RVCT9>
                 <Type>0</Type>
-                <StartAddress>0x20004000</StartAddress>
-                <Size>0x4000</Size>
+                <StartAddress>0x200020c0</StartAddress>
+                <Size>0x5f40</Size>
               </OCR_RVCT9>
               <OCR_RVCT10>
                 <Type>0</Type>
@@ -365,7 +365,7 @@
               <MiscControls>--c99</MiscControls>
               <Define>BLE_STACK_SUPPORT_REQD S110  SOFTDEVICE_PRESENT NRF51 SPI_MASTER_0_ENABLE</Define>
               <Undefine></Undefine>
-              <IncludePath>..\include;.\inc;..\source;..\components\softdevice\s110\headers;..\components\libraries\util;..\components\ble\common;..\components\drivers_nrf\ble_flash;..\components\drivers_nrf\hal;..\components\drivers_nrf\pstorage;..\components\drivers_nrf\pstorage\config;..\components\libraries\timer;..\components\libraries\scheduler;..\components\ble\device_manager;..\components\ble\ble_error_log;..\components\softdevice\common\softdevice_handler;..\components\drivers_nrf\simple_uart;..\components\libraries\trace;..\components\drivers_nrf\spi_master;..\components\drivers_nrf\twi_master;..\components\drivers_nrf\config;..\components\drivers_nrf\common;..\components\device;..\components\drivers_nrf\twi_master\incubated;..\components\ble\ble_db_discovery;..\components\drivers_nrf\wdt;..\components\crc;..\components\ble\ble_services\wechat_service\common;..\components\ble\ble_services\wechat_service;..\components\ble\ble_services\wechat_service\products;..\components\ble\ble_services\wechat_service\wechat_base;..\components\ble\ble_services\wechat_service\sport_simplified;D:\Keil_v5\ARM\ARMCC\include;..\lib\cling\api;..\lib\cling\hal;..\lib\cling\hal\targets\cmsis;..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822;..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\TARGET_CLING2;..\lib\cling\targets\cmsis\TARGET_NORDIC\TARGET_MCU_NRF51822;..\lib\cling\targets\cmsis\TARGET_NORDIC\TARGET_MCU_NRF51822\TOOLCHAIN_ARM_STD;..\driver\incs;..\driver\peripherals\OLED</IncludePath>
+              <IncludePath>..\include;.\inc;..\source;..\components\softdevice\s110\headers;..\components\libraries\util;..\components\ble\common;..\components\drivers_nrf\ble_flash;..\components\drivers_nrf\hal;..\components\drivers_nrf\pstorage;..\components\drivers_nrf\pstorage\config;..\components\libraries\timer;..\components\libraries\scheduler;..\components\ble\device_manager;..\components\ble\ble_error_log;..\components\softdevice\common\softdevice_handler;..\components\drivers_nrf\simple_uart;..\components\libraries\trace;..\components\drivers_nrf\spi_master;..\components\drivers_nrf\twi_master;..\components\drivers_nrf\config;..\components\drivers_nrf\common;..\components\device;..\components\drivers_nrf\twi_master\incubated;..\components\ble\ble_db_discovery;..\components\drivers_nrf\wdt;..\components\crc;..\components\ble\ble_services\wechat_service\common;..\components\ble\ble_services\wechat_service;..\components\ble\ble_services\wechat_service\products;..\components\ble\ble_services\wechat_service\wechat_base;..\components\ble\ble_services\wechat_service\sport_simplified;D:\Keil_v5\ARM\ARMCC\include;..\lib\cling\api;..\lib\cling\hal;..\lib\cling\hal\targets\cmsis;..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822;..\lib\cling\targets\hal\TARGET_NORDIC\TARGET_MCU_NRF51822\TARGET_CLING2;..\lib\cling\targets\cmsis\TARGET_NORDIC\TARGET_MCU_NRF51822;..\lib\cling\targets\cmsis\TARGET_NORDIC\TARGET_MCU_NRF51822\TOOLCHAIN_ARM_STD;..\driver\incs;..\driver\peripherals\OLED;..\driver\peripherals\SPI_FLASH</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -908,7 +908,7 @@
                 <FileArmAds>
                   <Cads>
                     <interw>2</interw>
-                    <Optim>0</Optim>
+                    <Optim>4</Optim>
                     <oTime>2</oTime>
                     <SplitLS>2</SplitLS>
                     <OneElfS>2</OneElfS>
@@ -956,7 +956,7 @@
                 <FileArmAds>
                   <Cads>
                     <interw>2</interw>
-                    <Optim>0</Optim>
+                    <Optim>4</Optim>
                     <oTime>2</oTime>
                     <SplitLS>2</SplitLS>
                     <OneElfS>2</OneElfS>
@@ -1004,7 +1004,7 @@
                 <FileArmAds>
                   <Cads>
                     <interw>2</interw>
-                    <Optim>0</Optim>
+                    <Optim>4</Optim>
                     <oTime>2</oTime>
                     <SplitLS>2</SplitLS>
                     <OneElfS>2</OneElfS>
@@ -1052,7 +1052,7 @@
                 <FileArmAds>
                   <Cads>
                     <interw>2</interw>
-                    <Optim>0</Optim>
+                    <Optim>4</Optim>
                     <oTime>2</oTime>
                     <SplitLS>2</SplitLS>
                     <OneElfS>2</OneElfS>
@@ -1861,6 +1861,198 @@
               <FileName>nflash_spi_2.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\driver\peripherals\SPI_FLASH\nflash_spi_2.cpp</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls>-cpp11</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>Ticker.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\Ticker.cpp</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls>-cpp11</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>TimerEvent.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\TimerEvent.cpp</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls>-cpp11</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>Timer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\Timer.cpp</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>2</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls>-cpp11</MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>Timeout.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\Timeout.cpp</FilePath>
               <FileOption>
                 <CommonProperty>
                   <UseCPPCompiler>2</UseCPPCompiler>
@@ -2997,6 +3189,26 @@
               <FileName>nflash_spi_2.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\driver\peripherals\SPI_FLASH\nflash_spi_2.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Ticker.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\Ticker.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>TimerEvent.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\TimerEvent.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Timer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\Timer.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Timeout.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\cling\common\Timeout.cpp</FilePath>
             </File>
           </Files>
         </Group>
