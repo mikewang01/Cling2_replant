@@ -26,7 +26,7 @@
 #include "Small_7.h"
 
 #define BPP    			16       // Bits per pixel
-#define OLED_WIDTH  128
+#define OLED_WIDTH  96
 #define OLED_HEIGHT 64
 
 C12832::C12832(PinName mosi, PinName miso, PinName sck, PinName reset, PinName a0, PinName ncs, PinName pwr, const char* name)
@@ -212,18 +212,17 @@ void C12832::pixel(int x, int y, int color)
 }
 
 
-#if 0
-void lcd_paint_screen(uint16_t color)
+#if 1
+void C12832::pour_screen(uint16_t color)
 {
-
-    uint8_t num_1, num_2;
-    for(num_1 = 0; num_1 < 64; num_1++) {
-        for(num_2 = 0; num_2 < 96; num_2++) {
-            C12832::wr_dat(color);
-            C12832::wr_dat(color >> 8);
+		//wr_cmd(0xAE);
+    uint16_t num_1, num_2;
+    for(num_1 = 0; num_1 < OLED_WIDTH; num_1++) {
+        for(num_2 = 0; num_2 < OLED_HEIGHT; num_2++) {
+            C12832::wr_dat((uint8_t*)&color, sizeof(uint16_t));           
         }
     }
-
+		// wr_cmd(0xAF);  //display on
 }
 #endif
 // update lcd

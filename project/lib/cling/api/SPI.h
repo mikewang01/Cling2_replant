@@ -66,8 +66,7 @@ namespace mbed {
 class SPI {
 
 public:
-
-    /** Create a SPI master connected to the specified pins
+		 /** Create a SPI master connected to the specified pins
      *
      *  mosi or miso can be specfied as NC if not used
      *
@@ -77,7 +76,9 @@ public:
      *  @param ssel SPI chip select pin
      */
     SPI(PinName mosi, PinName miso, PinName sclk, PinName ssel=NC);
-
+#if 0
+			static SPI* get_instance();
+#endif
     /** Configure the data transmission format
      *
      *  @param bits Number of bits per SPI frame (4 - 16)
@@ -152,6 +153,8 @@ public:
     int set_dma_usage(DMAUsage usage);
 
 protected:
+
+
     /** SPI IRQ handler
      *
     */
@@ -236,6 +239,7 @@ protected:
     int _bits;
     int _mode;
     int _hz;
+		static SPI* p_instance;
 };
 
 } // namespace mbed

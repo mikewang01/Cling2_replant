@@ -66,6 +66,8 @@ public:
         OLED_COLOR_BLUE
     } oled_color_t;
 
+		void pour_screen(uint16_t color);
+			
     /**
      * Create a C12832 object connected to SPI1
      */

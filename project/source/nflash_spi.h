@@ -28,7 +28,7 @@ enum
 	SPI_FLASH_INS_SE_64K      = 0xD8,   // block erase 64KB
 	SPI_FLASH_INS_SE_4K       = 0x20,   // sector erase 4KB
 	SPI_FLASH_INS_SE_32K      = 0x52,   // sector erase 32KB
-	SPI_FLASH_INS_RES         = 0xAB,		// release from deep power-down
+	SPI_FLASH_INS_RES         = 0xAB,		// to read out1-byte Device
 	SPI_FLASH_INS_DP          = 0xB9,		// deep power-down
 	SPI_FLASH_INS_RDID        = 0x90,		// read identification
 	SPI_FLASH_INS_BE          = 0xC7,		// bulk erase

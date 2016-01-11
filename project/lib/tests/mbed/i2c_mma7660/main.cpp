@@ -12,10 +12,10 @@ CLING_MAIN_CTX cling;
 MMA7660 MMA(I2C_SDA, I2C_SCL);
 #else
 
-DT101 *touch_dev = DT101::get_instance();//MMA(p16, p15);
+//DT101 *touch_dev = DT101::get_instance();//MMA(p16, p15);
 #endif
 #include "C12832.h"
-//C12832 LCD;
+C12832 LCD;
 
 
   Ticker flipper;
@@ -50,17 +50,33 @@ DT101 *touch_dev = DT101::get_instance();//MMA(p16, p15);
  *     }
  * }
 	*/
-
- SPI_FLASH *t = SPI_FLASH::get_instance();
+#include "string.h"
+SPI_FLASH *t = SPI_FLASH::get_instance();
+uint8_t aa[] = "hello mike";
+ 
+uint8_t bb[20] = {0};
   int main() {
+		//t->erase_block_4k(0);
+			t->page_write(0, 5, aa);
+			t->read_data(0, 11, bb);
+				printf("message = %s\r\n", bb);
 		  NVIC_RemapVector();
 			_ble_init();
-//		touch_dev->test_connection();
-      //led1 = led2 = 0;
-      flipper.attach(&flip, 1.0);
-		  //event.fall(&trigger);
-      InterruptManager::get()->add_handler(handler, RTC1_IRQn);
-			while(1);
+			//touch_dev->test_connection();
+     //led1 = led2 = 0;
+     // flipper.attach(&flip, 1.0);
+		 //event.fall(&trigger);
+     // InterruptManager::get()->add_handler(handler, RTC1_IRQn);
+		//t->erase_block_4k(0);
+		  //t->page_write(0, 10, aa);
+			t->read_data(0, 11, bb);
+	
+			printf("message = %s\r\n", bb);
+			uint16_t i = 0;
+			while(1){
+				LCD.pour_screen(i++);
+				wait_ms(100);
+			}
   }
 
  
